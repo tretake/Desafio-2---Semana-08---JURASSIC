@@ -2,6 +2,9 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { setPage } from '../redux/pageSlice';
 
+
+import Button from '../components/Button';
+
 const Settings = () => {
 
   const dispatch = useDispatch();

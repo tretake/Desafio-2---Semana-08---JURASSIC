@@ -24,7 +24,7 @@ const Header: React.FC = () => {
             <Link to="/#" className="text-white px-4 py-2 hover:underline">
               About
             </Link>
-            <Link to="/#" className="text-white px-4 py-2 hover:underline">
+            <Link to="/settings" className="text-white px-4 py-2 hover:underline">
               Settings
             </Link>
             <Link to="/#" className="text-white px-4 py-2 hover:underline">
