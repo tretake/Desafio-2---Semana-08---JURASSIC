@@ -15,6 +15,7 @@ const Kanban = () => {
   return (
     <div>
       <h1> KANBANAAAA!1!!</h1>
+
     </div>
   )
 }

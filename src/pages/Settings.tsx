@@ -14,7 +14,7 @@ const Settings = () => {
 
 
   return (
-    <div className='m-5 divide-y-2 flex flex-col gap-[19px] '>
+    <div className='m-5 lg:mx-24 divide-y-2 flex flex-col gap-[19px]   '>
       <section >
         <div className='flex py-[65px]' >
           <img className='w-28 rounded-full drop-shadow-[0px_2px_2px_rgba(0,0,0,0.50)] ' src="./src/assets/profile_picture.jpg" alt="profile image" />
@@ -29,10 +29,11 @@ const Settings = () => {
         </div>
       </section >
 
-      <section className='flex flex-col   py-[19px]' >
-        <h2 className='text-xl font-semibold '>Basic information</h2>
-        <p className=' mb-[19px] max-w-[401px] opacity-70 leading-10 text-sm '>Update your name and e-mail in this section. Note: this information will be public to all your project colleagues and can be changed anytime.</p>
-
+      <section className='flex flex-col lg:flex-row lg:gap-[224px] py-[19px]' >
+        <div className="max-w-[401px]">
+          <h2 className='text-xl font-semibold '>Basic information</h2>
+          <p className=' mb-[19px]  opacity-70 leading-10 text-sm '>Update your name and e-mail in this section. Note: this information will be public to all your project colleagues and can be changed anytime.</p>
+        </div>
         <div className="flex flex-wrap gap-[13px]  max-w-[800px]">
         <label className='font-semibold   mr-[10px] ' htmlFor="">First name <br />
         <input className='border px-3 py-2  rounded-md w-[297px] font-normal ' type="text" placeholder='New first name' />
@@ -45,11 +46,12 @@ const Settings = () => {
         </label>
         </div> 
         </section>
-      <section className='  py-[19px]' >
-        <h2 className='text-xl font-bold'>Profile picture</h2>
-        <p className=' max-w-[401px] opacity-70 leading-10 text-sm'>Update your profile picture. Supported files are JPG, PNG, WebP and JPEG.</p>
-        
-        <div className="flex flex-col w-full md:flex-row gap-[21px] ">
+      <section className=' flex flex-col lg:flex-row lg:gap-[224px]  py-[19px]' >
+        <div className="max-w-[401px] ">
+          <h2 className='text-xl font-bold'>Profile picture</h2>
+          <p className='  opacity-70 leading-10 text-sm'>Update your profile picture. Supported files are JPG, PNG, WebP and JPEG.</p>
+        </div>
+        <div className="flex flex-col grow md:flex-row gap-[21px] ">
           <img className='w-[175px] h-[181px] rounded-full ' src="./src/assets/profile_picture.jpg" alt="profile image" />
           <label className='font-medium text-sm grow max-w-[410px]' htmlFor="">Add new profile picture
           
@@ -66,9 +68,11 @@ const Settings = () => {
           </label>
         </div>
       </section>
-      <section>
+      <section className="flex flex-col lg:flex-row lg:gap-[224px]  py-[19px]" >
+        <div  className="max-w-[401px]">
         <h2 className='text-xl font-bold  py-[19px]' >Communication</h2>
-        <p className='max-w-[401px] opacity-70 leading-10 py-[19px] '>Update your e-mail communication preferences anytime. Choose to receive project notifications or disable them completely.</p>
+        <p className='opacity-70 leading-10 py-[19px] '>Update your e-mail communication preferences anytime. Choose to receive project notifications or disable them completely.</p>
+        </div>
         <ul>
           <li>
           <label  className='flex gap-2 items-center ' htmlFor="">
@@ -102,10 +106,13 @@ const Settings = () => {
           </li>
         </ul>
       </section>
-      <section>
+      <section className="flex flex-col lg:flex-row lg:gap-[224px]  py-[19px]" >
+        <div className="max-w-[401px]">
         <h2 className='text-xl font-bold py-[19px]'>Social information</h2>
-        <p className='max-w-[401px] opacity-70 leading-10 '>Update your e-mail communication preferences anytime. Choose to receive project notifications or disable them completely.</p>
-        
+        <p className=' opacity-70 leading-10 '>Update your e-mail communication preferences anytime. Choose to receive project notifications or disable them completely.</p>
+        </div>
+
+        <div>
         <h1 className='w-full text-xs text-[#5E6366] mb-[9px] '>Twitter/X</h1>
         <label className='flex flex-row gap-2 ' htmlFor="">
           <input className=' grow-0 w-52 border py-2 px-4  rounded-md ' type="text" placeholder='x.com/' readOnly />
@@ -121,13 +128,14 @@ const Settings = () => {
           <input className=' grow-0 w-52 border py-2 px-4  rounded-md ' type="text" placeholder='linkedin.com/in/' readOnly />
           <input className='  max-w-[158px] grow border p-1 rounded-md min-w-0' type="text" placeholder='TheJohnDoe'/>
         </label>
+        </div>
 
-        <div className=" my-12 flex flex-col items-center">
+        
+      </section>
+      <div className=" my-12 flex flex-col items-center  border-none">
         <Button  label='Update information' type='button' kind='primary' size='md' />
         <p className="my-[17px]" >Never mind, take me <a className="text-[#5570F1] underline" href="">back to my project.</a></p>
         </div>
-      </section>
-
     </div> )
 }
 
