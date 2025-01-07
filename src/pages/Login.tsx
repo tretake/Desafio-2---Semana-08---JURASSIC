@@ -1,11 +1,23 @@
-import React from 'react';
-import Footer from '../components/Footer';
-import Header from '../components/Header';
-import Button from '../components/Button';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { setPage } from '../redux/pageSlice';
+
 
 const Login = () => {
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setPage('login'));
+  }, [dispatch]);
+
+
   return (
-    <div className="w-full h-full bg-[#fffcfc] overflow-hidden">
+    <div>
+      <h1>LOGIN</h1>
+    </div>
+  )
+}
 
      
 

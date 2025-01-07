@@ -1,8 +1,18 @@
-
-
-import Button from "../components/Button"
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { setPage } from '../redux/pageSlice';
 
 const Settings = () => {
+
+  const dispatch = useDispatch();
+
+
+    useEffect(() => {
+      dispatch(setPage('settings')); // Atualiza o estado do Redux para "home"
+    }, [dispatch]);
+  
+
+
   return (
     <div className='m-5 divide-y-2 flex flex-col gap-[19px] '>
       <section >
