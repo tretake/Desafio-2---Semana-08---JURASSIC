@@ -1,7 +1,8 @@
 import { BrowserRouter,Routes,Route,Link } from 'react-router-dom'
 
-import Header from './componenst/Header'
-import Footer from './componenst/Footer'
+import Header from './components/Header'
+import Footer from './components/Footer'
+
 
 import Home from './pages/Home'
 import Kanban from './pages/Kanban'
