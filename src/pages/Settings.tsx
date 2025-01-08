@@ -1,3 +1,4 @@
+import Button from '../components/Button';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { setPage } from '../redux/pageSlice';
@@ -8,7 +9,7 @@ const Settings = () => {
 
 
     useEffect(() => {
-      dispatch(setPage('settings')); // Atualiza o estado do Redux para "home"
+      dispatch(setPage('settings')); 
     }, [dispatch]);
   
 
