@@ -49,7 +49,7 @@ const KanbanCol:  React.FC<ColProps> = ({number,label,color , children}) => {
        text-[5px]      w-[15px]       h-[12px]
     md:text-[9.2px] md:w-[26.89px] md:h-[22px]
     lg:text-sm      lg:w-10        lg:h-8   `;
-    const labelClass = `text-base font-bold  ${getColor(color,'item')} 
+    const labelClass = `text-base font-bold   ${getColor(color,'item')} 
        text-[6px]
     md:text-[10.6px]
     lg:text-base  `;
