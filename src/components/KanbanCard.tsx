@@ -1,11 +1,12 @@
 import React from 'react'
 
-const Locked = () => {
+const KanbanCard = () => {
   return (
     <div>
+
       
     </div>
   )
 }
 
-export default Locked
+export default KanbanCard
