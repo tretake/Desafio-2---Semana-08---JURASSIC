@@ -3,7 +3,7 @@ import React from 'react';
 
 const Footer: React.FC = () => {
   return (
-    <div className="w-full h-auto bg-slate-800 overflow-hidden flex flex-col justify-center items-center p-[30px] gap-5">
+    <div className="w-full h-auto bg-slate-800 overflow-hidden flex flex-col justify-center items-center p-[30px] gap-5 lg:flex-row lg:gap[60px]">
     {/* Ícones */}
     <div className="w-[136px] h-[34.46px] relative">
         <div className="w-[34px] h-[34px] left-0 top-0 absolute">
