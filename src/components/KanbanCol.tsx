@@ -1,4 +1,5 @@
 import React from 'react'
+import KanbanCard from './KanbanCard';
 
 interface ColProps {
   number: number ;
@@ -35,7 +36,7 @@ const KanbanCol:  React.FC<ColProps> = ({number,label,color , children}) => {
       }
     };
   
-    const colClasses = `relative bg-[#1E293B1A]   
+    const colClasses = `relative bg-[#1E293B1A]   flex justify-center
        w-[109px]    h-[197px]    rounded-[10.56px]    pt-[19px]
     md:w-[205px] md:h-[366px] md:rounded-[20px]    md:pt-[35.74px]
     lg:w-[310px] lg:h-[553px] lg:rounded-[30px]    lg:pt-[54px]`;
@@ -62,13 +63,15 @@ const KanbanCol:  React.FC<ColProps> = ({number,label,color , children}) => {
       <div className={colHeaderClasses}>
         <div className='flex  gap-1 items-center'>
         <p className={counterClass} >{number}</p>
-        <h1 className={labelClass}  >{label}</h1>
+        <p className={labelClass}  >{label}</p>
         </div>
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={plusIconClass}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
         </svg>
       </div>
-      {children}
+      <div className='lg:gap-[15px] md:gap-[10px] gap-[5.28px] flex flex-col  hover:overflow-y-scroll overflow-hidden'>
+       {children}
+      </div>
     </div>
   )
 }
