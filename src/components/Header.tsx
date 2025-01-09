@@ -1,8 +1,9 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../store';
+import { RootState } from '../redux/store';
 import { Link } from 'react-router-dom';
 import Logo from '../assets/icons/logo.png'
+import Button from './Button';
 
 const Header: React.FC = () => {
   const currentPage = useSelector((state: RootState) => state.page.currentPage);
@@ -11,9 +12,9 @@ const Header: React.FC = () => {
     switch (currentPage) {
       case 'home':
         return (
-          <button className="bg-blue-500 text-white px-4 py-2 rounded">
-            Home Button
-          </button>
+          <Link to="/login" >
+              <Button  label='Login' type='button' kind='outline' size='sm' />              
+          </Link>
         );
       case 'kanban':
         return (

@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
-import pageReducer from './src/redux/pageSlice';
+import pageSlice from './pageSlice';
+import tasksSlice from './tasksSlice';
 
 export const store = configureStore({
   reducer: {
-    page: pageReducer,
+    page: pageSlice,
+    tasks: tasksSlice,
   },
 });
 
