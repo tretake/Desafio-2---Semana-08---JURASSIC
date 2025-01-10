@@ -11,7 +11,12 @@ interface CardProps {
 
 
 const KanbanCard: React.FC<CardProps>  = ({id ,label,priority,color,image, percent }) => {
+  
+
+
   const percentage:number = (percent);
+
+
 
     const dispatch = useDispatch();
   

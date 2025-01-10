@@ -157,7 +157,7 @@ const tasksDone: Task[] = Array.isArray(tasks)
               label={task.title}
               color={toDoColor}
               id={task.id} 
-              percent={task.progress} 
+              percent={10} 
             />
           ))}
         </KanbanCol>
@@ -170,14 +170,14 @@ const tasksDone: Task[] = Array.isArray(tasks)
               label={task.title}
               color={progressColor}
               id={task.id} 
-              percent={task.progress}
+              percent={60}
             />))}
      
         </KanbanCol>
 
         <KanbanCol color='green' label='Done' number={tasksDone.length + 1}>
 
-          <KanbanCard priority='Low' label='TASK' color={doneColor} image='./images/lens.jpg' />
+          <KanbanCard priority='Low' label='TASK' color={doneColor} image='./images/lens.jpg' percent={99} />
           {tasksDone.map((task) => (
             <KanbanCard 
             key={task.id}
@@ -185,7 +185,7 @@ const tasksDone: Task[] = Array.isArray(tasks)
             label={task.title}
             color={progressColor}
             id={task.id} 
-            percent={task.progress}
+            percent={100}
             />
           ))}
         </KanbanCol>

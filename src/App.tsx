@@ -64,9 +64,7 @@ console.log('dados centrais',dados);
           <Route 
             path='/kanban' 
             element={
-              <ProtectedRoute>
                 <Kanban/>
-              </ProtectedRoute>
             } 
           />
           <Route 
