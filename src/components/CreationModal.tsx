@@ -1,0 +1,439 @@
+import React, { useState } from "react";
+import Button from "./Button";
+
+const Modal = ({
+  isOpen,
+  onClose,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+}) => {
+  const [file, setFile] = useState<File | null>(null);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [endTime, setEndTime] = useState("");
+  const [status, setStatus] = useState("");
+  const [priority, setPriority] = useState("");
+  const [people, setPeople] = useState<string[]>([]);
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      setFile(event.target.files[0]);
+    }
+  };
+
+  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    if (event.dataTransfer.files && event.dataTransfer.files[0]) {
+      setFile(event.dataTransfer.files[0]);
+    }
+  };
+
+  const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+  };
+
+  const removeFile = () => {
+    setFile(null);
+  };
+
+  const addPerson = (person: string) => {
+    if (person && !people.includes(person)) {
+      setPeople([...people, person]);
+    }
+  };
+
+  const removePerson = (person: string) => {
+    setPeople(people.filter((p) => p !== person));
+  };
+
+  const validate = () => {
+    const newErrors: { [key: string]: string } = {};
+    if (!title.trim() || title.length < 5) {
+      newErrors.title = "Title must be at least 5 characters long";
+    }
+
+    if (!description.trim()) {
+      newErrors.description = "Description is required";
+    }
+
+    if (!startDate) {
+      newErrors.startDate = "Start date is required";
+    }
+    if (!endDate) {
+      newErrors.endDate = "End date is required";
+    }
+    if (
+      startDate &&
+      endDate &&
+      new Date(`${startDate}T${startTime}`) > new Date(`${endDate}T${endTime}`)
+    ) {
+      newErrors.endDate = "End date cannot be before start date";
+    }
+    if (!status) {
+      newErrors.status = "Status is required";
+    }
+    if (!priority) {
+      newErrors.priority = "Priority is required";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    if (validate()) {
+      console.log("Form submitted!");
+      console.log({
+        title,
+        description,
+        startDate,
+        startTime,
+        endDate,
+        endTime,
+        status,
+        priority,
+        people,
+        file,
+      });
+    }
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+      <div className="overflow-y-auto max-h-full mt-4 pt-4 pl-11 pr-10 pb-6 w-[343px] sm:w-[491px] md:w-[1001px]  h-min-[584px] mx-auto bg-white rounded-lg shadow-md relative">
+        <div className="flex items-center justify-between md:pr-5">
+          <h2 className="text-2xl font-semibold text-[#160A60]">
+            Create new task
+          </h2>
+          <button onClick={onClose} className="cursor-pointer">
+            <img src="src/assets/icons/X_icon.png" alt="Ícone de X" />
+          </button>
+        </div>
+        <form
+          className="flex flex-col gap-16 text-sm font-medium text-[#331436] md:flex-row"
+          onSubmit={handleSubmit}
+        >
+          <div className="flex flex-col flex-1">
+            <div>
+              <div className="mt-4">
+                <label htmlFor="title">Title</label>
+                <input
+                  type="text"
+                  className="mt-1 h-9 w-full pl-3 rounded-md border border-gray-200 focus:border-indigo-500 sm:text-sm"
+                  placeholder="Enter the title of the task"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+                {errors.title && (
+                  <p className="text-red-600 text-sm">{errors.title}</p>
+                )}
+              </div>
+              <div className="mt-[18px]">
+                <label>Status</label>
+                <div className="flex items-center space-x-4 mt-[10px]">
+                  <div className="flex items-center space-x-2">
+                    <input
+                      className="peer relative appearance-none w-5 h-5 outline outline-1 outline-offset-1 rounded-[6px] outline-gray-400 cursor-pointer checked:bg-[#5570F1]"
+                      type="radio"
+                      name="status"
+                      value="todo"
+                      onChange={(e) => setStatus(e.target.value)}
+                    />
+                    <label htmlFor="todo" className="text-sm text-[#2b2f32]">
+                      To do
+                    </label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <input
+                      className="peer relative appearance-none w-5 h-5 outline outline-1 outline-offset-1 rounded-[6px] outline-gray-400 cursor-pointer checked:bg-[#F59E0B]"
+                      type="radio"
+                      name="status"
+                      value="inprogress"
+                      onChange={(e) => setStatus(e.target.value)}
+                    />
+                    <label
+                      htmlFor="inprogress"
+                      className="text-sm text-[#2b2f32]"
+                    >
+                      In progress
+                    </label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <input
+                      className="peer relative appearance-none w-5 h-5 outline outline-1 outline-offset-1 rounded-[6px] outline-gray-400 cursor-pointer checked:bg-[#22C55E]"
+                      type="radio"
+                      name="status"
+                      value="done"
+                      onChange={(e) => setStatus(e.target.value)}
+                    />
+                    <label htmlFor="done" className="text-sm text-[#2b2f32]">
+                      Done
+                    </label>
+                  </div>
+                </div>
+                {errors.status && (
+                  <p className="text-red-600 text-sm">{errors.status}</p>
+                )}
+              </div>
+              <div className="mt-6">
+                <label htmlFor="description">Description</label>
+                <textarea
+                  className="mt-1 block h-[113px] pl-3 pt-2 w-full rounded-md border border-gray-300 focus:border-indigo-500 sm:text-sm"
+                  placeholder="Enter a description"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  maxLength={300}
+                ></textarea>
+                {errors.description && (
+                  <p className="text-red-600 text-sm">{errors.description}</p>
+                )}
+              </div>
+              <div className="flex gap-2 items-end">
+                <div className="mt-[18px] w-[185px]">
+                  <label htmlFor="startDate">Start Date</label>
+                  <div className="relative text-gray-400 font-normal">
+                    <img
+                      src="src/assets/icons/calendar.png"
+                      alt="Ícone de calendário"
+                      className="mt-1 w-6 mx-auto absolute top-1/2 left-3 transform -translate-y-1/2"
+                    />
+                    <input
+                      type="date"
+                      className="mt-2 w-full h-[52px] rounded-md border border-gray-300 sm:text-sm pl-12"
+                      value={startDate}
+                      onChange={(e) => setStartDate(e.target.value)}
+                    />
+                  </div>
+                </div>
+                <div className="mt-[18px] w-[107px]">
+                  <div className="relative text-gray-400 font-normal">
+                    <img
+                      src="src/assets/icons/clock.png"
+                      alt="Ícone de calendário"
+                      className="mt-1 w-6 mx-auto absolute top-1/2 left-3 transform -translate-y-1/2"
+                    />
+                    <input
+                      type="time"
+                      className="mt-2 w-full h-[52px] rounded-md border border-gray-300 sm:text-sm pl-12"
+                      value={startTime}
+                      onChange={(e) => setStartTime(e.target.value)}
+                    />
+                  </div>
+                </div>
+              </div>
+              {errors.startDate && (
+                <p className="text-red-600 text-sm">{errors.startDate}</p>
+              )}
+              <div className="flex gap-2 items-end">
+                <div className="mt-[18px] w-[185px]">
+                  <label htmlFor="endDate">End Date</label>
+                  <div className="relative text-gray-400 font-normal">
+                    <img
+                      src="src/assets/icons/calendar.png"
+                      alt="Ícone de calendário"
+                      className="mt-1 w-6 mx-auto absolute top-1/2 left-3 transform -translate-y-1/2"
+                    />
+                    <input
+                      type="date"
+                      className="mt-2 w-full h-[52px] rounded-md border border-gray-300 sm:text-sm pl-12"
+                      value={endDate}
+                      onChange={(e) => setEndDate(e.target.value)}
+                    />
+                  </div>
+                </div>
+                <div className="mt-[18px] w-[107px]">
+                  <div className="relative text-gray-400 font-normal">
+                    <img
+                      src="src/assets/icons/clock.png"
+                      alt="Ícone de calendário"
+                      className="mt-1 w-6 mx-auto absolute top-1/2 left-3 transform -translate-y-1/2"
+                    />
+                    <input
+                      type="time"
+                      className="mt-2 w-full h-[52px] rounded-md border border-gray-300 sm:text-sm pl-12"
+                      value={endTime}
+                      onChange={(e) => setEndTime(e.target.value)}
+                    />
+                  </div>
+                </div>
+              </div>
+              {errors.endDate && (
+                <p className="text-red-600 text-sm">{errors.endDate}</p>
+              )}
+            </div>
+          </div>
+
+          <div className="flex flex-col flex-1">
+            <div className="mt-6">
+              <div>
+                <label htmlFor="taskCover">Task cover</label>
+              </div>
+              <div className="flex justify-end pt-0 pb-2 h-3 md:w-[410px]">
+                <small className="text-[#4F46E5]">optional</small>
+              </div>
+
+              {file && (
+                <ul className="mt-2">
+                  <li className="flex items-center md:w-[410px] h-[50px] justify-between p-2 bg-[#EFF6FF] rounded-md mb-2 border border-[#60A5FA]">
+                    <div className="flex gap-2 items-center">
+                      <img
+                        className="w-[18px]"
+                        src="src/assets/icons/attach.png"
+                        alt="Ícone para anexar arquivo"
+                      />
+                      <span className="text-sm text-gray-700">{file.name}</span>
+                    </div>
+                    <button
+                      type="button"
+                      className="text-red-600 hover:text-red-800 text-sm font-bold"
+                      onClick={removeFile}
+                    >
+                      <img
+                        className="w-[18px]"
+                        src="src/assets/icons/recycle.png"
+                        alt="Ícone de lixeira"
+                      />
+                    </button>
+                  </li>
+                </ul>
+              )}
+
+              <div
+                className="mt-[10px] p-4 md:w-[410px] h-[152px] text-[#4B5563] flex flex-col justify-center gap-3 border border-dashed border-[#60A5FA] rounded-md text-center cursor-pointer"
+                onDrop={handleDrop}
+                onDragOver={handleDragOver}
+                onClick={() =>
+                  document.getElementById("taskCoverInput")?.click()
+                }
+              >
+                <img
+                  className="w-6 mx-auto"
+                  src="src/assets/icons/system.png"
+                  alt="Ícone de upload"
+                />
+                <p className="text-base">
+                  Drop here to attach or{" "}
+                  <span className="text-[#4F46E5]">upload</span>
+                </p>
+                <p className="text-xs">Max size: 5GB</p>
+              </div>
+
+              <input
+                type="file"
+                className="hidden"
+                id="taskCoverInput"
+                onChange={handleFileChange}
+              />
+            </div>
+
+            <div>
+              <div className="mt-[25px]">
+                <label htmlFor="people">Add people</label>
+                <div className="relative">
+                  <input
+                    type="text"
+                    className="mt-1 md:w-[410px] h-[45px] text-base placeholder:pl-2 w-full rounded-md border border-gray-200 pl-10"
+                    placeholder="John Doe"
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        addPerson(e.currentTarget.value);
+                        e.currentTarget.value = "";
+                      }
+                    }}
+                  />
+                  <img
+                    src="src/assets/icons/search.png"
+                    alt="Ícone de busca"
+                    className="absolute top-1/2 left-3 transform -translate-y-1/2"
+                  />
+                </div>
+                {errors.people && (
+                  <p className="text-red-600 text-sm">{errors.people}</p>
+                )}
+                <ul className="mt-2">
+                  {people.map((person, index) => (
+                    <li
+                      key={index}
+                      className="flex items-center justify-between p-2 bg-[#EFF6FF] rounded-md mb-2 border border-[#60A5FA]"
+                    >
+                      <span className="text-sm text-gray-700">{person}</span>
+                      <button
+                        type="button"
+                        className="text-red-600 hover:text-red-800 text-sm font-bold"
+                        onClick={() => removePerson(person)}
+                      >
+                        <img
+                          className="w-[18px]"
+                          src="src/assets/icons/recycle.png"
+                          alt="Ícone de lixeira"
+                        />
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="mt-6">
+                <label>Priority</label>
+                <div className="flex items-center space-x-4 mt-[10px] gap-8">
+                  <div className="flex items-center space-x-2">
+                    <input
+                      className="peer relative appearance-none w-5 h-5 outline outline-1 outline-offset-1 rounded-[6px] outline-gray-300 cursor-pointer checked:bg-[#5570F1]"
+                      type="radio"
+                      name="priority"
+                      value="low"
+                      onChange={(e) => setPriority(e.target.value)}
+                    />
+                    <label htmlFor="low" className="text-sm text-gray-700">
+                      Low
+                    </label>
+                  </div>
+                  <div className="flex items-center space-x-2 w-[80px]">
+                    <input
+                      className="peer relative appearance-none w-5 h-5 outline outline-1 outline-offset-1 rounded-[6px] outline-gray-300 cursor-pointer checked:bg-[#F59E0B]"
+                      type="radio"
+                      name="priority"
+                      value="mid"
+                      onChange={(e) => setPriority(e.target.value)}
+                    />
+                    <label htmlFor="mid" className="text-sm text-gray-700">
+                      Mid
+                    </label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <input
+                      className="peer relative appearance-none w-5 h-5 outline outline-1 outline-offset-1 rounded-[6px] outline-gray-300 cursor-pointer checked:bg-[#22C55E]"
+                      type="radio"
+                      name="priority"
+                      value="high"
+                      onChange={(e) => setPriority(e.target.value)}
+                    />
+                    <label htmlFor="high" className="text-sm text-gray-700">
+                      High
+                    </label>
+                  </div>
+                </div>
+                {errors.priority && (
+                  <p className="text-red-600 text-sm">{errors.priority}</p>
+                )}
+              </div>
+              <div className="mt-8 flex justify-center md:w-full md:justify-start">
+                <Button label="Create!" size="md" kind="create" type="submit" />
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default Modal;

@@ -1,23 +1,24 @@
-import React from "react";
+import React, { MouseEventHandler } from "react";
 
 interface ButtonProps {
   label: string;
   type: "button" | "submit" | "reset";
   kind: "primary" | "secondary" | "secondary-variation" | "outline" | "create";
   size?: "sm" | "sm-login" | "md" | "lg";
+  onClick?: MouseEventHandler<HTMLButtonElement>; // Permitir que onClick seja opcional
 }
 
 const BUTTON_KINDS: Record<ButtonProps["kind"], string> = {
   primary:
-    "bg-[#1E293B] text-white rounded-lg border border-[#1E293B] hover:bg-[#3B5174]",
+    "bg-[#1E293B] text-white rounded-[8px] border border-[#1E293B] hover:bg-[#3B5174]",
   secondary:
-    "bg-white text-[#160A60] rounded-lg hover:bg-[#5C5A79] hover:text-white",
+    "bg-white text-[#160A60] rounded-[8px] hover:bg-[#5C5A79] hover:text-white",
   "secondary-variation":
-    "bg-white text-[#160A60] hover:bg-[#1E293B] hover:text-white",
+    "bg-white text-[#160A60] rounded-[8px] hover:bg-[#1E293B] hover:text-white",
   outline:
-    "bg-[transparent] text-white rounded-[30px] border border-[#ffffff] hover:border-[#268FE4]",
+    "bg-[transparent] text-white border rounded-[30px] border-[#ffffff] hover:border-[#268FE4] hover:rounded-[30px]",
   create:
-    "bg-[#22C55E] text-white rounded-lg border border-[#22C55E] hover:bg-[#5CB77D]",
+    "bg-[#22C55E] text-white rounded-[8px] border border-[#22C55E] hover:bg-[#5CB77D]",
 };
 
 const BUTTON_SIZES: Record<
@@ -50,7 +51,13 @@ const getScreenSize = () => {
   return "desktop";
 };
 
-const Button: React.FC<ButtonProps> = ({ label, type, kind, size = "lg" }) => {
+const Button: React.FC<ButtonProps> = ({
+  label,
+  type,
+  kind,
+  size = "lg",
+  onClick,
+}) => {
   const screenSize = getScreenSize();
   const kindClasses = BUTTON_KINDS[kind];
   const sizeClasses = BUTTON_SIZES[screenSize][size];
@@ -58,7 +65,7 @@ const Button: React.FC<ButtonProps> = ({ label, type, kind, size = "lg" }) => {
   const classes = `px-4 py-2 h-12 ${kindClasses} ${sizeClasses}`;
 
   return (
-    <button className={classes} type={type}>
+    <button className={classes} type={type} onClick={onClick}>
       {label}
     </button>
   );
