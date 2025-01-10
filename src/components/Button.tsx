@@ -63,6 +63,7 @@ const Button: React.FC<ButtonProps> = ({
   const sizeClasses = BUTTON_SIZES[screenSize][size];
 
   const classes = `px-4 py-2 h-12 ${kindClasses} ${sizeClasses}`;
+  const classes = `px-4 py-2 h-12 ${kindClasses} ${sizeClasses}`;
 
   return (
     <button className={classes} type={type} onClick={onClick}>

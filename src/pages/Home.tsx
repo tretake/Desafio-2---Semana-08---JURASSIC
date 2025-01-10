@@ -8,7 +8,7 @@ const Home = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(setPage('home')); // Atualiza o estado do Redux para "home"
+    dispatch(setPage('home')); 
   }, [dispatch]);
 
   return (

@@ -1,0 +1,97 @@
+{
+  "tasks": [
+    {
+      "id": 1,
+      "title": "Finalizar componente Header",
+      "priority": "High",
+      "members": [
+        "Valderama"
+      ],
+      "commentsCount": 3,
+      "completedTasksCount": 5,
+      "progress": 60,
+      "startDate": "2025-01-07T10:00:00",
+      "endDate": "2025-01-09T18:00:00",
+      "estimatedTime": "2 dias 8 horas",
+      "createdBy": "user123"
+    },
+    {
+      "id": 2,
+      "title": "Organizar layout",
+      "priority": "mid",
+      "members": [
+        "Lurdes"
+      ],
+      "commentsCount": 33,
+      "completedTasksCount": 25,
+      "progress": 75,
+      "startDate": "2025-01-07T10:00:00",
+      "endDate": "2025-01-09T18:00:00",
+      "estimatedTime": "2 dias 8 horas",
+      "createdBy": "user321"
+    },
+    {
+      "id": 3,
+      "title": "Filtras tarefas do banco",
+      "priority": "low",
+      "members": [
+        "Wan-der-ley"
+      ],
+      "commentsCount": 32,
+      "completedTasksCount": 15,
+      "progress": 60,
+      "startDate": "2025-01-07T10:00:00",
+      "endDate": "2025-01-09T18:00:00",
+      "estimatedTime": "1 dias 8 horas",
+      "createdBy": "user467"
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "firstName": "John Snow",
+      "lastName": "Das Neves",
+      "username": "johnNevasca",
+      "createdAt": "2025-01-07T10:00:00",
+      "email": "john.neves@example.com",
+      "password": "neves123",
+      "role": "Desenvolvedor",
+      "socials": {
+        "x": "https://x.com/iknownothing",
+        "instagram": "https://instagram.com/iknownothing",
+        "linkedin": "https://linkedin.com/in/iknownothing"
+      }
+    },
+    {
+      "id": 2,
+      "firstName": "Cleyton",
+      "lastName": "Kratos",
+      "username": "cleytonRasta",
+      "createdAt": "2025-01-07T10:00:00",
+      "email": "cleytonrr@example.com",
+      "password": "rasta123",
+      "role": "PO",
+      "socials": {
+        "x": "https://x.com/johndoe",
+        "instagram": "https://instagram.com/johndoe",
+        "linkedin": "https://linkedin.com/in/johndoe"
+      }
+    },
+    {
+        "id": 3,
+        "firstName": "Alucard",
+        "lastName": "Dracula",
+        "username": "vampirinho123",
+        "createdAt": "2025-01-07T10:00:00",
+        "email": "tenduco@example.com",
+        "password": "vamp123",
+        "role": "Desenvolvedor",
+        "socials": {
+          "x": "https://x.com/vamp123",
+          "instagram": "https://instagram.com/vamp123",
+          "linkedin": "https://linkedin.com/in/vamp123"
+        }
+     }
+    
+  ]
+}
