@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setPage } from '../redux/pageSlice';
 import { useSignIn } from "@clerk/clerk-react";
+import OauthSignIn from '../components/OauthSignInSocialButton';
 
 const Login = () => {
 
@@ -108,13 +109,27 @@ const Login = () => {
             <div className="w-[110px] h-14 relative bg-white rounded-[40px] border border-[#333333]/20 overflow-hidden">
               <div className="left-[39px] top-[12.50px] absolute justify-center items-center gap-4 inline-flex">
                 <div className="w-8 h-8 relative">
-                  <div className="w-7 h-7 left-[2px] top-[2px] absolute bg-[#0c82ee] rounded-full"><a target='_blank' href="https://www.facebook.com/?locale=pt_BR"><img  src="/public/images/social-media-signup-social-media-logo.face.png" alt="facebook"  /></a></div>
+                <OauthSignIn
+                  providerName="Facebook"
+                  strategy="oauth_facebook"
+                  logo="/public/images/social-media-signup-social-media-logo.face.png"
+                  redirectUrl="/custom-callback"
+                  redirectUrlComplete="/kanban"
+                />
                 </div>
               </div>
             </div>
             <div className="w-[110px] h-14 relative bg-white rounded-[40px] border border-[#333333]/20 overflow-hidden">
               <div className="left-[43.50px] top-[15.50px] absolute justify-center items-center gap-4 inline-flex">
-                <div className="w-6 h-6 relative overflow-hidden"><a target='_blank' href="https://www.google.com/"><img src="/public/images/social-media-signup-social-media-logo.jpg" alt="" /></a></div>
+                <div className="w-6 h-6 relative overflow-hidden">
+                <OauthSignIn
+                  providerName="Google"
+                  strategy="oauth_google"
+                  logo="/public/images/social-media-signup-social-media-logo.jpg"
+                  redirectUrl="/custom-callback"
+                  redirectUrlComplete="/kanban"
+                />
+                </div>
               </div>
             </div>
           </div>

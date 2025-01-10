@@ -1,7 +1,7 @@
 import { BrowserRouter,Routes,Route } from 'react-router-dom'
 import ProtectedRoute from "./components/ProtectedRoute";
 import { ClerkProvider } from '@clerk/clerk-react'
-import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/clerk-react'
+import { SignedIn, SignedOut, SignInButton, UserButton, } from '@clerk/clerk-react'
 
 import Header from './components/Header'
 import Footer from './components/Footer'
@@ -88,7 +88,13 @@ console.log('dados centrais',dados);
 
           {/* Rota 403 */}
           <Route path='/denied' element={<AccessDenied/>} />
-        </Routes>
+        </Routes> 
+        <SignedOut>
+        <SignInButton />
+      </SignedOut>
+      <SignedIn>
+        <UserButton />
+      </SignedIn>    
         <Footer/>
       </BrowserRouter>
     </ClerkProvider>
