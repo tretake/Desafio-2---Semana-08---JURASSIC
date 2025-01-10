@@ -1,5 +1,11 @@
 import React, { useState } from "react";
 import Button from "./Button";
+import {  useDispatch } from "react-redux";
+import { postNewTask } from "../redux/thunks/tasksThunks"; // Caminho para o arquivo onde está o slice
+import { useNavigate } from "react-router-dom";
+import { Task } from "../interface/types";
+import { AppDispatch } from "../redux/store";
+
 
 const Modal = ({
   isOpen,
@@ -8,6 +14,11 @@ const Modal = ({
   isOpen: boolean;
   onClose: () => void;
 }) => {
+  const dispatch = useDispatch<AppDispatch>(); // Tipar o dispatch corretamente
+
+  const navigate = useNavigate();
+
+
   const [file, setFile] = useState<File | null>(null);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -19,6 +30,26 @@ const Modal = ({
   const [priority, setPriority] = useState("");
   const [people, setPeople] = useState<string[]>([]);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const generateId = (): number => Date.now();
+
+
+  const newTask: Task = {
+    id: generateId(),
+    title: title,
+    description: description,
+    startDate: startDate,
+    startTime: startTime,
+    endDate: endDate,
+    endTime: endTime,
+    status: status,
+    priority: priority as "High" | "Medium" | "Low",
+    people,
+    commentsCount: 0,
+    completedTasksCount: 0,
+    progress: 0,
+    estimatedTime: "",
+    createdBy: ""
+  };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -85,25 +116,21 @@ const Modal = ({
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     if (validate()) {
       console.log("Form submitted!");
-      console.log({
-        title,
-        description,
-        startDate,
-        startTime,
-        endDate,
-        endTime,
-        status,
-        priority,
-        people,
-        file,
-      });
+      try {
+        await dispatch(postNewTask(newTask)); 
+        onClose()
+        navigate('/apagar'); 
+      } catch (error) {
+        console.error("Error creating task", error);
+      }      
     }
   };
-
+  
   if (!isOpen) return null;
 
   return (
@@ -389,7 +416,7 @@ const Modal = ({
                       className="peer relative appearance-none w-5 h-5 outline outline-1 outline-offset-1 rounded-[6px] outline-gray-300 cursor-pointer checked:bg-[#5570F1]"
                       type="radio"
                       name="priority"
-                      value="low"
+                      value="Low"
                       onChange={(e) => setPriority(e.target.value)}
                     />
                     <label htmlFor="low" className="text-sm text-gray-700">
@@ -401,7 +428,7 @@ const Modal = ({
                       className="peer relative appearance-none w-5 h-5 outline outline-1 outline-offset-1 rounded-[6px] outline-gray-300 cursor-pointer checked:bg-[#F59E0B]"
                       type="radio"
                       name="priority"
-                      value="mid"
+                      value="Medium"
                       onChange={(e) => setPriority(e.target.value)}
                     />
                     <label htmlFor="mid" className="text-sm text-gray-700">
@@ -413,7 +440,7 @@ const Modal = ({
                       className="peer relative appearance-none w-5 h-5 outline outline-1 outline-offset-1 rounded-[6px] outline-gray-300 cursor-pointer checked:bg-[#22C55E]"
                       type="radio"
                       name="priority"
-                      value="high"
+                      value="High"
                       onChange={(e) => setPriority(e.target.value)}
                     />
                     <label htmlFor="high" className="text-sm text-gray-700">

@@ -11,12 +11,11 @@ import KanbanCol from '../components/KanbanCol';
 const Kanban = () => {
 
   const dispatch = useDispatch();
-
-  /*
+  
     useEffect(() => {
       dispatch(setPage('kanban'));
     }, [dispatch]);
-  */
+  
     const doneColor = 'green';
     const progressColor = 'orange';
     const toDoColor = 'purple';
