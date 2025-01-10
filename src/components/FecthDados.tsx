@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "../redux/store";
-import { fetchTasks } from "../redux/thunks/fetchThunks";
+import { fetchTasks } from "../redux/thunks/tasksThunks";
 
 const FecthDados = () => {
     const dispatch = useDispatch<AppDispatch>();
