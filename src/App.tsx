@@ -46,8 +46,9 @@ console.log('dados centrais',dados);
         <Route path='/' element={<Home/>} />
         <Route path='/kanban' element={<Kanban/>} />
         <Route path='/login' element={<Login/>} />
-        <Route path='/notfound' element={<NotFound dados={dados} />}  />
+        <Route path='/notfound' element={<NotFound  />}  />
         <Route path='/settings' element={<Settings/>} />
+        <Route path='/signup' element={<SignUp/>} />
         <Route path='/profile' element={<Profile/>} />
         <Route path='/*' element={<PageNotFound/>} />
         <Route path='/denied' element={<Locked/>} />
