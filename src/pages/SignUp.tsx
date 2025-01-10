@@ -1,95 +1,140 @@
-import React from 'react'
-import ManInPc from '../../public/images/manInComputer.png'
+import React from 'react';
+import { useSignUp } from "@clerk/clerk-react";
+import ManInPc from '../../public/images/manInComputer.png';
+import Button from '../components/Button';
 
-const SignUp = () => {
+const CustomSignUp = () => {
+  const { signUp, setActive } = useSignUp();
+  const [email, setEmail] = React.useState('');
+  const [firstname, setFirstName] = React.useState('');
+  const [lastname, setLastName] = React.useState('');
+  const [jobposition, setJobPosition] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState('');
+
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+
+    try {
+      const response = await signUp.create({
+        emailAddress: email,
+        password,
+        first_name: firstname,
+        last_name: lastname,
+      });
+    
+      if (response.status === "complete") {
+        await setActive({ session: response.createdSessionId });
+        window.location.href = "/kanban";
+        return;
+      }
+    
+      if (response.status === "missing_requirements") {
+        console.log('Missing requirements:', response.requirements);
+        if (response.requirements && response.requirements.includes("email_verification")) {
+          console.log('Preparing email verification...');
+          await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
+        }
+      }
+    } catch (err) {
+      console.error('Sign-up error:', err);
+      setError(err.message || "An unexpected error occurred. Please try again.");
+    }
+  };
+
   return (
-    <div>
-      {/* Main Content Section */}
-      <div className="flex flex-row ">
-        {/* Left Image Section */}
-
-        <div className="bg-white rounded-2xl shadow-md p-5 lg:p-10 w-full  w-3/5">
-          <h2 className="text-[#331436] text-2xl lg:text-4xl font-bold font-['Roboto'] mb-4">
-            Login Information
+    <div className="flex lg:justify-between justify-center bg-no-repeat bg-cover bg-[url('../../public/images/bg-mobile.png')] lg:bg-none">
+      <div className="bg-white lg:my-[0] my-[87px] rounded-[30px]">
+        <div className="lg:pt-[58.46px] lg:pl-[100px] sm:px-[44px] sm:py-[87px]">
+          <h2 className="text-[#331436] text-2xl lg:text-4xl font-bold font-['Roboto'] mb-4 p-5 sm:p-0">
+            Sign up Information
           </h2>
-          <p className="text-[#331436] text-sm lg:text-base mb-6">
-            Enter your credentials
+          <p className="text-[#331436] text-sm lg:text-base mb-6 pl-5 sm:pl-0">
+            Already have an account? Log in.
           </p>
-
-          {/* Login Form */}
-          <div className="space-y-4">
-            {/* Email Input */}
-            <div>
-              <label className="block text-sm font-medium text-[#331436] mb-1">
-                Email
-              </label>
+          {error && <p className="">{error}</p>}
+          <form onSubmit={handleSignUp} className="space-y-6">
+            <div className="flex sm:flex-row flex-col gap-4 px-5 sm:px-0">
+              <div>
+                <label htmlFor="firstname" className="block text-sm font-medium text-[#331436] mb-1">First name</label>
+                <input
+                  id="firstname"
+                  type="text"
+                  value={firstname}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  className="sm:min-w-[220px] w-full px-3 p-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder:text-sm"
+                  disabled={loading}
+                  placeholder="Enter your first name"
+                />
+              </div>
+              <div>
+                <label htmlFor="lastname" className="block text-sm font-medium text-[#331436] mb-1">Last name</label>
+                <input
+                  id="lastname"
+                  type="text"
+                  value={lastname}
+                  onChange={(e) => setLastName(e.target.value)}
+                  className="sm:min-w-[220px] w-full px-3 p-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder:text-sm"
+                  disabled={loading}
+                  placeholder="Enter your last name"
+                />
+              </div>
+            </div>
+            <div className="px-5 sm:px-0">
+              <label htmlFor="email" className="block text-sm font-medium text-[#331436] mb-1">Email</label>
               <input
+                id="email"
                 type="email"
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-4 p-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder:text-sm"
+                required
+                disabled={loading}
                 placeholder="Enter your email"
               />
             </div>
-
-            {/* Password Input */}
-            <div>
-              <label className="block text-sm font-medium text-[#331436] mb-1">
-                Password
-              </label>
+            <div className="px-5 sm:px-0">
+                <label htmlFor="jobposition" className="block text-sm font-medium text-[#331436] mb-1">Job position</label>
+                <input
+                  id="jobposition"
+                  type="text"
+                  value={jobposition}
+                  onChange={(e) => setJobPosition(e.target.value)}
+                  className="w-full px-4 p-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder:text-sm"
+                  disabled={loading}
+                  placeholder="Enter your job position (example: Project Manager)"
+                />
+            </div>
+            <div className="px-5 sm:px-0">
+              <label htmlFor="password" className="block text-sm font-medium text-[#331436] mb-1">Password</label>
               <input
+                id="password"
                 type="password"
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full px-4 p-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder:text-sm"
+                required
+                disabled={loading}
                 placeholder="Enter your password"
               />
             </div>
-
-            {/* Login Button */}
-            <button className="w-full py-2 bg-slate-800 text-white font-medium rounded-md hover:bg-slate-700">
-              Login
-            </button>
-          </div>
-
-          {/* Signup Link */}
-          <p className="mt-4 text-center text-sm text-[#331436]">
-            New here? Let’s take you to{' '}
-            <a href="/signup" className="text-indigo-600 font-bold">
-              sign up.
-            </a>
-          </p>
-
-          {/* Social Login Section */}
-          <div className="mt-6 text-center">
-            <p className="text-sm text-[#331436]">or sign in with...</p>
-            <div className="flex justify-center mt-4 space-x-4">
-              <button className="w-14 h-14 bg-white border border-gray-300 rounded-full flex justify-center items-center">
-                {/* Facebook Icon */}
-                <span className="text-blue-600">
-                  <a href="https://www.facebook.com/?locale=pt_BR" target="_blank" rel="noreferrer">
-                    <img src="/images/social-media-signup-social-media-logo.face.png" alt="Facebook" />
-                  </a>
-                </span>
-              </button>
-              <button className="w-14 h-14 bg-white border border-gray-300 rounded-full flex justify-center items-center">
-                {/* Google Icon */}
-                <span className="text-gray-600">
-                  <a href="https://www.google.com/" target="_blank" rel="noreferrer">
-                    <img src="/images/social-media-signup-social-media-logo.jpg" alt="Google" />
-                  </a>
-                </span>
-              </button>
+            <div className="text-center">
+              <Button label='Create Account' type="submit" kind='primary' size='md'/>
             </div>
-          </div>
+          </form>
+          <p className="mt-4 text-center text-sm text-gray-600">
+            or sign up with...
+          </p>
         </div>
-
-
-        <div className="w-2/5">
-          <img src={ManInPc} />
-        </div>
-
-
-
+      </div>
+      <div className="pl-5 hidden lg:block">
+        <img src={ManInPc} className=""/>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SignUp
+export default CustomSignUp;

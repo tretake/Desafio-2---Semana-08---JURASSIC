@@ -1,27 +1,52 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setPage } from '../redux/pageSlice';
+import { useSignIn } from "@clerk/clerk-react";
+import OauthSignIn from '../components/OauthSignInSocialButton';
 
 const Login = () => {
+
+  const {signIn, isLoaded} = useSignIn();
+
   const dispatch = useDispatch();
+
+  const [email, setEmail] = useState('');
+  const [passWord, setPassWord] = useState('');
 
   useEffect(() => {
     dispatch(setPage('login'));
   }, [dispatch]);
 
+  const handleEmailPasswordLogin = async (e) => {
+    e.preventDefault();
+    
+
+    if (!isLoaded) return;
+
+    try {
+      await signIn.create({
+        identifier: email,
+        password: passWord,
+      });
+      // Redirecionar para o dashboard ou outra página após login bem-sucedido
+      window.location.href = '/kanban';
+    } catch (err) {
+      console.log("teste")
+    }
+  };
+
   return (
     <div>
     <div className="w-full h-[720px] relative bg-white overflow-hidden  md:h-[100vw] lg:overflow-hidden lg:h-auto lg:bottom-0  ">
       <div>
-      
         {/* Background Image */}
-      {<div>
+      <div>
             <img src="/public/images/rectangle-2.png" alt=""  className='hidden lg:block' />
           <img
-            className="w-full h-full left-0 top-0 absolute bg-[url('/images/rectangle-2.png')] bg-cover bg-center opacity-50 md:p-20 lg:hidden lg:p-0 "
+            className="w-full h-full left-0 top-0 absolute bg-[url('/images/rectangle-2.png')] bg-cover bg-center opacity-30 md:p-20 lg:hidden lg:p-0 "
             alt=""
           />
-      </div>}
+      </div>
       </div>
       <div className="w-full h-[656px] left-0 top-[36px] absolute overflow-hidden md:top-[62px]  lg:left-[50%] lg:top-0  lg:absolute ">
         <div className="w-[88%] h-full left-6 top-0 absolute bg-[#fffcfc] rounded-[30px] md:p-96  lg:w-[520px] lg:border-none "  ></div>
@@ -35,14 +60,11 @@ const Login = () => {
         </div>
         <div className="h-6 left-[75px] top-[150px] absolute md:left-[112px]">
           <span className="text-[#331436] text-[15px] font-normal font-['Roboto'] leading-normal">
-            New here? Let’s take you to
-          </span>
-          <span className="text-indigo-600 text-[15px] font-bold font-['Roboto'] leading-normal">
-            sign up.
+            New here? Let’s take you to <a href="" className="text-indigo-600 text-[15px] font-bold font-['Roboto'] leading-normal"> sign up.</a>
           </span>
         </div>
 
-        <form className="left-[26px] top-[214px] absolute md:left-[112px] md:w-[65%] lg:w-auto :">
+        <form action="" onSubmit={handleEmailPasswordLogin} className="left-[26px] top-[214px] absolute md:left-[112px] md:w-[65%] lg:w-auto">
           {/* Email  */}
           <div className="min-w-[329px] mb-6">
             <label className="block text-[#331436] text-sm font-medium font-['Roboto'] leading-tight mb-1  ">
@@ -52,6 +74,7 @@ const Login = () => {
               type="email"
               placeholder="Enter your email"
               className="w-full px-3 py-2 bg-white rounded-md border border-black/10 text-sm text-black/50 font-normal font-['Roboto'] leading-tight"
+              onChange={(e) => setEmail(e.target.value)} value={email}
             />
           </div>
 
@@ -64,6 +87,7 @@ const Login = () => {
               type="password"
               placeholder="Enter your password"
               className="w-full px-3 py-2 bg-white rounded-md border border-black/10 text-sm text-black/50 font-normal font-['Roboto'] leading-tight"
+              onChange={(e) => setPassWord(e.target.value)} value={passWord}
             />
           </div>
 
@@ -84,13 +108,27 @@ const Login = () => {
             <div className="w-[110px] h-14 relative bg-white rounded-[40px] border border-[#333333]/20 overflow-hidden">
               <div className="left-[39px] top-[12.50px] absolute justify-center items-center gap-4 inline-flex">
                 <div className="w-8 h-8 relative">
-                  <div className="w-7 h-7 left-[2px] top-[2px] absolute bg-[#0c82ee] rounded-full"><a target='_blank' href="https://www.facebook.com/?locale=pt_BR"><img  src="/public/images/social-media-signup-social-media-logo.face.png" alt="facebook"  /></a></div>
+                <OauthSignIn
+                  providerName="Facebook"
+                  strategy="oauth_facebook"
+                  logo="/public/images/social-media-signup-social-media-logo.face.png"
+                  redirectUrl="/custom-callback"
+                  redirectUrlComplete="/kanban"
+                />
                 </div>
               </div>
             </div>
             <div className="w-[110px] h-14 relative bg-white rounded-[40px] border border-[#333333]/20 overflow-hidden">
               <div className="left-[43.50px] top-[15.50px] absolute justify-center items-center gap-4 inline-flex">
-                <div className="w-6 h-6 relative overflow-hidden"><a target='_blank' href="https://www.google.com/"><img src="/public/images/social-media-signup-social-media-logo.jpg" alt="" /></a></div>
+                <div className="w-6 h-6 relative overflow-hidden">
+                <OauthSignIn
+                  providerName="Google"
+                  strategy="oauth_google"
+                  logo="/public/images/social-media-signup-social-media-logo.jpg"
+                  redirectUrl="/custom-callback"
+                  redirectUrlComplete="/kanban"
+                />
+                </div>
               </div>
             </div>
           </div>

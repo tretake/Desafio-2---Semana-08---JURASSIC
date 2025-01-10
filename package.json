@@ -10,7 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@clerk/clerk-react": "^5.21.0",
+    "@clerk/clerk-react": "^5.21.1",
+    "@clerk/react-router": "^0.1.7",
     "@reduxjs/toolkit": "^2.5.0",
     "axios": "^1.7.9",
     "json-server": "^1.0.0-beta.3",
