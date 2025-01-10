@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchUsers } from "../redux/thunks/usersThunks";
 import { AppDispatch } from "../redux/store";
 import { User } from "../interface/types";
+import { Link } from "react-router-dom";
 
 
 const InThisProject = ({ isActive }) => {
@@ -37,15 +38,19 @@ const InThisProject = ({ isActive }) => {
                             key={user.id}
                             className="flex bg-[#F6F6F6E5] items-center px-[7.48px] gap-[8.52px] h-[45.7px] rounded-[12.46px] md:h-[55px]"
                         >
+                            
                             <img
-                                className="w-[36.56px] h-[36.56px] rounded-full"
+                                className="size-[36.56px] rounded-full"
                                 src="./images/profile_picture.jpg"
                                 alt={`${user.firstName} ${user.lastName}`}
                             />
                             <div>
-                                <h1 className="text-sm md:text-base">{user.firstName} {user.lastName}</h1>
-                                <h2 className="text-xs md:text-[13px] text-[#160A60]">{user.role}</h2>
+                                <Link to='/profile'>
+                                    <h1 className="text-sm md:text-base">{user.firstName} {user.lastName}</h1>
+                                    <h2 className="text-xs md:text-[13px] text-[#160A60]">{user.role}</h2>
+                                </Link>
                             </div>
+                            
                         </li>
                     ))}
 
