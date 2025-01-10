@@ -1,5 +1,4 @@
 import React from 'react'
-import RETRAT_1 from "../assets/RETRAT_1-removebg 1.png";
 
 
 const MainSection = () => {
@@ -31,7 +30,7 @@ const MainSection = () => {
       <div className="w-1/3 space-y-8">
         {/* <img src="{RETRAT_1}" alt="Retrato da Menina" className="w-full h-auto object-contain" /> */}
         <img
-          src={RETRAT_1}
+          src="./images/RETRAT_1-removebg 1.png"
           alt="Logo"
           className="w-full h-auto object-contain"
         />

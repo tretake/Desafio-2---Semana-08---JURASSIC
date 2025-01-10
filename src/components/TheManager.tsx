@@ -2,9 +2,6 @@
 import React from "react";
 import Button from "./Button";
 import CardPaginaHome from "./CardPaginaHome";
-import IMG1 from '../assets/CardPaginaHome1.png';
-import IMG2 from '../assets/CardPaginaHome2.png';
-import IMG3 from '../assets/CardPaginaHome3.png';
 
 const TheManager = () => {
   return (
@@ -29,9 +26,9 @@ const TheManager = () => {
       {/* Segunda sessão ================================================*/}
       <div className="bg-[#1E293B] w-full py-8">
         <div className="flex flex-row gap-[20px] justify-center items-center px-4 sm:px-8 md:px-16">
-          <CardPaginaHome titulo={'Manage Projects'} texto={'20+ projects'} imagem={IMG1} />
-          <CardPaginaHome titulo={'Track Tasks'} texto={'50+ tasks'} imagem={IMG2} />
-          <CardPaginaHome titulo={'Collaborate'} texto={'10+ team members'} imagem={IMG3} />
+          <CardPaginaHome titulo={'Manage Projects'} texto={'20+ projects'} imagem='./images/CardPaginaHome1.png' />
+          <CardPaginaHome titulo={'Track Tasks'} texto={'50+ tasks'} imagem='./images/CardPaginaHome2.png' />
+          <CardPaginaHome titulo={'Collaborate'} texto={'10+ team members'} imagem='./images/CardPaginaHome3.png' />
         </div>
       </div>
     </div>
