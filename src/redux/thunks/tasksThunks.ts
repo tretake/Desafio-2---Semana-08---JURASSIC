@@ -11,31 +11,31 @@ export const fetchTasks = createAsyncThunk("tasks/fetchTasks", async (_, thunkAP
     console.error("Erro ao buscar os dados:", error);
   }
 });
-
 export const postNewTask = createAsyncThunk("tasks/addNewTask", async (newTask: Task, thunkAPI) => {
   try {
-    
     const response = await axios.get("https://mybucketsweetaurora.s3.us-east-1.amazonaws.com/db.json");
     const updatedTasks = [...response.data.tasks, newTask]; 
-    // Une a nova tarefa com as tarefas existentes
 
     const updatedData = {
       tasks: updatedTasks,
       users: response.data.users 
     };
 
-    // Enviar os dados atualizados de volta para o S3
+    
     await axios.put("https://mybucketsweetaurora.s3.us-east-1.amazonaws.com/db.json", updatedData);
     console.log("Dados atualizados com sucesso!");
 
+    
+    thunkAPI.dispatch(getDados(updatedTasks)); 
+    thunkAPI.dispatch(postTask(newTask));
 
-    // Atualiza o estado do Redux com a nova lista de tarefas
-    thunkAPI.dispatch(getDados(updatedTasks));
-    thunkAPI.dispatch(postTask(newTask)); // Adiciona a nova tarefa no estado local do Redux
+    thunkAPI.dispatch(fetchTasks()); 
+    
   } catch (error) {
     console.error("Erro ao adicionar tarefa:", error);
   }
 });
+
 
 export const deleteTask = createAsyncThunk("tasks/deleteTask", async (taskId: number, thunkAPI) => {
   try {

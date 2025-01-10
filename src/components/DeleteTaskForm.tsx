@@ -1,25 +1,22 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { fetchTasks, deleteTask } from "../redux/thunks/tasksThunks"; // Atualize o caminho conforme sua estrutura
-import { RootState } from "../redux/store"; // Atualize conforme sua configuração de Redux
+import { fetchTasks, deleteTask } from "../redux/thunks/tasksThunks"; 
+import { RootState } from "../redux/store"; 
 import { fetchUsers, deleteUser } from "../redux/thunks/usersThunks";
 
 const TaskList: React.FC = () => {
   const dispatch = useDispatch();
-  const dados = useSelector((state: RootState) => state.tasks.value); // Seleciona o estado de tarefas
-  const tasks  = dados?.users || []; // Extrai a lista de tarefas
-  console.log('amigo estou aqui',tasks);
+  const dados = useSelector((state: RootState) => state.tasks.value); 
+  const tasks  = dados?.tasks || []; 
 
-  // Buscar as tarefas ao carregar o componente
   useEffect(() => {
-    dispatch(fetchUsers());
+    dispatch(fetchTasks());
   }, [dispatch ]);
 
-  // Handler para deletar uma tarefa
   const handleDelete = async (taskId: string) => {
-    await dispatch(deleteUser(taskId));
-    dispatch(fetchUsers()); // Recarrega todas as tarefas após a exclusão
+    await dispatch(deleteTask(taskId));
+    dispatch(fetchTasks()); 
   };
 
   return (
@@ -29,8 +26,8 @@ const TaskList: React.FC = () => {
         <ul>
           {tasks.map((task: any) => (
             <li key={task.id}>
-              {task.firstName}{" "}
-              {task.lastName}{" "}
+              {task.title}{" "}
+              {task.description}{" "}
               <button className='bg-red-600' onClick={() => handleDelete(task.id)}>Deletar</button>
             </li>
           ))}

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Button from "./Button";
 import {  useDispatch } from "react-redux";
-import { postNewTask } from "../redux/thunks/tasksThunks"; // Caminho para o arquivo onde está o slice
+import { postNewTask } from "../redux/thunks/tasksThunks"; 
 import { useNavigate } from "react-router-dom";
 import { Task } from "../interface/types";
 import { AppDispatch } from "../redux/store";
@@ -14,7 +14,7 @@ const Modal = ({
   isOpen: boolean;
   onClose: () => void;
 }) => {
-  const dispatch = useDispatch<AppDispatch>(); // Tipar o dispatch corretamente
+  const dispatch = useDispatch<AppDispatch>(); 
 
   const navigate = useNavigate();
 
@@ -124,7 +124,7 @@ const Modal = ({
       try {
         await dispatch(postNewTask(newTask)); 
         onClose()
-        navigate('/apagar'); 
+        navigate('/kanban'); 
       } catch (error) {
         console.error("Error creating task", error);
       }      
