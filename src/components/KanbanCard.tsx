@@ -9,7 +9,7 @@ interface CardProps {
 
 
 const KanbanCard: React.FC<CardProps>  = ({label,priority,color,image}) => {
-  const percentage:number = 3;
+  const percentage:number = 34;
 
   
 
