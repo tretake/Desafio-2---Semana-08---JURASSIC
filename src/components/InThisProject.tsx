@@ -8,10 +8,8 @@ import { Link } from "react-router-dom";
 
 const InThisProject = ({ isActive }) => {
     const dispatch = useDispatch<AppDispatch>();
-    const dados = useSelector((state) => state.tasks.value); // Seleciona o estado de users
-    const users = dados?.users || []
-    const tasks = dados?.tasks || []
-    console.log('amigos dados aqui', tasks);
+    const dados = useSelector((state) => state.tasks.value); 
+    const {users , tasks} = dados || {users: [], tasks: []};    
     
     const totalDone = tasks.filter((task) => task.status === 'done').length;
     const totalIProgress = tasks.filter((task) => task.status === 'inprogress').length;
