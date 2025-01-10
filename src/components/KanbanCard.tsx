@@ -60,23 +60,26 @@ const KanbanCard: React.FC<CardProps>  = ({id ,label,priority,color,image, perce
 
       { image? <img className=' mb-4 w-[246px]  rounded-2xl ' src={image} alt="" /> : <></> }
 
-      <div>
+      <div> 
+        
+        <div className='flex justify-between'>
+
+
         <div className={` ${getPriorityColor()} rounded-full text-center font-semibold
         text-sm w-[41px] h-6 `} >{priority}</div>
 
-        {/* <BOTAO DELETAR APAGAR DEPOIS===================== */}
-
-
         <button
-          className="bg-red-600 text-white px-2 py-1 rounded mt-2"
+          className={` hover:bg-red-200  rounded-full hover:scale-125`}
           onClick={() => handleDelete(id)} // Usa a prop `id` diretamente
         >
-          Deletar
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={` text-red-400  size-6`}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+          </svg>
+      
         </button>
+        </div>
 
-
-
-        {/* <BOTAO DELETAR APAGAR DEPOIS===================== */}
+        
                      
 
 
