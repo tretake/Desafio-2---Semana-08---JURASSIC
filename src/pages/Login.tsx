@@ -39,15 +39,14 @@ const Login = () => {
     <div>
     <div className="w-full h-[720px] relative bg-white overflow-hidden  md:h-[100vw] lg:overflow-hidden lg:h-auto lg:bottom-0  ">
       <div>
-      
         {/* Background Image */}
-      {<div>
+      <div>
             <img src="/public/images/rectangle-2.png" alt=""  className='hidden lg:block' />
           <img
-            className="w-full h-full left-0 top-0 absolute bg-[url('/images/rectangle-2.png')] bg-cover bg-center opacity-50 md:p-20 lg:hidden lg:p-0 "
+            className="w-full h-full left-0 top-0 absolute bg-[url('/images/rectangle-2.png')] bg-cover bg-center opacity-30 md:p-20 lg:hidden lg:p-0 "
             alt=""
           />
-      </div>}
+      </div>
       </div>
       <div className="w-full h-[656px] left-0 top-[36px] absolute overflow-hidden md:top-[62px]  lg:left-[50%] lg:top-0  lg:absolute ">
         <div className="w-[88%] h-full left-6 top-0 absolute bg-[#fffcfc] rounded-[30px] md:p-96  lg:w-[520px] lg:border-none "  ></div>

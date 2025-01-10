@@ -90,11 +90,11 @@ console.log('dados centrais',dados);
           <Route path='/denied' element={<AccessDenied/>} />
         </Routes> 
         <SignedOut>
-        <SignInButton />
-      </SignedOut>
-      <SignedIn>
-        <UserButton />
-      </SignedIn>    
+          <SignInButton />
+        </SignedOut>
+        <SignedIn>
+          <UserButton />
+        </SignedIn>    
         <Footer/>
       </BrowserRouter>
     </ClerkProvider>

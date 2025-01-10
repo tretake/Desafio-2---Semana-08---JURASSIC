@@ -2,6 +2,8 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { setPage } from '../redux/pageSlice';
 
+import { useSession, SignIn } from '@clerk/clerk-react';
+
 
 import KanbanCard from '../components/KanbanCard';
 import KanbanCol from '../components/KanbanCol';
@@ -9,6 +11,10 @@ import KanbanCol from '../components/KanbanCol';
 
 
 const Kanban = () => {
+
+  const { isLoaded, isSignedIn, session} = useSession();
+
+  console.log(isLoaded, isSignedIn, session);
 
   const dispatch = useDispatch();
 
