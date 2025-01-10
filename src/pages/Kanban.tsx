@@ -13,14 +13,11 @@ const Kanban = () => {
   const [isActive, setIsActive] = useState<boolean>(true);
   const [zoom,setZoom] = useState<number>(1);
 
-  
   const [isDragging, setIsDragging] = useState(false);
-  const [translateX, setTranslateX] = useState(0); 
-  const [startX, setStartX] = useState(0); 
-
-  const [translateY, setTranslateY] = useState(0); 
-  const [startY, setStartY] = useState(0); 
-
+  const [startX, setStartX] = useState(0);
+  const [startY, setStartY] = useState(0);
+  const [translateX, setTranslateX] = useState(0);
+  const [translateY, setTranslateY] = useState(0);
 
   const dispatch = useDispatch();
 
@@ -45,36 +42,68 @@ const Kanban = () => {
       }
     };
 
-    const handleMouseDown = (event: React.MouseEvent) => {
-      setIsDragging(true); 
-      setStartX(event.clientX);
-      setStartY(event.clientY);
+
+
+    const handleStart = (
+      event: React.MouseEvent | React.TouchEvent
+    ): void => {
+      const { clientX, clientY } = normalizeEvent(event);
+      setIsDragging(true);
+      setStartX(clientX);
+      setStartY(clientY);
     };
   
-    const handleMouseMove = (event: React.MouseEvent) => {
+    const handleMove = (
+      event: React.MouseEvent | React.TouchEvent
+    ): void => {
       if (isDragging) {
-        const deltaX = event.clientX - startX;  
-        setTranslateX((prev) => prev + deltaX);  
-        setStartX(event.clientX);  
-
-        const deltaY = event.clientY - startY;  
-        setTranslateY((prev) => prev + deltaY);  
-        setStartY(event.clientY);  
+        const { clientX, clientY } = normalizeEvent(event);
+  
+        const deltaX = clientX - startX;
+        setTranslateX((prev) => prev + deltaX);
+        setStartX(clientX);
+  
+        const deltaY = clientY - startY;
+        setTranslateY((prev) => prev + deltaY);
+        setStartY(clientY);
       }
     };
   
-    const handleMouseUp = () => {
-      setIsDragging(false); 
+    const handleEnd = (): void => {
+      setIsDragging(false);
+    };
+  
+    const normalizeEvent = (
+      event: React.MouseEvent | React.TouchEvent
+    ): { clientX: number; clientY: number } => {
+      if ("touches" in event) {
+        return {
+          clientX: event.touches[0].clientX,
+          clientY: event.touches[0].clientY,
+        };
+      } else {
+        return {
+          clientX: event.clientX,
+          clientY: event.clientY,
+        };
+      }
     };
 
+
+
   return (
-    <div className='  relative  m-10  sm:h-[calc(100vh-310px)]  overflow-hidden' 
+    <div className='  relative  m-5   h-[calc(100vh-270px)]  overflow-hidden' 
    
     onWheel={handleWheel}
-    onMouseMove={handleMouseMove}
-    onMouseUp={handleMouseUp}
-    onMouseLeave={handleMouseUp}
-    onMouseDown={handleMouseDown}
+
+    
+
+    onMouseDown={handleStart}
+      onMouseMove={handleMove}
+      onMouseUp={handleEnd}
+      onTouchStart={handleStart}
+      onTouchMove={handleMove}
+      onTouchEnd={handleEnd}
 
     style={{
       backgroundImage: "url(" + "./images/Kanban_background.png" + ")",
@@ -117,7 +146,7 @@ const Kanban = () => {
 
       </div>
 
-
+        <div className='w-full lg:hidden absolute bottom-[13px] rounded-full h-[119px] bg-black opacity-50 flex flex-row' >a</div>
       <InThisProject isActive={isActive} /> 
     </div>
      
