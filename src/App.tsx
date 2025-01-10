@@ -14,13 +14,14 @@ import Settings from './pages/Settings'
 import Profile from './pages/Profile'
 import PageNotFound from './pages/PageNotFound'
 
-
+import CRIACAO from './components/NewTaskForm'
+import APAGAR from './components/DeleteTaskForm'
 
 
 import { useEffect  } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "../src/redux/store";
-import { fetchTasks } from "../src/redux/thunks/fetchThunks";
+import { fetchTasks } from "./redux/thunks/tasksThunks";
 
 
 
@@ -52,6 +53,10 @@ console.log('dados centrais',dados);
         <Route path='/profile' element={<Profile/>} />
         <Route path='/*' element={<PageNotFound/>} />
         <Route path='/denied' element={<Locked/>} />
+        
+        <Route path='/criar' element={<CRIACAO/>} />
+        <Route path='/apagar' element={<APAGAR/>} />
+
       </Routes>
 
       <Footer/>

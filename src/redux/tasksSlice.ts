@@ -12,11 +12,19 @@ const tasksSlice = createSlice({
     name: "tasks",
     initialState,
     reducers: {
-        setDados: (state, action: PayloadAction<any[]>) => {
+        getDados: (state, action: PayloadAction<any[]>) => {
             state.value = action.payload;
         },
+
+        postTask: (state, action: PayloadAction<any>) => {
+            state.value.push(action.payload); // Adiciona a nova tarefa no estado
+        },
+        deleteTask: (state, action: PayloadAction<any[]>) => {
+            state.value = state.value.filter((task) => task.id !== action.payload); // Remove a tarefa com o ID especificado
+        }
+        
     },
 });
 
-export const { setDados } = tasksSlice.actions;
+export const { getDados, postTask, deleteTask  } = tasksSlice.actions;
 export default tasksSlice.reducer;
