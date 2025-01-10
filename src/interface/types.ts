@@ -2,7 +2,7 @@ export interface Task {
   id: number;
   title: string;
   description: string,
-  priority: "High" | "Medium" | "Low";
+  priority: "High" | "Mid" | "Low";
   people: string[];
   startTime:  string,
   endTime: string,

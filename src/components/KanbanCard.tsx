@@ -1,4 +1,6 @@
 import React from 'react'
+import { useDispatch } from 'react-redux';
+import { deleteTask, fetchTasks } from '../redux/thunks/tasksThunks';
 
 interface CardProps {
   label: string;
@@ -8,8 +10,22 @@ interface CardProps {
 }
 
 
-const KanbanCard: React.FC<CardProps>  = ({label,priority,color,image}) => {
-  const percentage:number = 3;
+const KanbanCard: React.FC<CardProps>  = ({id ,label,priority,color,image, percent }) => {
+  
+
+
+  const percentage:number = (percent);
+
+
+
+    const dispatch = useDispatch();
+  
+
+
+   const handleDelete = async (taskId: string) => {
+      await dispatch(deleteTask(taskId));
+      dispatch(fetchTasks()); 
+    };
 
   
 
@@ -47,6 +63,22 @@ const KanbanCard: React.FC<CardProps>  = ({label,priority,color,image}) => {
       <div>
         <div className={` ${getPriorityColor()} rounded-full text-center font-semibold
         text-sm w-[41px] h-6 `} >{priority}</div>
+
+        {/* <BOTAO DELETAR APAGAR DEPOIS===================== */}
+
+
+        <button
+          className="bg-red-600 text-white px-2 py-1 rounded mt-2"
+          onClick={() => handleDelete(id)} // Usa a prop `id` diretamente
+        >
+          Deletar
+        </button>
+
+
+
+        {/* <BOTAO DELETAR APAGAR DEPOIS===================== */}
+                     
+
 
         <h1 className='font-bold 
         text-base mt-3' >{label}</h1>

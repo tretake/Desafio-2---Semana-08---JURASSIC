@@ -2,6 +2,8 @@ import { Routes, Route, Link, NavLink } from "react-router-dom"
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { setPage } from '../redux/pageSlice';
+import MainSection from "../components/MainSection";
+import TheManager from "../components/TheManager";
 
 const Home = () => {
 
@@ -19,9 +21,15 @@ const Home = () => {
             <Link to="/login">Login</Link>
           </li>
           <li>
+            <Link to="/signup">Signup</Link>
+          </li>
+          <li>
             <Link to="/kanban">kanban</Link>
           </li>
         </ul>
+
+        <MainSection/>
+        <TheManager/>
     </div>
   )
 }

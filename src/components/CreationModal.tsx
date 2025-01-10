@@ -42,7 +42,7 @@ const Modal = ({
     endDate: endDate,
     endTime: endTime,
     status: status,
-    priority: priority as "High" | "Medium" | "Low",
+    priority: priority as "High" | "Mid" | "Low",
     people,
     commentsCount: 0,
     completedTasksCount: 0,
@@ -428,7 +428,7 @@ const Modal = ({
                       className="peer relative appearance-none w-5 h-5 outline outline-1 outline-offset-1 rounded-[6px] outline-gray-300 cursor-pointer checked:bg-[#F59E0B]"
                       type="radio"
                       name="priority"
-                      value="Medium"
+                      value="Mid"
                       onChange={(e) => setPriority(e.target.value)}
                     />
                     <label htmlFor="mid" className="text-sm text-gray-700">
