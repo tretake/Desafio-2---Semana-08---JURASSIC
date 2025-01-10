@@ -1,13 +1,20 @@
-import React from "react";
+import React, { MouseEventHandler } from "react";
 
 interface ButtonProps {
   label: string;
   type: "button" | "submit" | "reset";
   kind: "primary" | "secondary" | "secondary-variation" | "outline" | "create";
   size?: "sm" | "md" | "lg";
+  onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
-const Button: React.FC<ButtonProps> = ({ label, type, kind, size }) => {
+const Button: React.FC<ButtonProps> = ({
+  label,
+  type,
+  kind,
+  size,
+  onClick,
+}) => {
   const getButtonClasses = (kind: string) => {
     switch (kind) {
       case "primary":
@@ -43,7 +50,7 @@ const Button: React.FC<ButtonProps> = ({ label, type, kind, size }) => {
   )} ${getSizeClasses(size)}`;
 
   return (
-    <button className={classes} type={type}>
+    <button className={classes} type={type} onClick={onClick}>
       {label}
     </button>
   );
