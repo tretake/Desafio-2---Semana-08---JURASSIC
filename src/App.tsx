@@ -90,12 +90,15 @@ console.log('dados centrais',dados);
           {/* Rota 403 */}
           <Route path='/denied' element={<AccessDenied/>} />
         </Routes> 
+
+        <div className='absolute bottom-36  bg-blue-600'>
         <SignedOut>
           <SignInButton />
         </SignedOut>
         <SignedIn>
           <UserButton />
-        </SignedIn>    
+        </SignedIn>
+        </div>
         <Footer/>
       </BrowserRouter>
     </ClerkProvider>

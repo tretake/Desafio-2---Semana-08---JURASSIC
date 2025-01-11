@@ -69,6 +69,7 @@ const tasksDone: Task[] = Array.isArray(tasks)
   const handleStart = (
     event: React.MouseEvent | React.TouchEvent
   ): void => {
+    document.body.style.cursor = "grabbing";
     const { clientX, clientY } = normalizeEvent(event);
     setIsDragging(true);
     setStartX(clientX);
@@ -92,6 +93,7 @@ const tasksDone: Task[] = Array.isArray(tasks)
   };
 
   const handleEnd = (): void => {
+    document.body.style.cursor = "default";
     setIsDragging(false);
   };
 
@@ -114,41 +116,51 @@ const tasksDone: Task[] = Array.isArray(tasks)
 
 
   return (
-    <div className='  relative  m-5   h-[calc(100vh-270px)]  overflow-hidden'
+    <div className='flex justify-between relative h-[calc(100vh-274px)] items-center  m-5 gap-9 '>
+    <div className=' grow h-full relative  overflow-hidden   rounded-3xl '
 
       onWheel={handleWheel}
-
-
 
       onMouseDown={handleStart}
       onMouseMove={handleMove}
       onMouseUp={handleEnd}
+      
       onTouchStart={handleStart}
       onTouchMove={handleMove}
       onTouchEnd={handleEnd}
 
-      style={{
-        backgroundImage: "url(" + "./images/Kanban_background.png" + ")",
-        backgroundPosition: 'center',
-        backgroundSize: 'contain',
-        backgroundRepeat: 'repeat'
-      }}
     >
 
+        <div style={{ 
+          backgroundImage: "url('./images/Kanban_background.jpg')",
+          backgroundPosition: 'center',
+          backgroundSize: 'contain',
+          backgroundRepeat: 'repeat',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          opacity: 0.5,
+          zIndex: -1,
+        }} />
+       
+      
 
-      <button onClick={toggleActive} className='bg-[#6C7D96] flex justify-center items-center rounded-full absolute top-[0px] right-0  z-50 size-9 md:size-11 lg:size- text-center '  >
-        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="20" viewBox="0 0 12 20" fill="none">
-          <path d="M10 10V2H11V0H1V2H2V10L0 12V14H5.2V20H6.8V14H12V12L10 10Z" fill="white" />
-        </svg>
-      </button>
-
-
-      <div className={`flex h-full absolute left-96  justify-center items-center  gap-5 `}
+      <div className={` h-full absolute left-96 flex justify-center items-center   gap-5 `}
         style={{
           transform: `scale(${zoom})  translateX(${translateX}px) translateY(${translateY}px)`,
           transition: isDragging ? "none" : "transform 0.2s",
         }}
+        
+        onWheel={event=>event.stopPropagation()}
+        onMouseDown={event=>event.stopPropagation()}
+        onTouchStart={event=>event.stopPropagation()}
       >
+
+
+
+        
         <KanbanCol color={toDoColor} label="To do" number={tasksTodo.length} >
           {tasksTodo.map((task) => (
             <KanbanCard
@@ -191,11 +203,19 @@ const tasksDone: Task[] = Array.isArray(tasks)
         </KanbanCol>
 
       </div>
-
-      <div className='w-full lg:hidden absolute bottom-[13px] rounded-full h-[119px] bg-black opacity-50 flex flex-row' >a</div>
-      <InThisProject isActive={isActive} />
+      
+      
+      
     </div>
 
+
+    <button onClick={toggleActive} className='bg-[#6C7D96] flex justify-center items-center rounded-full absolute top-[0px] right-0  z-50 size-9 md:size-11 lg:size- text-center '  >
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="20" viewBox="0 0 12 20" fill="none">
+          <path d="M10 10V2H11V0H1V2H2V10L0 12V14H5.2V20H6.8V14H12V12L10 10Z" fill="white" />
+        </svg>
+      </button>
+    <InThisProject isActive={isActive} />
+    </div>
   )
 }
 
