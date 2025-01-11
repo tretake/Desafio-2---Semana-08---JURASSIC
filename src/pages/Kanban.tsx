@@ -12,20 +12,22 @@ import KanbanCard from '../components/KanbanCard';
 import KanbanCol from '../components/KanbanCol';
 import InThisProject from '../components/InThisProject';
 import AppPopUp from '../components/AppPopUp';
+import CreationModal from '../components/CreationModal';
 
 
 
 const Kanban = () => {
   const [popUpVisible, setpopUpVisible] = useState<boolean>(true);
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isActive, setIsActive] = useState<boolean>(true);
-  const [zoom, setZoom] = useState<number>(1);
 
+  const [zoom, setZoom] = useState<number>(1);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [startY, setStartY] = useState(0);
   const [translateX, setTranslateX] = useState(0);
   const [translateY, setTranslateY] = useState(0);
+
 
   const { isLoaded, isSignedIn, session } = useSession();
 
@@ -58,7 +60,6 @@ const tasksDone: Task[] = Array.isArray(tasks)
 
   const handleWheel = (event: React.WheelEvent) => {
     if (event.deltaY < 0) {
-
       setZoom((prevZoom) => Math.min(prevZoom + 0.1, 3));
     } else {
       setZoom((prevZoom) => Math.max(prevZoom - 0.1, 0.1));
@@ -119,6 +120,9 @@ const tasksDone: Task[] = Array.isArray(tasks)
     setpopUpVisible(false);
   }
 
+
+  
+
   return (
     <div className='flex justify-between relative  h-[calc(100vh-358px)]  md:h-[calc(100vh-262px)]  lg:h-[calc(100vh-274px)] items-center  m-5 gap-9 '>
     <div className=' grow h-full relative  overflow-hidden   rounded-3xl '
@@ -165,7 +169,7 @@ const tasksDone: Task[] = Array.isArray(tasks)
 
 
         
-        <KanbanCol color={toDoColor} label="To do" number={tasksTodo.length} >
+        <KanbanCol color={toDoColor} label="To do" number={tasksTodo.length}  openModal={setIsModalOpen} >
           {tasksTodo.map((task) => (
             <KanbanCard
               key={task.id}
@@ -178,7 +182,7 @@ const tasksDone: Task[] = Array.isArray(tasks)
           ))}
         </KanbanCol>
 
-        <KanbanCol color='orange' label='In progress' number={tasksInProgress.length} >
+        <KanbanCol color='orange' label='In progress' number={tasksInProgress.length} openModal={setIsModalOpen} >
           {tasksInProgress.map((task) => (
             <KanbanCard 
               key={task.id}
@@ -191,7 +195,7 @@ const tasksDone: Task[] = Array.isArray(tasks)
      
         </KanbanCol>
 
-        <KanbanCol color='green' label='Done' number={tasksDone.length + 1}>
+        <KanbanCol color='green' label='Done' number={tasksDone.length + 1} openModal={setIsModalOpen}>
 
           <KanbanCard priority='Low' label='TASK' color={doneColor} image='./images/lens.jpg' percent={99} />
           {tasksDone.map((task) => (
@@ -212,8 +216,13 @@ const tasksDone: Task[] = Array.isArray(tasks)
 
       { popUpVisible && ( <AppPopUp handleAppPopUp={closePopUp} /> ) }
 
-    
+          
     </div>
+
+    <CreationModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
 
 
     <button onClick={toggleActive} className='bg-[#6C7D96] flex justify-center items-center rounded-full absolute top-[0px] right-0  z-50 size-9 md:size-11 lg:size- text-center '  >

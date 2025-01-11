@@ -6,7 +6,8 @@ interface CardProps {
   label: string;
   priority: "High" | "Mid" | "Low";
   color: "purple" | "orange" | "green";
-  image?: string
+  image?: string;
+  percent: number
 }
 
 
