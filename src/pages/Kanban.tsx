@@ -11,10 +11,12 @@ import { useSession, SignIn } from '@clerk/clerk-react';
 import KanbanCard from '../components/KanbanCard';
 import KanbanCol from '../components/KanbanCol';
 import InThisProject from '../components/InThisProject';
+import AppPopUp from '../components/AppPopUp';
 
 
 
 const Kanban = () => {
+  const [popUpVisible, setpopUpVisible] = useState<boolean>(true);
 
   const [isActive, setIsActive] = useState<boolean>(true);
   const [zoom, setZoom] = useState<number>(1);
@@ -50,7 +52,6 @@ const tasksDone: Task[] = Array.isArray(tasks)
   const toggleActive = () => {
     setIsActive((prev) => !prev);
   };
-
   const doneColor = 'green';
   const progressColor = 'orange';
   const toDoColor = 'purple';
@@ -83,11 +84,11 @@ const tasksDone: Task[] = Array.isArray(tasks)
       const { clientX, clientY } = normalizeEvent(event);
 
       const deltaX = clientX - startX;
-      setTranslateX((prev) => prev + deltaX);
+      setTranslateX((prev) => prev + (deltaX * (1/zoom) ));
       setStartX(clientX);
 
-      const deltaY = clientY - startY;
-      setTranslateY((prev) => prev + deltaY);
+      const deltaY = clientY - startY ;
+      setTranslateY((prev) => prev + (deltaY * (1/zoom) ));
       setStartY(clientY);
     }
   };
@@ -114,6 +115,9 @@ const tasksDone: Task[] = Array.isArray(tasks)
   };
 
 
+  const closePopUp = () => {
+    setpopUpVisible(false);
+  }
 
   return (
     <div className='flex justify-between relative  h-[calc(100vh-358px)]  md:h-[calc(100vh-262px)]  lg:h-[calc(100vh-274px)] items-center  m-5 gap-9 '>
@@ -202,10 +206,13 @@ const tasksDone: Task[] = Array.isArray(tasks)
           ))}
         </KanbanCol>
 
+
       </div>
-      
-      
-      
+
+
+      { popUpVisible && ( <AppPopUp handleAppPopUp={closePopUp} /> ) }
+
+    
     </div>
 
 
@@ -213,7 +220,7 @@ const tasksDone: Task[] = Array.isArray(tasks)
         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="20" viewBox="0 0 12 20" fill="none">
           <path d="M10 10V2H11V0H1V2H2V10L0 12V14H5.2V20H6.8V14H12V12L10 10Z" fill="white" />
         </svg>
-      </button>
+    </button>
     <InThisProject isActive={isActive} />
     </div>
   )
