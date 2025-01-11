@@ -1,7 +1,11 @@
 import React from 'react';
+import { useEffect } from 'react';
 import { useSignUp } from "@clerk/clerk-react";
 import ManInPc from '../../public/images/manInComputer.png';
 import Button from '../components/Button';
+import OauthSignIn from '../components/OauthSignInSocialButton';
+import { useDispatch } from 'react-redux';
+import { setPage } from '../redux/pageSlice';
 
 const CustomSignUp = () => {
   const { signUp, setActive } = useSignUp();
@@ -12,6 +16,12 @@ const CustomSignUp = () => {
   const [password, setPassword] = React.useState('');
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState('');
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+      dispatch(setPage('login'));
+  }, [dispatch]);
 
   const handleSignUp = async (e) => {
     e.preventDefault();
@@ -46,18 +56,19 @@ const CustomSignUp = () => {
   };
 
   return (
-    <div className="flex lg:justify-between justify-center bg-no-repeat bg-cover bg-[url('../../public/images/bg-mobile.png')] lg:bg-none">
-      <div className="bg-white lg:my-[0] my-[87px] rounded-[30px]">
-        <div className="lg:pt-[58.46px] lg:pl-[100px] sm:px-[44px] sm:py-[87px]">
-          <h2 className="text-[#331436] text-2xl lg:text-4xl font-bold font-['Roboto'] mb-4 p-5 sm:p-0">
+    <div className="flex lg:justify-between  justify-center relative">
+      <img src="/public/images/bg-mobile-signup.png" alt="" className="lg:hidden visible absolute top-0 left-0 w-full h-full object-cover opacity-30"/>
+      <div className="bg-white opacity-95 lg:my-[0] my-[87px] rounded-[30px]">
+        <div className="lg:pt-[58.46px] lg:pl-[100px] sm:px-[44px] sm:py-[30px] px-[20px] py-[20px]">
+          <h2 className="text-[#331436] text-2xl lg:text-4xl font-bold font-['Roboto'] mb-4 sm:text-left text-center">
             Sign up Information
           </h2>
-          <p className="text-[#331436] text-sm lg:text-base mb-6 pl-5 sm:pl-0">
-            Already have an account? Log in.
+          <p className="text-[#331436] sm:text-left text-center text-sm lg:text-base mb-6">
+            Already have an account? <a href="/login" className="text-[20px] font-bold text-blue-500 text-center md:text-right hover:underline cursor-pointer">Log in.</a>
           </p>
           {error && <p className="">{error}</p>}
           <form onSubmit={handleSignUp} className="space-y-6">
-            <div className="flex sm:flex-row flex-col gap-4 px-5 sm:px-0">
+            <div className="flex sm:flex-row flex-col gap-4">
               <div>
                 <label htmlFor="firstname" className="block text-sm font-medium text-[#331436] mb-1">First name</label>
                 <input
@@ -83,7 +94,7 @@ const CustomSignUp = () => {
                 />
               </div>
             </div>
-            <div className="px-5 sm:px-0">
+            <div className="">
               <label htmlFor="email" className="block text-sm font-medium text-[#331436] mb-1">Email</label>
               <input
                 id="email"
@@ -96,7 +107,7 @@ const CustomSignUp = () => {
                 placeholder="Enter your email"
               />
             </div>
-            <div className="px-5 sm:px-0">
+            <div className="">
                 <label htmlFor="jobposition" className="block text-sm font-medium text-[#331436] mb-1">Job position</label>
                 <input
                   id="jobposition"
@@ -108,7 +119,7 @@ const CustomSignUp = () => {
                   placeholder="Enter your job position (example: Project Manager)"
                 />
             </div>
-            <div className="px-5 sm:px-0">
+            <div className="">
               <label htmlFor="password" className="block text-sm font-medium text-[#331436] mb-1">Password</label>
               <input
                 id="password"
@@ -128,6 +139,30 @@ const CustomSignUp = () => {
           <p className="mt-4 text-center text-sm text-gray-600">
             or sign up with...
           </p>
+          <div className="flex items-center justify-center pt-2 gap-4">
+            <div className="flex items-center justify-center w-[110px] h-14 bg-white rounded-[40px] border border-[#333333]/20 overflow-hidden">
+              <div className="w-8 h-8 overflow-hidden">
+                <OauthSignIn
+                  providerName="Facebook"
+                  strategy="oauth_facebook"
+                  logo="/public/images/social-media-signup-social-media-logo.face.png"
+                  redirectUrl="/custom-callback"
+                  redirectUrlComplete="/kanban"
+                />
+              </div>
+            </div>
+            <div className="flex items-center justify-center w-[110px] h-14 bg-white rounded-[40px] border border-[#333333]/20 overflow-hidden pt-2 pl-1">
+              <div className="w-8 h-8 overflow-hidden">
+                <OauthSignIn
+                  providerName="Google"
+                  strategy="oauth_google"
+                  logo="/public/images/social-media-signup-social-media-logo.jpg"
+                  redirectUrl="/custom-callback"
+                  redirectUrlComplete="/kanban"
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div className="pl-5 hidden lg:block">

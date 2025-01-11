@@ -1,6 +1,15 @@
-import React from 'react'
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { setPage } from '../redux/pageSlice';
 
 const Locked = () => {
+
+  const dispatch = useDispatch();
+  
+  useEffect(() => {
+      dispatch(setPage('login'));
+  }, [dispatch]);
+
   return (
     <section className="flex items-center justify-center sm:flex-row flex-col sm:h-[calc(100vh-222px)] lg:px-[242px] pt-8 md:pt-0">
       <figure className="flex-1 px-[96px] sm:px-[0]">

@@ -23,9 +23,10 @@ const InThisProject = ({ isActive }) => {
 
 
     return (
-        <div className={` absolute font-bold bg-[#6C7D96] z-40  ${(isActive) ? 'hidden' : ''} 
-        top-[-18px] right-0 px-[18px] py-[23.26px] w-[247.59px] rounded-[25px]
+        <div className={` absolute lg:relative top-[-18px] right-0 px-[18px] font-bold bg-[#6C7D96] z-40  ${(isActive) ? 'hidden' : ''} 
+         py-[23.26px] w-[247.59px] rounded-[25px]
           md:w-[298px]  md:px-[21px] md:py-[28px]
+            lg:h-[538px] lg:w-[298px]
           `} >
 
             <div>

@@ -2,6 +2,7 @@ import Button from '../components/Button';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { setPage } from '../redux/pageSlice';
+import { Link } from 'react-router-dom';
 
 
 
@@ -147,8 +148,11 @@ const Settings = () => {
       </section>
       <div className=" my-12 flex flex-col items-center  border-none">
         <Button  label='Update information' type='button' kind='primary' size='md' />
-        <p className="my-[17px]" >Never mind, take me <a className="text-[#5570F1] underline" href="">back to my project.</a></p>
+        <p className="my-[17px]" >Never mind, take me <Link className="text-[#5570F1] underline" to='/kanban' >back to my project.
+        </Link></p>
         </div>
+
+
     </div> )
 }
 

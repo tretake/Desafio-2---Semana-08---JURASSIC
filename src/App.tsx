@@ -64,7 +64,10 @@ console.log('dados centrais',dados);
           <Route 
             path='/kanban' 
             element={
+              
+              <ProtectedRoute>
                 <Kanban/>
+              </ProtectedRoute>
             } 
           />
           <Route 
@@ -90,12 +93,15 @@ console.log('dados centrais',dados);
           {/* Rota 403 */}
           <Route path='/denied' element={<AccessDenied/>} />
         </Routes> 
+
+        <div className=' fixed bottom-3 p-2 rounded-tr-xl rounded-br-xl bg-blue-600'>
         <SignedOut>
           <SignInButton />
         </SignedOut>
         <SignedIn>
           <UserButton />
-        </SignedIn>    
+        </SignedIn>
+        </div>
         <Footer/>
       </BrowserRouter>
     </ClerkProvider>
