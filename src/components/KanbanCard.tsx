@@ -6,7 +6,8 @@ interface CardProps {
   label: string;
   priority: "High" | "Mid" | "Low";
   color: "purple" | "orange" | "green";
-  image?: string
+  image?: string;
+  percent: number
 }
 
 
@@ -55,7 +56,7 @@ const KanbanCard: React.FC<CardProps>  = ({id ,label,priority,color,image, perce
 
   return (
     <div className={`bg-white flex flex-col 
-    p-3 w-[278px]  rounded-3xl   card }`} >
+    p-3 w-[278px]  rounded-3xl }`} >
 
 
       { image? <img className=' mb-4 w-[246px]  rounded-2xl ' src={image} alt="" /> : <></> }
