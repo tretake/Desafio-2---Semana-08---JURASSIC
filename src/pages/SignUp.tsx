@@ -1,8 +1,11 @@
 import React from 'react';
+import { useEffect } from 'react';
 import { useSignUp } from "@clerk/clerk-react";
 import ManInPc from '../../public/images/manInComputer.png';
 import Button from '../components/Button';
 import OauthSignIn from '../components/OauthSignInSocialButton';
+import { useDispatch } from 'react-redux';
+import { setPage } from '../redux/pageSlice';
 
 const CustomSignUp = () => {
   const { signUp, setActive } = useSignUp();
@@ -13,6 +16,12 @@ const CustomSignUp = () => {
   const [password, setPassword] = React.useState('');
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState('');
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+      dispatch(setPage('login'));
+  }, [dispatch]);
 
   const handleSignUp = async (e) => {
     e.preventDefault();
