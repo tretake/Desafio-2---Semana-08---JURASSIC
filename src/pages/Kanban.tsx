@@ -116,7 +116,7 @@ const tasksDone: Task[] = Array.isArray(tasks)
 
 
   return (
-    <div className='flex justify-between relative h-[calc(100vh-274px)] items-center  m-5 gap-9 '>
+    <div className='flex justify-between relative  h-[calc(100vh-358px)]  md:h-[calc(100vh-262px)]  lg:h-[calc(100vh-274px)] items-center  m-5 gap-9 '>
     <div className=' grow h-full relative  overflow-hidden   rounded-3xl '
 
       onWheel={handleWheel}
