@@ -11,28 +11,56 @@ const Login = () => {
 
   const dispatch = useDispatch();
 
-  const [email, setEmail] = useState('');
-  const [passWord, setPassWord] = useState('');
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [emailError, setEmailError] = useState<string>("");
+  const [passwordError, setPasswordError] = useState<string>("");
 
   useEffect(() => {
     dispatch(setPage('login'));
   }, [dispatch]);
 
-  const handleEmailPasswordLogin = async (e) => {
+  const validateEmail = (value: string): boolean => {
+    const emailRegex = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i;
+    if (!emailRegex.test(value)) {
+      setEmailError("Enter a valid email address!");
+      return false;
+    }
+    setEmailError("");
+    return true;
+  };
+
+  const validatePassword = (value: string): boolean => {
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+    if (!passwordRegex.test(value)) {
+      setPasswordError(
+        "Password must be at least 8 characters long, contain at least one uppercase letter, one number, and one special character."
+      );
+      return false;
+    }
+    setPasswordError("");
+    return true;
+  };
+
+  const handleEmailPasswordLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
-
     if (!isLoaded) return;
 
-    try {
-      await signIn.create({
-        identifier: email,
-        password: passWord,
-      });
-      // Redirecionar para o dashboard ou outra página após login bem-sucedido
-      window.location.href = '/kanban';
-    } catch (err) {
-      console.log("teste")
+    const isEmailValid = validateEmail(email);
+    const isPasswordValid = validatePassword(password);
+
+    if (isEmailValid && isPasswordValid) {
+      try {
+        await signIn.create({
+          identifier: email,
+          password: password,
+        });
+        // Redirecionar para o dashboard ou outra página após login bem-sucedido
+        window.location.href = '/kanban';
+      } catch (err) {
+        console.log("Login failed:", err);
+      }
     }
   };
 
@@ -65,7 +93,11 @@ const Login = () => {
                   placeholder="Enter your email"
                   className="w-full px-4 p-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder:text-sm"
                   onChange={(e) => setEmail(e.target.value)} value={email}
+                  onBlur={(e) => validateEmail(e.target.value)}
                 />
+                {emailError && (
+                  <span className="text-red-500 text-sm">{emailError}</span>
+                )}
               </div>
 
               {/* Password Field */}
@@ -77,8 +109,12 @@ const Login = () => {
                   type="password"
                   placeholder="Enter your password"
                   className="w-full px-4 p-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder:text-sm"
-                  onChange={(e) => setPassWord(e.target.value)} value={passWord}
+                  onChange={(e) => setPassword(e.target.value)} value={password}
+                  onBlur={(e) => validatePassword(e.target.value)}
                 />
+                {passwordError && (
+                  <span className="text-red-500 text-sm">{passwordError}</span>
+                )}
               </div>
 
               {/* Login Button */}
