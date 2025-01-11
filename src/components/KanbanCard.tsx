@@ -55,7 +55,7 @@ const KanbanCard: React.FC<CardProps>  = ({id ,label,priority,color,image, perce
 
   return (
     <div className={`bg-white flex flex-col 
-    p-3 w-[278px]  rounded-3xl }`} >
+    p-3 w-[278px]  rounded-3xl   card }`} >
 
 
       { image? <img className=' mb-4 w-[246px]  rounded-2xl ' src={image} alt="" /> : <></> }

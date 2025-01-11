@@ -7,10 +7,12 @@ interface ColProps {
   label: string;
   color: "purple" | "orange" | "green";
   children?: React.ReactNode;
+  openModal: Dispatch<SetStateAction<boolean>>
 }
 
-const KanbanCol: React.FC<ColProps> = ({ number, label, color, children }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+const KanbanCol: React.FC<ColProps> = ({ number, label, color, children ,openModal }) => {
+  
+  
   const getColor = (color: string, target: string, bg: boolean = false) => {
     switch (target) {
       case "header":
@@ -43,7 +45,7 @@ const KanbanCol: React.FC<ColProps> = ({ number, label, color, children }) => {
           <p className={`flex items-center justify-center text-white rounded-full ${getColor(color,"item",true)} text-sm w-10 h-8`}>{number}</p>
           <p className={`text-base font-bold ${getColor(color, "item")}`}>{label}</p>
         </div>
-        <button onClick={() => setIsModalOpen(true)}>
+        <button onClick={() => openModal(true)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -60,13 +62,10 @@ const KanbanCol: React.FC<ColProps> = ({ number, label, color, children }) => {
           </svg>
         </button>
       </div>
-      <div className="gap-[15px]  flex flex-col  hover:overflow-y-scroll  overscroll-none overflow-hidden">
+      <div className="gap-[15px]  flex flex-col  hover:overflow-y-scroll  overscroll-none overflow-hidden  card-body">
         {children}
       </div>
-      <CreationModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      />
+      
     </div>
   );
 };
