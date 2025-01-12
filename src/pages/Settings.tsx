@@ -40,11 +40,11 @@ const Settings = () => {
     <div className='m-5 lg:mx-24 divide-y-2 flex flex-col gap-[19px]   '>
       <section >
         <div className='flex py-[65px]' >
-          <img className='w-28 rounded-full drop-shadow-[0px_2px_2px_rgba(0,0,0,0.50)] ' src="./src/assets/profile_picture.jpg" alt="profile image" />
-          <div className='flex flex-col justify-center'>
-          <h1 className=' px-4 text-3xl font-bold' >{` ${usuarioLogado.firstName} ${usuarioLogado.lastName}`} </h1>
-          <p className=' px-4 opacity-70 ' >{usuarioLogado.email}</p>
-          <p className=' px-4 opacity-70 ' >{usuarioLogado.role}</p>
+          <img className='w-28 md:size-[174px] rounded-full drop-shadow-[0px_2px_2px_rgba(0,0,0,0.50)] ' src="./src/assets/profile_picture.jpg" alt="profile image" />
+          <div className='ml-2 flex flex-col justify-center '>
+          <h1 className='  text-3xl font-bold' >{` ${usuarioLogado.firstName} ${usuarioLogado.lastName}`} </h1>
+          <p className=' opacity-70 text-xs md:text-xl' >{usuarioLogado.email}</p>
+          <p className=' opacity-70 ' >{usuarioLogado.role}</p>
           </div>
         </div>
         <div>
@@ -167,7 +167,7 @@ const Settings = () => {
         
       </section>
       <div className=" my-12 flex flex-col items-center  border-none">
-        <Button  label='Update information' type='button' kind='primary' size='md' />
+        <Button  label='Update information' type='button' kind='primary' size='sm' />
         <p className="my-[17px]" >Never mind, take me <Link className="text-[#5570F1] underline" to='/kanban' >back to my project.
         </Link></p>
         </div>
