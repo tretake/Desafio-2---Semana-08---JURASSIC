@@ -19,7 +19,7 @@ const CardPaginaHome: React.FC<CardPaginaHomeProps> = ({imagem, titulo, texto })
      {/* Container de texto */}
      <div className="flex flex-col items-start p-4 w-full  min-h-[80px]">
         <h3 className="text-white text-lg font-normal">{titulo}</h3>
-        <p className="text-white text-base font medium">{texto}</p>
+        <p className="text-white text-base font-medium">{texto}</p>
         </div>
 
     </div>

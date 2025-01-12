@@ -15,8 +15,8 @@ const Home = () => {
 
   return (
     <div>
-      Home
-        <ul>
+      
+        <ul className="fixed top-0 z-[90]">
           <li>
             <Link to="/login">Login</Link>
           </li>

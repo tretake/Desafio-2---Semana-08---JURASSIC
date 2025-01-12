@@ -5,7 +5,7 @@ const MainSection = () => {
   return (
     <div
     className="relative min-h-screen bg-cover bg-center"
-    style={{ backgroundImage: `url('/path/to/background-image.jpg')` }}
+    style={{ backgroundImage: `url('./images/home_main_background.jpeg')` }}
   >
     {/* Fundo com a imagem de fundo */}
     <div className="flex items-center justify-between h-full px-8">
@@ -28,12 +28,8 @@ const MainSection = () => {
 
       {/* Imagem da menina no meio */}
       <div className="w-1/3 space-y-8">
-        {/* <img src="{RETRAT_1}" alt="Retrato da Menina" className="w-full h-auto object-contain" /> */}
-        <img
-          src="./images/RETRAT_1-removebg 1.png"
-          alt="Logo"
-          className="w-full h-auto object-contain"
-        />
+         <img src="./images/RETRAT_1-removebg 1.png" alt="Retrato da Menina" className="w-full h-auto " /> 
+       
       </div>
 
       {/* Blocos à direita */}
