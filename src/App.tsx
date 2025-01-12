@@ -15,6 +15,7 @@ import SignUp from './pages/SignUp'
 import Settings from './pages/Settings'
 import Profile from './pages/Profile'
 import PageNotFound from './pages/PageNotFound'
+import DeleteUserForm from './components/DeleteUserForm'
 
 import { useEffect  } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -72,6 +73,15 @@ console.log('dados dadosUsers',dados);
                 <Kanban/>
               </ProtectedRoute>
             } 
+          />
+
+          <Route
+            path='/delete'
+            element={
+              <ProtectedRoute>
+                <DeleteUserForm/>
+              </ProtectedRoute>
+              }
           />
           <Route 
             path='/settings' 

@@ -58,7 +58,11 @@ const InThisProject = ({ isActive }) => {
 
 
                 </ul>
-                <p className='text-xs text-right text-[#C7C3FF]' >View all (10)</p>
+                <p className='text-xs text-right text-[#C7C3FF]' >
+                    <Link to='/delete'>
+                        View all {users.length} members
+                    </Link>                     
+                </p>
             </div>
             <div className='' >
                 <h1 className='text-base md:text-xl text-white' >Metrics</h1>
