@@ -15,6 +15,8 @@ const InThisProject = ({ isActive }) => {
     const totalDone = tasks.filter((task) => task.status === 'done').length;
     const totalIProgress = tasks.filter((task) => task.status === 'inprogress').length;
     const totalToDo = tasks.filter((task) => task.status === 'todo').length;
+
+    console.log('dados centrais',dados);
     
 
     useEffect(() => {
@@ -56,7 +58,11 @@ const InThisProject = ({ isActive }) => {
 
 
                 </ul>
-                <p className='text-xs text-right text-[#C7C3FF]' >View all (10)</p>
+                <p className='text-xs text-right text-[#C7C3FF]' >
+                    <Link to='/delete'>
+                        View all {users.length} members
+                    </Link>                     
+                </p>
             </div>
             <div className='' >
                 <h1 className='text-base md:text-xl text-white' >Metrics</h1>
@@ -65,7 +71,7 @@ const InThisProject = ({ isActive }) => {
                         <h1 className='text-[#160A60] ' >Total tasks</h1>
                         <div className='flex items-center h-[21px] gap-[2.49px]' ><h1 className='text-xl md:text-2xl text-[#4F46E5]' >{totalToDo}</h1> <p>To do</p></div>
                         <div className='flex items-center h-[21px] gap-[2.49px]' ><h1 className='text-xl md:text-2xl text-[#F59E0B]' >{totalIProgress}</h1> <p>In progress</p></div>
-                        <div className='flex items-center h-[21px] gap-[2.49px]'><h1 className='text-xl md:text-2xl text-[#22C55E]' >{totalDone}</h1> <p >Done</p></div>
+                        <div className='flex items-center h-[21px] gap-[2.49px]'><h1 className='text-xl md:text-2xl text-[#22C55E]' >{totalDone + 1}</h1> <p >Done</p></div>
                     </div>
                     <div className='w-[122px] md:w-[135px] h-[63px] pt-[4px] rounded-[12.45px] bg-[#F6F6F6E5]' >
                         <h1 className=' text-center  text-xs text-[#160A60]' >Total time estimated</h1>
