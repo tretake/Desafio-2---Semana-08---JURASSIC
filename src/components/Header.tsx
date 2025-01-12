@@ -20,7 +20,7 @@ const Header: React.FC = () => {
       case 'home':
         return (
           <Link to="/login" >
-              <Button  label='Login' type='button' kind='outline' size='sm' />              
+              <button className='text-[15px] text-white rounded-full border border-white py-[6px] px-[33.5px]'>Login</button>              
           </Link>
         );
       case 'profile':

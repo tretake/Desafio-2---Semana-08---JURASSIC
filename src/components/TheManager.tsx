@@ -24,51 +24,53 @@ const TheManager = () => {
   ];
 
   return (
-    <div className="flex flex-col">
+    <>
       {/* Primeira sessão =================================================*/}
-      <div className="section-2 flex flex-col justify-center items-start py-[60px] px-[170px] gap-[60px] isolation-isolate w-full h-[843px] bg-[#1E293B]">
-        {/* Título */}
-        <div className="text-[#FCF4B6] font-[700] text-[40px] leading-[48px] text-left ml-[-10px]">
-          The Manager
-        </div>
+      <div className="flex flex-col bg-[#1E293B] gap-12 px-5 md:px-11 py-[60px] ">
+        <div className=" flex flex-col  items-start w-full gap-6  ">
+          {/* Título */}
+          <div className="text-[#FCF4B6] font-[700] text-2xl/[48px] md:text-[40px]/[48px]   text-left ">
+            The Manager
+          </div>
 
-        {/* Descrição */}
-        <div className="text-[#FFFFFF] font-[400] text-[16px] leading-[24px] text-left ml-[-4px]">
-          Project Manager is a tool designed to make organizing and tracking
-          your daily tasks easier than ever. With a clean, intuitive interface
-          and powerful features, you can plan, prioritize, and keep tabs on your
-          projects - whether you’re working solo or with a team.
-        </div>
-        <Button label="Learn More" type="button" kind="secondary" size="sm" />
-      </div>
+          {/* Descrição */}
+          <div className="text-[#FFFFFF] font-[400] text-[14px] md:text-base leading-[24px] text-left ml-[-4px]">
+            Project Manager is a tool designed to make organizing and tracking
+            your daily tasks easier than ever. With a clean, intuitive interface
+            and powerful features, you can plan, prioritize, and keep tabs on your
+            projects - whether you’re working solo or with a team.
+          </div>
+          <button className=" px-16 md:px-[79px] py-[6px] md:py-3 font-medium self-center md:self-start text-base text-[#160A60] bg-[#F8F2FF] rounded-lg" >Learn More</button>
+          </div>
 
-      {/* Segunda sessão ================================================*/}
-      <div className="bg-[#1E293B] w-full py-8">
-        <div className="flex flex-wrap gap-[20px] justify-center items-center px-4 sm:px-8 md:px-16">
-          <CardPaginaHome titulo={'Manage Projects'} texto={'20+ projects'} imagem={cardImage1} />
-          <CardPaginaHome titulo={'Track Tasks'} texto={'50+ tasks'} imagem={cardImage2} />
-          <CardPaginaHome titulo={'Collaborate'} texto={'10+ team members'} imagem={cardImage3} />
-        </div>
+        {/* Segunda sessão ================================================*/}
+          <div className="overflow-hidden overflow-x-auto"  >
+            <div className="flex overflow-x-auto gap-9 w-[996px]   ">
+              <CardPaginaHome titulo={'Manage Projects'} texto={'20+ projects'} imagem={cardImage1} />
+              <CardPaginaHome titulo={'Track Tasks'} texto={'50+ tasks'} imagem={cardImage2} />
+              <CardPaginaHome titulo={'Collaborate'} texto={'10+ team members'} imagem={cardImage3} />
+            </div>
+          </div>
+      
       </div>
 
       {/* Terceira sessão ================================================*/}
-      <div className="flex flex-col justify-center items-center py-[60px] px-[170px] gap-[60px] w-full h-[643px] bg-[#5C5A79]">
+      <div className="flex flex-col items-center py-[59px] bg-[#5C5A79]  gap-[60px]">
         
-        <div className="flex flex-col justify-center items-center">
+        <div className="flex flex-col justify-center items-center gap-6">
         {/* Título */}
-        <div className="w-[520px] h-[48px] text-center text-[#FCF4B6] font-[700] text-[40px] leading-[48px]">
+        <div className=" text-center text-[#FCF4B6] font-[700] text-[40px] leading-[48px]">
           Featured Tools
         </div>
 
         {/* Descrição */}
-        <div className="w-[520px] h-[24px] text-center text-[#FFFFFF] font-[400] text-[16px] leading-[24px]">
+        <div className="text-center text-[#FFFFFF] text-sm/[24px] ">
           Tools to enhance your project management
         </div>
 
         {/* Botão "View All" */}
-        <div className="flex flex-col items-start gap-[12px] w-[240px] h-[48px] bg-[#FFFFFF] rounded-[8px]">
-          <Button label="View All" type="button" kind="primary" size="md" />
-        </div>
+          <Button label="View All" type="button" kind="primary" size="sm" />
+        
         </div>
 
         {/* Passando os dados para o componente FramesHomePage */}
@@ -76,11 +78,11 @@ const TheManager = () => {
       </div>
 
       {/* Quarta sessão - Inscrição ====================================*/}
-      <div className="w-full">
+      
         {/* Passando a seção 4 (inscrição) como componente filho */}
         <SubscribeHomePage />
-      </div>
-    </div>
+      
+    </>
   );
 };
 

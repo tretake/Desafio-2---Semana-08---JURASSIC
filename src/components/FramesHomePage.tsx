@@ -9,10 +9,10 @@ interface ToolProps {
 
 const FramesHomePage: React.FC<{ tools: ToolProps[] }> = ({ tools }) => {
   return (
-    <div className="flex justify-between gap-[20px] w-full">
+    <div className="flex flex-col md:flex-row md:flex-wrap md:justify-center px-28  items-center gap-[20px] w-full">
       {tools.map((tool, index) => (
         <div key={index} className="flex flex-col items-center w-[245px]">
-          <img src={tool.imagem} alt={tool.titulo} className="w-full h-auto object-cover" />
+          <img src={tool.imagem} alt={tool.titulo} className=" size-[100px] object-cover" />
           <div className="text-[#FFFFFF] text-[20px] font-[400] leading-[28px] text-center">
             {tool.titulo}
           </div>

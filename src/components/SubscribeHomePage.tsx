@@ -30,32 +30,32 @@ const SubscribeHomePage = () => {
   };
 
   return (
-    <div className="flex justify-center items-center py-16 px-20 gap-16 bg-[#FFFCFC] w-full h-[549px]">
+    <div className="flex flex-col justify-center items-center px-5  gap-16 bg-[#FFFCFC] py-[49px]  ">
       {/* Left Side */}
-      <div className="flex flex-col gap-8 w-[520px]">
-        <h2 className="text-[#160A60] text-4xl font-bold">Subscribe to Updates</h2>
-        <p className="text-[#160A60] text-lg">Stay informed with our latest updates</p>
+      <div className="flex flex-col gap-6 ">
+        <h2 className="text-[#160A60] text-2xl md:text-[40px] font-bold">Subscribe to Updates</h2>
+        <p className="text-[#160A60] text-sm md:text-base text-left">Stay informed with our latest updates</p>
       </div>
 
       {/* Right Side */}
-      <div className="flex flex-col gap-8 w-[520px]">
+      <div className="flex flex-col items-center gap-10 w-full ">
         {/* Email Row */}
-        <div>
-          <label className="text-[#160A60] text-lg">Email</label>
+        <div className="max-w-[404px] w-full">
+          <label className="text-[#160A60] text-sm font-medium">Email</label>
           <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Enter your email"
-            className="border border-opacity-50 rounded-lg w-full h-9 px-3 outline-none"
+            className="border border-[#00000080] rounded-lg w-full h-9 px-3 outline-none"
           />
           {errors.email && <div className="text-red-500 text-sm">{errors.email}</div>}
-          <p className="text-[#160A60] text-xs mt-1">We promise not to spam.</p>
+          <p className="text-[#00000080]  text-xs mt-1">We promise not to spam.</p>
         </div>
 
         {/* Name Row */}
-        <div>
-          <label className="text-[#160A60] text-lg">Name</label>
+        <div className="w-full max-w-[404px]">
+          <label className="text-[#160A60] text-sm font-medium">Name</label>
           <input
             type="text"
             value={name}
@@ -66,14 +66,16 @@ const SubscribeHomePage = () => {
           {errors.name && <div className="text-red-500 text-sm">{errors.name}</div>}
         </div>
 
-        {/* Subscribe Button */}
         <button
           onClick={handleSubmit}
           className="flex justify-center items-center py-3 w-[240px] h-[48px] bg-[#1E293B] rounded-lg text-white"
         >
           Subscribe
         </button>
-      </div>
+        </div>
+        {/* Subscribe Button */}
+        
+      
 
       {/* Modal Confirmation */}
       {isModalOpen && (
