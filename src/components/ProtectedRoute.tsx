@@ -8,7 +8,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 
   // Mostra um indicador de carregamento enquanto Clerk verifica a autenticação
   if (!isLoaded) {
-    return <div className="flex justify-center items-center h-100 w-full">
+    return <div className="bg-[#0000001c] flex justify-center items-center  h-[calc(100vh-318px)]  md:h-[calc(100vh-222px)] lg:h-[calc(100vh-234px)]  w-full">
      <Vortex
   visible={true}
   height="80"
