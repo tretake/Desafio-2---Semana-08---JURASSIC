@@ -1,15 +1,32 @@
 import React from 'react'
+import { useDispatch } from 'react-redux';
+import { deleteTask, fetchTasks } from '../redux/thunks/tasksThunks';
 
 interface CardProps {
   label: string;
   priority: "High" | "Mid" | "Low";
   color: "purple" | "orange" | "green";
-  image?: string
+  image?: string;
+  percent: number
 }
 
 
-const KanbanCard: React.FC<CardProps>  = ({label,priority,color,image}) => {
-  const percentage:number = 3;
+const KanbanCard: React.FC<CardProps>  = ({id ,label,priority,color,image, percent }) => {
+  
+
+
+  const percentage:number = (percent);
+
+
+
+    const dispatch = useDispatch();
+  
+
+
+   const handleDelete = async (taskId: string) => {
+      await dispatch(deleteTask(taskId));
+      dispatch(fetchTasks()); 
+    };
 
   
 
@@ -44,9 +61,28 @@ const KanbanCard: React.FC<CardProps>  = ({label,priority,color,image}) => {
 
       { image? <img className=' mb-4 w-[246px]  rounded-2xl ' src={image} alt="" /> : <></> }
 
-      <div>
+      <div> 
+        
+        <div className='flex justify-between'>
+
+
         <div className={` ${getPriorityColor()} rounded-full text-center font-semibold
         text-sm w-[41px] h-6 `} >{priority}</div>
+
+        <button
+          className={` hover:bg-red-200  rounded-full hover:scale-125`}
+          onClick={() => handleDelete(id)} // Usa a prop `id` diretamente
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={` text-red-400  size-6`}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+          </svg>
+      
+        </button>
+        </div>
+
+        
+                     
+
 
         <h1 className='font-bold 
         text-base mt-3' >{label}</h1>

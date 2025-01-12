@@ -7,10 +7,12 @@ interface ColProps {
   label: string;
   color: "purple" | "orange" | "green";
   children?: React.ReactNode;
+  openModal: Dispatch<SetStateAction<boolean>>
 }
 
-const KanbanCol: React.FC<ColProps> = ({ number, label, color, children }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+const KanbanCol: React.FC<ColProps> = ({ number, label, color, children ,openModal }) => {
+  
+  
   const getColor = (color: string, target: string, bg: boolean = false) => {
     switch (target) {
       case "header":
@@ -35,40 +37,22 @@ const KanbanCol: React.FC<ColProps> = ({ number, label, color, children }) => {
     }
   };
 
-  const colClasses = `relative bg-[#1E293B1A]   flex justify-center
-    w-[310px] h-[553px] rounded-[30px]    pt-[54px]`;
-
-  const colHeaderClasses = `absolute px-1  flex  justify-between  items-center rounded-full w-full ${getColor(
-    color,
-    "header"
-  )}
-    h-[45px] top-[-6px]   
-    `;
-  const counterClass = ` flex items-center justify-center text-white rounded-full ${getColor(
-    color,
-    "item",
-    true
-  )} 
-    text-sm      w-10        h-8   `;
-  const labelClass = `text-base font-bold   ${getColor(color, "item")} 
-    text-base  `;
-  const plusIconClass = `${getColor(color, "item")} 
-    size-6 `;
   return (
-    <div className={colClasses}>
-      <div className={colHeaderClasses}>
+    <div className='relative bg-[#1E293B1A]   flex justify-center
+    w-[310px] h-[553px] rounded-[30px] px-[16px]    pt-[54px]  pb-2'>
+      <div className={`absolute px-1 h-[45px] top-[-6px]  flex  justify-between  items-center rounded-full w-full ${getColor(color,"header")}`}>
         <div className="flex  gap-1 items-center">
-          <p className={counterClass}>{number}</p>
-          <p className={labelClass}>{label}</p>
+          <p className={`flex items-center justify-center text-white rounded-full ${getColor(color,"item",true)} text-sm w-10 h-8`}>{number}</p>
+          <p className={`text-base font-bold ${getColor(color, "item")}`}>{label}</p>
         </div>
-        <button onClick={() => setIsModalOpen(true)}>
+        <button onClick={() => openModal(true)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className={plusIconClass}
+            className={`size-6 ${getColor(color, "item")} `}
           >
             <path
               strokeLinecap="round"
@@ -78,13 +62,10 @@ const KanbanCol: React.FC<ColProps> = ({ number, label, color, children }) => {
           </svg>
         </button>
       </div>
-      <div className="gap-[15px]  flex flex-col  hover:overflow-y-scroll overflow-hidden">
+      <div className="gap-[15px]  flex flex-col  hover:overflow-y-scroll  overscroll-none overflow-hidden  ">
         {children}
       </div>
-      <CreationModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      />
+      
     </div>
   );
 };
