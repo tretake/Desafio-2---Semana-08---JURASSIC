@@ -11,7 +11,7 @@ const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
 
 
-  const linkClass = `block text-white px-4 py-2 hover:underline`
+  const linkClass = `text-white  py-2 hover:underline`
   const renderButtons = () => {
     switch (currentPage) {
       case 'home':
@@ -20,6 +20,7 @@ const Header: React.FC = () => {
               <Button  label='Login' type='button' kind='outline' size='sm' />              
           </Link>
         );
+      case 'profile':
       case 'kanban':
       case 'settings':
         return (
@@ -36,12 +37,9 @@ const Header: React.FC = () => {
           <Link to="/profile" className={linkClass}>
             Profile
           </Link>
-          <Link to="/#" className={linkClass}>
-            Search in Site
-          </Link>
-          <div className='flex justify-between '>
-                    <input  className='bg-none ' type="text" id="txtBusca" placeholder="Search in site"/>
-                    <img className='bg-white' src="../../public/images/search3.png" id="btnBusca" alt="Buscar"/>
+          <div className='flex relative justify-between border-[#0000006f] p-2 rounded-md border-[1px] md:w-[133px] lg:w-[200px] '>
+                    <input  className='bg-[#00000000]  md:text-sm ' type="text" id="txtBusca" placeholder="Search in site"/>
+                    <img className=' absolute right-2' src="../../public/images/search3.png" id="btnBusca" alt="Buscar"/>
           </div>
         </>
         );
@@ -61,10 +59,10 @@ const Header: React.FC = () => {
           Project Manager
         </h1>
       </div>
-      <div className="hidden md:flex md:items-center md:space-x-4">
+      <div className="hidden md:flex  md:items-center md:gap-5 lg:gap-10 ">
         {renderButtons()}
-      </div>
-      <div className="md:hidden mr-5">
+      </div> 
+        <div className="md:hidden mr-5">
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="text-white focus:outline-none"
@@ -74,9 +72,9 @@ const Header: React.FC = () => {
               <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 5.25h16.5m-16.5 6h16.5m-16.5 6h16.5"/>
             </svg>
           </button>
-        </div>      
+        </div>  
     </div>
-    {isOpen && ( <div className="lg:hidden bg-gray-800">   {renderButtons()} </div> )}
+    {isOpen && ( <div className="flex flex-col md:hidden bg-gray-800">   {renderButtons()} </div> )}
 
 </>
   );
