@@ -39,6 +39,10 @@ const Header: React.FC = () => {
           <Link to="/#" className={linkClass}>
             Search in Site
           </Link>
+          <div className='flex justify-between '>
+                    <input  className='bg-none ' type="text" id="txtBusca" placeholder="Search in site"/>
+                    <img className='bg-white' src="../../public/images/search3.png" id="btnBusca" alt="Buscar"/>
+          </div>
         </>
         );
       case 'login':

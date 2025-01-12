@@ -16,14 +16,12 @@ import Settings from './pages/Settings'
 import Profile from './pages/Profile'
 import PageNotFound from './pages/PageNotFound'
 
-import CRIACAO from './components/NewTaskForm'
-import APAGAR from './components/DeleteTaskForm'
-
-
 import { useEffect  } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "../src/redux/store";
 import { fetchTasks } from "./redux/thunks/tasksThunks";
+
+import { fetchUsers } from "./redux/thunks/usersThunks";
 
 // Import your Publishable Key
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
@@ -38,13 +36,18 @@ function App() {
   
   const dispatch = useDispatch<AppDispatch>();
   const dados = useSelector((state: RootState) => state.tasks.value);
+  const dadosUsers = useSelector((state: RootState) => state.users.value);
 
   useEffect(() => {
       dispatch((fetchTasks()));
+      dispatch((fetchUsers()));
   }, [dispatch]);
 
 
 console.log('dados centrais',dados);
+console.log('dados dadosUsers',dados);
+
+
 
 
   return (

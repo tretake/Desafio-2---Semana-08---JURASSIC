@@ -4,6 +4,8 @@ import { setPage } from '../redux/pageSlice';
 import { AppDispatch } from "../redux/store";
 import { fetchTasks } from '../redux/thunks/tasksThunks';
 import { Task } from '../interface/types';
+import { useUser } from "@clerk/clerk-react";
+import useAddUser from '../hooks/useAddUser';
 
 import { useSession, SignIn } from '@clerk/clerk-react';
 
@@ -45,7 +47,15 @@ const tasksInProgress: Task[] = Array.isArray(tasks)
 const tasksDone: Task[] = Array.isArray(tasks)
   ? tasks.filter((task) => task.status === 'done')
   : [];
-  console.log('taks todo', tasksTodo);
+  
+
+const { user } = useUser();
+
+
+useAddUser(user);
+
+
+
 
   useEffect(() => {
     dispatch(setPage('kanban'));

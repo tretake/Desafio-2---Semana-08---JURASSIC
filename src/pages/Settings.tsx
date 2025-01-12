@@ -3,18 +3,37 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { setPage } from '../redux/pageSlice';
 import { Link } from 'react-router-dom';
-
+import { useUser } from '@clerk/clerk-react';
+import { User } from '../interface/types';
 
 
 const Settings = () => {
 
   const dispatch = useDispatch();
-
+  const { user } = useUser();
+ 
 
     useEffect(() => {
       dispatch(setPage('settings')); 
     }, [dispatch]);
-  
+    console.log('user', user);
+
+
+  const usuarioLogado: User = {    
+        firstName: user.firstName,
+        lastName: user.lastName,
+        username: '',
+        createdAt: '',
+        email: user.emailAddresses[0].emailAddress,
+        password: "", 
+        role: user.unsafeMetadata.jobposition || "Usuário", 
+        socials: {
+          x: "",
+          instagram: "",
+          linkedin: "",
+        },
+  }
+  console.log('usuarioLogado',usuarioLogado);
 
 
   return (
@@ -23,8 +42,9 @@ const Settings = () => {
         <div className='flex py-[65px]' >
           <img className='w-28 rounded-full drop-shadow-[0px_2px_2px_rgba(0,0,0,0.50)] ' src="./src/assets/profile_picture.jpg" alt="profile image" />
           <div className='flex flex-col justify-center'>
-          <h1 className=' px-4 text-3xl font-bold' >John Doe</h1>
-          <p className=' px-4 opacity-70 ' >john.doe@example.com</p>
+          <h1 className=' px-4 text-3xl font-bold' >{` ${usuarioLogado.firstName} ${usuarioLogado.lastName}`} </h1>
+          <p className=' px-4 opacity-70 ' >{usuarioLogado.email}</p>
+          <p className=' px-4 opacity-70 ' >{usuarioLogado.role}</p>
           </div>
         </div>
         <div>

@@ -47,51 +47,7 @@
     }
   ],
   "users": [
-    {
-      "id": 1,
-      "firstName": "John Snow",
-      "lastName": "Das Neves",
-      "username": "johnNevasca",
-      "createdAt": "2025-01-07T10:00:00",
-      "email": "john.neves@example.com",
-      "password": "neves123",
-      "role": "Desenvolvedor",
-      "socials": {
-        "x": "https://x.com/iknownothing",
-        "instagram": "https://instagram.com/iknownothing",
-        "linkedin": "https://linkedin.com/in/iknownothing"
-      }
-    },
-    {
-      "id": 2,
-      "firstName": "Cleyton",
-      "lastName": "Kratos",
-      "username": "DeusGuerra",
-      "createdAt": "2025-01-07T10:00:00",
-      "email": "cleytonrr@example.com",
-      "password": "rasta123",
-      "role": "PO",
-      "socials": {
-        "x": "https://x.com/johndoe",
-        "instagram": "https://instagram.com/johndoe",
-        "linkedin": "https://linkedin.com/in/johndoe"
-      }
-    },
-    {
-        "id": 3,
-        "firstName": "Groot",
-        "lastName": "Arvore",
-        "username": "IAmGroot",
-        "createdAt": "2025-01-07T10:00:00",
-        "email": "IAmGroot@example.com",
-        "password": "IAmGroot",
-        "role": "Desenvolvedor",
-        "socials": {
-          "x": "https://x.com/IAmGroot",
-          "instagram": "https://instagram.com/IAmGroot",
-          "linkedin": "https://linkedin.com/in/IAmGroot"
-        }
-     }
+     
     
   ]
 }

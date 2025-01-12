@@ -15,6 +15,7 @@ const Login = () => {
   const [password, setPassword] = useState<string>("");
   const [emailError, setEmailError] = useState<string>("");
   const [passwordError, setPasswordError] = useState<string>("");
+  
 
   useEffect(() => {
     dispatch(setPage('login'));
@@ -47,8 +48,10 @@ const Login = () => {
     
     if (!isLoaded) return;
 
-    const isEmailValid = validateEmail(email);
-    const isPasswordValid = validatePassword(password);
+    // const isEmailValid = validateEmail(email);
+    // const isPasswordValid = validatePassword(password);
+    const isEmailValid = true
+    const isPasswordValid = true
 
     if (isEmailValid && isPasswordValid) {
       try {

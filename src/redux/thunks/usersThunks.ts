@@ -16,7 +16,6 @@ export const postNewUser = createAsyncThunk("users/addNewUser", async (newUser: 
   try {
     const response = await axios.get("https://mybucketsweetaurora.s3.us-east-1.amazonaws.com/db.json");
     const updatedUsers = [...response.data.users, newUser];
-    // junta o novo usuário com os usuários existentes
 
     const updatedData = {
       tasks: response.data.tasks,

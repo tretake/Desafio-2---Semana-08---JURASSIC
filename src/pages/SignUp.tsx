@@ -20,7 +20,7 @@ const CustomSignUp = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-      dispatch(setPage('login'));
+    dispatch(setPage('login'));
   }, [dispatch]);
 
   const handleSignUp = async (e) => {
@@ -34,14 +34,17 @@ const CustomSignUp = () => {
         password,
         first_name: firstname,
         last_name: lastname,
+        unsafeMetadata: {
+          jobposition: jobposition,
+        },
       });
-    
+
       if (response.status === "complete") {
         await setActive({ session: response.createdSessionId });
         window.location.href = "/kanban";
         return;
       }
-    
+
       if (response.status === "missing_requirements") {
         console.log('Missing requirements:', response.requirements);
         if (response.requirements && response.requirements.includes("email_verification")) {
@@ -108,16 +111,16 @@ const CustomSignUp = () => {
               />
             </div>
             <div className="">
-                <label htmlFor="jobposition" className="block text-sm font-medium text-[#331436] mb-1">Job position</label>
-                <input
-                  id="jobposition"
-                  type="text"
-                  value={jobposition}
-                  onChange={(e) => setJobPosition(e.target.value)}
-                  className="w-full px-4 p-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder:text-sm"
-                  disabled={loading}
-                  placeholder="Enter your job position (example: Project Manager)"
-                />
+              <label htmlFor="jobposition" className="block text-sm font-medium text-[#331436] mb-1">Job position</label>
+              <input
+                id="jobposition"
+                type="text"
+                value={jobposition}
+                onChange={(e) => setJobPosition(e.target.value)}
+                className="w-full px-4 p-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder:text-sm"
+                disabled={loading}
+                placeholder="Enter your job position (example: Project Manager)"
+              />
             </div>
             <div className="">
               <label htmlFor="password" className="block text-sm font-medium text-[#331436] mb-1">Password</label>
