@@ -11,12 +11,13 @@ const UserList: React.FC = () => {
 
   useEffect(() => {
     dispatch(fetchUsers());
-    dispatch(setPage('delete')); 
+    dispatch(setPage('delete'));     
   }, [dispatch ]);
 
   const handleDelete = async (taskId: string) => {
     await dispatch(deleteUser(taskId));
     dispatch(fetchUsers()); 
+    window.location.reload();
   };
 
   return (
