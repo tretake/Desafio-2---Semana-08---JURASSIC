@@ -1,18 +1,27 @@
 import {useEffect, useState} from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../assets/icons/logo.png'
 import Button from './Button';
+import { useClerk } from '@clerk/clerk-react';
 
 const Header: React.FC = () => {
   const currentPage = useSelector((state: RootState) => state.page.currentPage);
 
   const [isOpen, setIsOpen] = useState(false);
 
-
+  const { user, signOut } = useClerk();
+  const navigate = useNavigate();
 
   useEffect( () => { setIsOpen(false)} ,[currentPage] )
+
+  const handleLogoClick = async () => {
+    if (user) {
+      await signOut();
+    }
+    navigate('/');
+  };
 
   const linkClass = `text-white  py-2 hover:underline`
   const renderButtons = () => {
@@ -55,7 +64,7 @@ const Header: React.FC = () => {
   return ( 
   <>
     <div className="w-full bg-[#1E293B] font-roboto flex items-center justify-between p-5 max-h-[80px] ">
-      <div className="flex items-center space-x-4">
+      <div className="flex items-center space-x-4" onClick={handleLogoClick} style={{ cursor: 'pointer' }}>
         <Link to="/">
           <img src={Logo} alt="Logo" className=" size-10 md:size-12 object-cover" />
         </Link>
