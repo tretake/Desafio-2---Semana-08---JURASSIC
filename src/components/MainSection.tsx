@@ -34,15 +34,15 @@ const MainSection = () => {
       <div className=" flex flex-col md:flex-row lg:flex-col md:w-[656px] lg:w-[180px] justify-between gap-[17px] text-base text-white">
         <div className="bg-[#23081CB2] w-[180px] p-6 rounded-2xl shadow-md">
           <h2 className=" font-bold ">2000+</h2>
-          <p className=" ">Satisfied clients</p>
+          <p >Satisfied clients</p>
         </div>
         <div className="bg-[#23081CB2] w-[180px] p-6 rounded-2xl shadow-md">
           <h2 className=" font-bold ">400+</h2>
-          <p className=" ">Managed projects</p>
+          <p >Managed projects</p>
         </div>
         <div className="bg-[#23081CB2] w-[180px] p-6 rounded-2xl shadow-md">
-          <h2 className="text-2xl font-bold ">500+</h2>
-          <p className=" ">Kanban boards</p>
+          <h2 className="font-bold ">500+</h2>
+          <p >Kanban boards</p>
         </div>
       </div>
     </div>

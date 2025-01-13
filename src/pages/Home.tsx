@@ -15,19 +15,6 @@ const Home = () => {
 
   return (
     <div>
-      
-        <ul className="fixed top-0 z-[90]">
-          <li>
-            <Link to="/login">Login</Link>
-          </li>
-          <li>
-            <Link to="/signup">Signup</Link>
-          </li>
-          <li>
-            <Link to="/kanban">kanban</Link>
-          </li>
-        </ul>
-
         <MainSection/>
         <TheManager/>
     </div>

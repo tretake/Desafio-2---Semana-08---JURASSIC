@@ -44,8 +44,8 @@ const TheManager = () => {
           </div>
 
         {/* Segunda sessão ================================================*/}
-          <div className="overflow-hidden overflow-x-auto"  >
-            <div className="flex overflow-x-auto gap-9 md:gap-10 w-[996px]   ">
+          <div className="overflow-hidden overflow-x-auto lg:self-center  "  >
+            <div className="flex overflow-x-auto gap-9 md:gap-10 w-[996px] overflow-y-hidden  ">
               <CardPaginaHome titulo={'Manage Projects'} texto={'20+ projects'} imagem={cardImage1} />
               <CardPaginaHome titulo={'Track Tasks'} texto={'50+ tasks'} imagem={cardImage2} />
               <CardPaginaHome titulo={'Collaborate'} texto={'10+ team members'} imagem={cardImage3} />
