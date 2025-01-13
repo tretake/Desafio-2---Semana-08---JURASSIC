@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect ,useMemo} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPage } from '../redux/pageSlice';
 import { AppDispatch } from "../redux/store";
-import { fetchTasks } from '../redux/thunks/tasksThunks';
+import { postNewTask,deleteTask,fetchTasks } from '../redux/thunks/tasksThunks';
 import { Task } from '../interface/types';
 import { useUser } from "@clerk/clerk-react";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import useAddUser from '../hooks/useAddUser';
 
 import { useSession, SignIn } from '@clerk/clerk-react';
@@ -29,6 +30,9 @@ const Kanban = () => {
   const [startY, setStartY] = useState(0);
   const [translateX, setTranslateX] = useState(0);
   const [translateY, setTranslateY] = useState(0);
+
+  
+
 
 
   const { isLoaded, isSignedIn, session } = useSession();
@@ -68,6 +72,7 @@ useAddUser(user);
   const progressColor = 'orange';
   const toDoColor = 'purple';
 
+
   const handleWheel = (event: React.WheelEvent) => {
     if (event.deltaY < 0) {
       setZoom((prevZoom) => Math.min(prevZoom + 0.1, 3));
@@ -75,8 +80,6 @@ useAddUser(user);
       setZoom((prevZoom) => Math.max(prevZoom - 0.1, 0.1));
     }
   };
-
-
 
   const handleStart = (
     event: React.MouseEvent | React.TouchEvent
@@ -133,6 +136,87 @@ useAddUser(user);
 
   
 
+  /*******************************Drag logic************************************* */
+  
+  const [zones, setZones] = useState({
+    zone1: {
+      id: "todo",
+      color: 'purple',
+      title: "Zone 1",
+      cards: tasksTodo.map((obj) => obj.id),
+    },
+    zone2: {
+      id: "inprogress",
+      color: 'orange',
+      title: "Zone 2",
+      cards: tasksInProgress.map((obj) => obj.id),
+    },
+    zone3: {
+      id: "done",
+      color: 'green',
+      title: "Zone 3",
+      cards: tasksDone.map((obj) => obj.id),
+    },
+  });
+
+
+  useEffect( () =>(setZones({
+    zone1: {
+      id: "todo",
+      color: 'purple',
+      title: "Zone 1",
+      cards: tasksTodo.map((obj) => obj.id),
+    },
+    zone2: {
+      id: "inprogress",
+      color: 'orange',
+      title: "Zone 2",
+      cards: tasksInProgress.map((obj) => obj.id),
+    },
+    zone3: {
+      id: "done",
+      color: 'green',
+      title: "Zone 3",
+      cards: tasksDone.map((obj) => obj.id),
+    },
+  })) ,[tasks]   )
+
+  const onDragEnd = async (result) => {
+    const { source, destination, draggableId } = result;
+  
+    // If dropped outside a zone, return
+    if (!destination) return;
+  
+    // If dropped in the same zone, return
+    if (source.droppableId === destination.droppableId) return;
+  
+    try {
+      const taskId = parseInt(draggableId); // Convert to number if needed
+  
+      // Find and update the task
+      const taskMoved = tasks.find((task) => task.id === taskId);
+      if (!taskMoved) {
+        console.error(`Task with ID ${draggableId} not found.`);
+        return;
+      }
+  
+      const updatedTask = { ...taskMoved, status: destination.droppableId };
+  
+      // Dispatch actions
+      await dispatch(deleteTask(taskId)); // Remove task from original column
+      await dispatch(postNewTask(updatedTask)); // Add task to destination column
+  
+      // Optionally fetch tasks to refresh state
+      await dispatch(fetchTasks());
+  
+      console.log(`Task ${draggableId} successfully moved to ${destination.droppableId}.`);
+    } catch (error) {
+      console.error("Error moving task:", error);
+    }
+  };
+   /*******************************Drag logic************************************* */
+
+
   return (
     <div className='flex justify-between relative  h-[calc(100vh-358px)]  md:h-[calc(100vh-262px)]  lg:h-[calc(100vh-274px)] items-center  m-5 gap-9 '>
     <div className=' grow h-full relative  overflow-hidden   rounded-3xl '
@@ -178,47 +262,72 @@ useAddUser(user);
 
 
 
-        
-        <KanbanCol color={toDoColor} label="To do" number={tasksTodo.length}  openModal={setIsModalOpen} >
-          {tasksTodo.map((task) => (
-            <KanbanCard
-              key={task.id}
-              priority={task.priority}
-              label={task.title}
-              color={toDoColor}
-              id={task.id} 
-              percent={10} 
-            />
-          ))}
-        </KanbanCol>
+      <DragDropContext onDragEnd={onDragEnd}>
+      <div style={{ display: "flex", gap: "16px" }}>
+        {Object.values(zones).map((zone) => (
+          
+          
+          
+          <KanbanCol
+            key={zone.id}
+            color={zone.color } // Replace with a dynamic color if needed
+            label={zone.title}
+            number={zone.cards.length}
+            openModal={setIsModalOpen}
+          >
+            
 
-        <KanbanCol color='orange' label='In progress' number={tasksInProgress.length} openModal={setIsModalOpen} >
-          {tasksInProgress.map((task) => (
-            <KanbanCard 
-              key={task.id}
-              priority={task.priority}
-              label={task.title}
-              color={progressColor}
-              id={task.id} 
-              percent={60}
-            />))}
-     
-        </KanbanCol>
+            <Droppable key={zone.id} droppableId={zone.id}>
+              {(provided) => (
+                <div
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                 
+                >
+                  {zone.cards.map((cardId, index) => {
 
-        <KanbanCol color='green' label='Done' number={tasksDone.length + 1} openModal={setIsModalOpen}>
+                    
+                    
+                    const task =
+                      tasksTodo.find((t) => t.id === cardId) ||
+                      tasksInProgress.find((t) => t.id === cardId) ||
+                      tasksDone.find((t) => t.id === cardId);
 
-          <KanbanCard priority='Low' label='TASK' color={doneColor} image='./images/lens.jpg' percent={99} />
-          {tasksDone.map((task) => (
-            <KanbanCard 
-            key={task.id}
-            priority={task.priority}
-            label={task.title}
-            color={progressColor}
-            id={task.id} 
-            percent={100}
-            />
-          ))}
-        </KanbanCol>
+                    return (
+                      <Draggable
+                        key={String(cardId)}
+                        draggableId={String(cardId)}
+                        index={index}
+                      >
+                        {(provided) => (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            
+                          >
+                           
+                            <KanbanCard
+                              key={task.id}
+                              priority={task.priority}
+                              label={task.title}
+                              color={toDoColor} // Replace with a dynamic color if needed
+                              id={task.id}
+                              percent={10} // Replace with a dynamic value if needed
+                            />
+                          </div>
+                        )}
+                      </Draggable>
+                    );
+                  })}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </KanbanCol>
+        ))}
+      </div>
+    </DragDropContext>
 
 
       </div>
