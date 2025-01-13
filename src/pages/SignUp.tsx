@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useSignUp } from "@clerk/clerk-react";
 import ManInPc from '../../public/images/bg-mobile-signup.png';
 import Button from '../components/Button';
-import OauthSignIn from '../components/OauthSignInSocialButton';
+import OauthSignUp from '../components/OauthSignUpSocialButton';
 import { useDispatch } from 'react-redux';
 import { setPage } from '../redux/pageSlice';
 
@@ -226,7 +226,7 @@ const CustomSignUp = () => {
           <div className="flex items-center justify-center pt-2 gap-4">
             <div className="flex items-center justify-center w-[110px] h-14 bg-white rounded-[40px] border border-[#333333]/20 overflow-hidden">
               <div className="w-8 h-8 overflow-hidden">
-                <OauthSignIn
+                <OauthSignUp
                   providerName="Facebook"
                   strategy="oauth_facebook"
                   logo="/public/images/social-media-signup-social-media-logo.face.png"
@@ -237,7 +237,7 @@ const CustomSignUp = () => {
             </div>
             <div className="flex items-center justify-center w-[110px] h-14 bg-white rounded-[40px] border border-[#333333]/20 overflow-hidden pt-2 pl-1">
               <div className="w-8 h-8 overflow-hidden">
-                <OauthSignIn
+                <OauthSignUp
                   providerName="Google"
                   strategy="oauth_google"
                   logo="/public/images/social-media-signup-social-media-logo.jpg"
