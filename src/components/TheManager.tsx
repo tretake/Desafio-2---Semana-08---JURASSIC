@@ -24,17 +24,17 @@ const TheManager = () => {
   ];
 
   return (
-    <>
+    <div className="relative z-[10]">
       {/* Primeira sessão =================================================*/}
-      <div className="flex flex-col bg-[#1E293B] gap-12 px-5 md:px-11 py-[60px] ">
+      <div className="flex flex-col bg-[#1E293B] gap-12 px-5 md:px-11 py-[60px]  ">
         <div className=" flex flex-col  items-start w-full gap-6  ">
           {/* Título */}
-          <div className="text-[#FCF4B6] font-[700] text-2xl/[48px] md:text-[40px]/[48px]   text-left ">
+          <div className="text-[#FCF4B6] font-[700] text-2xl/[48px] md:text-[40px]/[48px]   text-left  ">
             The Manager
           </div>
 
           {/* Descrição */}
-          <div className="text-[#FFFFFF] font-[400] text-[14px] md:text-base leading-[24px] text-left ml-[-4px]">
+          <div className="text-[#FFFFFF] font-[400] text-[14px] md:text-base leading-[24px] text-left ml-[-4px] ">
             Project Manager is a tool designed to make organizing and tracking
             your daily tasks easier than ever. With a clean, intuitive interface
             and powerful features, you can plan, prioritize, and keep tabs on your
@@ -45,7 +45,7 @@ const TheManager = () => {
 
         {/* Segunda sessão ================================================*/}
           <div className="overflow-hidden overflow-x-auto"  >
-            <div className="flex overflow-x-auto gap-9 w-[996px]   ">
+            <div className="flex overflow-x-auto gap-9 md:gap-10 w-[996px]   ">
               <CardPaginaHome titulo={'Manage Projects'} texto={'20+ projects'} imagem={cardImage1} />
               <CardPaginaHome titulo={'Track Tasks'} texto={'50+ tasks'} imagem={cardImage2} />
               <CardPaginaHome titulo={'Collaborate'} texto={'10+ team members'} imagem={cardImage3} />
@@ -82,7 +82,7 @@ const TheManager = () => {
         {/* Passando a seção 4 (inscrição) como componente filho */}
         <SubscribeHomePage />
       
-    </>
+    </div>
   );
 };
 
