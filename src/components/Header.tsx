@@ -20,7 +20,7 @@ const Header: React.FC = () => {
       case 'home':
         return (
           <Link to="/login" >
-              <Button  label='Login' type='button' kind='outline' size='sm' />              
+              <button className='text-[15px] text-white rounded-full border border-white py-[6px] px-[33.5px]'>Login</button>              
           </Link>
         );
       case 'profile':
@@ -52,8 +52,9 @@ const Header: React.FC = () => {
     }
   };
 
-  return ( <>
-    <div className="w-full bg-[#1E293B] font-roboto flex items-center justify-between p-5 max-h-[80px]">
+  return ( 
+  <>
+    <div className="w-full bg-[#1E293B] font-roboto flex items-center justify-between p-5 max-h-[80px] ">
       <div className="flex items-center space-x-4">
         <Link to="/">
           <img src={Logo} alt="Logo" className=" size-10 md:size-12 object-cover" />
