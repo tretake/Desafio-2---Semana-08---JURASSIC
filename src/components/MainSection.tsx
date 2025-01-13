@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 
 const MainSection = () => {
@@ -20,7 +21,7 @@ const MainSection = () => {
         </p>
         {/* Botão Get Started */}
         <button className="mt-6  font-bold py-3 md:py-3 px-6 md:px-[78px] border-[2px] rounded-full text-white text-lg  hover:bg-blue-700">
-          Get Started
+          <Link to="/signup" > Get Started</Link>
         </button>
       </div>
 
