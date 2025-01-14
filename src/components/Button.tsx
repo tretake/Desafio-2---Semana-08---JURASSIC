@@ -4,8 +4,8 @@ interface ButtonProps {
   label: string;
   type: "button" | "submit" | "reset";
   kind: "primary" | "secondary" | "secondary-variation" | "outline" | "create";
-  size?: "sm" | "sm-login" | "md" | "lg";
-  onClick?: MouseEventHandler<HTMLButtonElement>; // Permitir que onClick seja opcional
+  size: "sm" | "sm-subscribe" | "sm-login" | "md" | "lg" | "full";
+  onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
 const BUTTON_KINDS: Record<ButtonProps["kind"], string> = {
@@ -21,48 +21,26 @@ const BUTTON_KINDS: Record<ButtonProps["kind"], string> = {
     "bg-[#22C55E] text-white rounded-[8px] border border-[#22C55E] hover:bg-[#5CB77D]",
 };
 
-const BUTTON_SIZES: Record<
-  "mobile" | "tablet" | "desktop",
-  Record<NonNullable<ButtonProps["size"]>, string>
-> = {
-  mobile: {
-    sm: "w-[205px]",
-    "sm-login": "w-[105px]",
-    md: "w-[287px]",
-    lg: "w-full",
-  },
-  tablet: {
-    sm: "w-[240px]",
-    "sm-login": "w-[162px]",
-    md: "w-[410px]",
-    lg: "w-[489px]",
-  },
-  desktop: {
-    sm: "w-[240px]",
-    "sm-login": "w-[240px]",
-    md: "w-[410px]",
-    lg: "w-[489px]",
-  },
-};
-
-const getScreenSize = () => {
-  if (window.innerWidth < 410) return "mobile";
-  if (window.innerWidth < 768) return "tablet";
-  return "desktop";
+const BUTTON_SIZES: Record<ButtonProps["size"], string> = {
+  sm: "w-[205px] sm:w-[240px]",
+  "sm-subscribe": "w-[142px] sm:w-[240px]",
+  "sm-login": "w-[105px] sm:w-[162px] md:w-[240px]",
+  md: "w-[287px] sm:w-[410px]",
+  lg: "w-full sm:w-[489px]",
+  full: "w-full",
 };
 
 const Button: React.FC<ButtonProps> = ({
   label,
   type,
   kind,
-  size = "lg",
+  size = "full",
   onClick,
 }) => {
-  const screenSize = getScreenSize();
   const kindClasses = BUTTON_KINDS[kind];
-  const sizeClasses = BUTTON_SIZES[screenSize][size];
+  const sizeClasses = BUTTON_SIZES[size];
 
-  const classes = `px-4 py-2 h-12 ${kindClasses} ${sizeClasses}`;
+  const classes = `px-4 md:py-2 h-[36px] sm:h-12 ${kindClasses} ${sizeClasses}`;
 
   return (
     <button className={classes} type={type} onClick={onClick}>
