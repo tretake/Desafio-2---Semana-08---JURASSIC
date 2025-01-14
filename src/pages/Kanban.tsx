@@ -328,10 +328,7 @@ const Kanban = () => {
         {popUpVisible && <AppPopUp handleAppPopUp={closePopUp} />}
       </div>
 
-      <CreationModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      />
+      
 
       <button
         onClick={toggleActive}
@@ -352,6 +349,10 @@ const Kanban = () => {
       </button>
       <InThisProject isActive={isActive} />
     </div>
+    <CreationModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </DragDropContext>
   )
 }

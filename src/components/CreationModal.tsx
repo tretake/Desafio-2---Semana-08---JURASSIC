@@ -187,8 +187,8 @@ const Modal = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex justify-center bg-black bg-opacity-50">
-      <div className="overflow-y-auto max-h-full mt-4 pt-4 pl-11 pr-10 pb-6 w-[343px] sm:w-[491px] md:w-[1001px]  h-min-[584px] mx-auto bg-white rounded-lg shadow-md absolute  left-11">        <div className="flex items-center justify-between md:pr-5">
+    <div className="absolute  inset-0 z-50 flex  items-center  bg-black bg-opacity-50">
+      <div className="overflow-y-auto max-h-full self-center  pt-4 pl-11 pr-10 pb-6 w-[343px] sm:w-[491px] md:w-[1001px]  h-min-[584px] mx-auto bg-white rounded-lg shadow-md  ">        <div className="flex items-center justify-between md:pr-5">
 
 
 
