@@ -4,7 +4,7 @@ This project aims to develop an interactive and responsive web application based
 
 ## :camera: Preview
 
-![kanban Preview](src\assets\readMe_preview\kanban.gif)
+![kanban Preview](src/assets/readMe_preview/kanban.gif)
 
 ## :hammer: Features
 
