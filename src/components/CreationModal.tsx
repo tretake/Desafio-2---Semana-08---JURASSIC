@@ -5,6 +5,7 @@ import { postNewTask } from "../redux/thunks/tasksThunks";
 import { useNavigate } from "react-router-dom";
 import { Task } from "../interface/types";
 import { AppDispatch } from "../redux/store";
+import { Vortex } from "react-loader-spinner";
 
 
 const Modal = ({
@@ -36,6 +37,7 @@ const Modal = ({
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedUsers, setSelectedUsers] = useState([]);
+  const [loading, setLoading] = useState(false)
   const generateId = (): number => Date.now();
 
 
@@ -76,7 +78,6 @@ const Modal = ({
     completedTasksCount: 0,
     progress: 0,
     estimatedTime: "",
-    createdBy: "",
     photo: photo || "",
     createdBy: createdBy
   };
@@ -168,13 +169,17 @@ const Modal = ({
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     if (validate()) {
+      setLoading(true);
       console.log(newTask);
+      
       try {
         await dispatch(postNewTask(newTask));
+        setLoading(false);
         onClose();
         navigate("/kanban");
       } catch (error) {
         console.error("Error creating task", error);
+        setLoading(false);
       }
     }
   };
@@ -183,8 +188,26 @@ const Modal = ({
 
   return (
     <div className="fixed inset-0 z-50 flex justify-center bg-black bg-opacity-50">
-      <div className="overflow-y-auto max-h-full mt-4 pt-4 pl-11 pr-10 pb-6 w-[343px] sm:w-[491px] md:w-[1001px]  h-min-[584px] mx-auto bg-white rounded-lg shadow-md absolute  left-11">
-        <div className="flex items-center justify-between md:pr-5">
+      <div className="overflow-y-auto max-h-full mt-4 pt-4 pl-11 pr-10 pb-6 w-[343px] sm:w-[491px] md:w-[1001px]  h-min-[584px] mx-auto bg-white rounded-lg shadow-md absolute  left-11">        <div className="flex items-center justify-between md:pr-5">
+
+
+
+      {loading && (
+          <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-80 z-50">
+            <Vortex
+              visible={true}
+              height="80"
+              width="80"
+              ariaLabel="vortex-loading"
+              wrapperStyle={{}}
+              wrapperClass="vortex-wrapper"
+              colors={['red', 'green', 'blue', 'yellow', 'orange', 'purple']}
+            />
+          </div>
+        )}
+        
+
+
           <h2 className="text-2xl font-semibold text-[#160A60]">
             Create new task
           </h2>
