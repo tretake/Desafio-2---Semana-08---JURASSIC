@@ -88,7 +88,7 @@ const KanbanCard: React.FC<CardProps> = ({
 
           <button
             className={` hover:bg-red-200  rounded-full hover:scale-125`}
-            onClick={() => handleDelete(id.toString())} // Usa a prop `id` diretamente
+            onClick={() => handleDelete(id)} // Usa a prop `id` diretamente
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

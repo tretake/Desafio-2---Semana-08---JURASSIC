@@ -306,6 +306,7 @@ const Kanban = () => {
                               color={zone.color} 
                               id={task.id}
                               percent={zone.percent} 
+                              image={task.photo}
                             />
                           </div>
                         )}
