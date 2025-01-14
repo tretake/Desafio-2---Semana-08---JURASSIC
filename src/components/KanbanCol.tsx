@@ -62,7 +62,7 @@ const KanbanCol: React.FC<ColProps> = ({ number, label, color, children ,openMod
           </svg>
         </button>
       </div>
-      <div className="gap-[15px]  flex flex-col  hover:overflow-y-scroll  overscroll-none overflow-hidden  ">
+      <div className="gap-[15px]  flex flex-col  hover:overflow-y-scroll  scrollbar-hide overscroll-none overflow-hidden  ">
         {children}
       </div>
       

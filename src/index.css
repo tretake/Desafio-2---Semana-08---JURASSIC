@@ -15,7 +15,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   width: auto;
 }
 
+.scrollbar-hide {
+  scrollbar-width: none; /* For Firefox */
+  -ms-overflow-style: none; /* For IE and Edge */
+}
 
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* For Chrome, Safari, and Opera */
+}
 
 
 input[type="time"]::-webkit-calendar-picker-indicator {

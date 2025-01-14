@@ -59,3 +59,38 @@ export const deleteTask = createAsyncThunk("tasks/deleteTask", async (taskId: nu
 
   }
 });
+
+export const updateTask = createAsyncThunk(
+  "tasks/updateTask",
+  async (updatedTask: Task, thunkAPI) => {
+    try {
+      // Fetch current data
+      const response = await axios.get(
+        "https://mybucketsweetaurora.s3.us-east-1.amazonaws.com/db.json"
+      );
+
+      // Update the task with the matching ID
+      const updatedTasks = response.data.tasks.map((task: Task) =>
+        task.id === updatedTask.id ? { ...task, ...updatedTask } : task
+      );
+
+      // Prepare updated data
+      const updatedData = {
+        tasks: updatedTasks,
+        users: response.data.users, // Keep users unchanged
+      };
+
+      // Send updated data to the server
+      await axios.put(
+        "https://mybucketsweetaurora.s3.us-east-1.amazonaws.com/db.json",
+        updatedData
+      );
+      console.log(`Task ${updatedTask.id} updated successfully!`);
+
+      // Dispatch action to update Redux state
+      thunkAPI.dispatch(getDados(updatedTasks)); // Update global state with the new tasks
+    } catch (error) {
+      console.error("Error updating task:", error);
+    }
+  }
+);
