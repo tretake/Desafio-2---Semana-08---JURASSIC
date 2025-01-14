@@ -19,6 +19,7 @@ const Modal = ({
   const navigate = useNavigate();
 
 
+  const [photo, setPhoto] = useState<Base64URLString | null>(null);
   const [file, setFile] = useState<File | null>(null);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -31,7 +32,6 @@ const Modal = ({
   const [people, setPeople] = useState<string[]>([]);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const generateId = (): number => Date.now();
-
 
   const newTask: Task = {
     id: generateId(),
@@ -48,14 +48,32 @@ const Modal = ({
     completedTasksCount: 0,
     progress: 0,
     estimatedTime: "",
-    createdBy: ""
+    createdBy: "",
+    photo: photo || "",
   };
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     if (event.target.files && event.target.files[0]) {
-      setFile(event.target.files[0]);
+      const selectedFile = event.target.files[0];
+      setFile(selectedFile);
+
+      try {
+        const base64 = await convertToBase64(selectedFile);
+        setPhoto(base64);
+      } catch (error) {
+        console.error("Erro ao converter arquivo para Base64:", error);
+      }
     }
   };
+  const convertToBase64 = (file: File): Promise<string> =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = (error) => reject(error);
+    });
 
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -84,30 +102,32 @@ const Modal = ({
 
   const validate = () => {
     const newErrors: { [key: string]: string } = {};
+
     if (!title.trim() || title.length < 5) {
       newErrors.title = "Title must be at least 5 characters long";
-    }
-
-    if (!description.trim()) {
-      newErrors.description = "Description is required";
     }
 
     if (!startDate) {
       newErrors.startDate = "Start date is required";
     }
+
     if (!endDate) {
       newErrors.endDate = "End date is required";
     }
+
     if (
-      startDate &&
-      endDate &&
-      new Date(`${startDate}T${startTime}`) > new Date(`${endDate}T${endTime}`)
+      new Date(`${startDate}T${startTime}`) >
+        new Date(`${endDate}T${endTime}`) ||
+      new Date(`${startDate}`) > new Date(`${endDate}`)
     ) {
-      newErrors.endDate = "End date cannot be before start date";
+      newErrors.endDate =
+        "End date and time cannot be before start date and time";
     }
+
     if (!status) {
       newErrors.status = "Status is required";
     }
+
     if (!priority) {
       newErrors.priority = "Priority is required";
     }
@@ -116,26 +136,25 @@ const Modal = ({
     return Object.keys(newErrors).length === 0;
   };
 
-
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     if (validate()) {
-      console.log("Form submitted!");
+      console.log(newTask);
       try {
-        await dispatch(postNewTask(newTask)); 
-        onClose()
-        navigate('/kanban'); 
+        await dispatch(postNewTask(newTask));
+        onClose();
+        navigate("/kanban");
       } catch (error) {
         console.error("Error creating task", error);
-      }      
+      }
     }
   };
-  
+
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="overflow-y-auto max-h-full mt-4 pt-4 pl-11 pr-10 pb-6 w-[343px] sm:w-[491px] md:w-[1001px]  h-min-[584px] mx-auto bg-white rounded-lg shadow-md relative">
+    <div className="fixed inset-0 z-50 flex justify-center bg-black bg-opacity-50">
+      <div className="overflow-y-auto max-h-full mt-4 pt-4 pl-11 pr-10 pb-6 w-[343px] sm:w-[491px] md:w-[1001px]  h-min-[584px] mx-auto bg-white rounded-lg shadow-md absolute  left-11">
         <div className="flex items-center justify-between md:pr-5">
           <h2 className="text-2xl font-semibold text-[#160A60]">
             Create new task
@@ -308,8 +327,8 @@ const Modal = ({
               </div>
 
               {file && (
-                <ul className="mt-2">
-                  <li className="flex items-center md:w-[410px] h-[50px] justify-between p-2 bg-[#EFF6FF] rounded-md mb-2 border border-[#60A5FA]">
+                <div className="mt-2">
+                  <div className="flex items-center md:w-[410px] h-[50px] justify-between p-2 bg-[#EFF6FF] rounded-md mb-2 border border-[#60A5FA]">
                     <div className="flex gap-2 items-center">
                       <img
                         className="w-[18px]"
@@ -329,8 +348,8 @@ const Modal = ({
                         alt="Ícone de lixeira"
                       />
                     </button>
-                  </li>
-                </ul>
+                  </div>
+                </div>
               )}
 
               <div
