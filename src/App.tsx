@@ -107,7 +107,7 @@ console.log('dados dadosUsers',dados);
           <Route path='/denied' element={<AccessDenied/>} />
         </Routes> 
 
-        <div className=' fixed bottom-3 p-2 rounded-tr-xl rounded-br-xl bg-blue-600'>
+        <div className=' fixed bottom-3 p-2 rounded-tr-xl rounded-br-xl bg-blue-600 z-50'>
         <SignedOut>
           <SignInButton />
         </SignedOut>

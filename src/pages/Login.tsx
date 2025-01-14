@@ -48,10 +48,8 @@ const Login = () => {
     
     if (!isLoaded) return;
 
-    // const isEmailValid = validateEmail(email);
-    // const isPasswordValid = validatePassword(password);
-    const isEmailValid = true
-    const isPasswordValid = true
+    const isEmailValid = validateEmail(email);
+    const isPasswordValid = validatePassword(password);
 
     if (isEmailValid && isPasswordValid) {
       try {
@@ -68,7 +66,7 @@ const Login = () => {
   };
 
   return (
-      <div className="flex lg:justify-between  sm:h-[calc(100vh-234px)] justify-center relative">
+      <div className="flex lg:justify-between justify-center relative">
         <img src="/public/images/rectangle-2.png" alt="" className="lg:hidden visible absolute top-0 left-0 w-full h-full object-cover opacity-30"/>
         <div className="flex">
           <div className="flex-1 hidden lg:block">

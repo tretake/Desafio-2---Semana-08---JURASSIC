@@ -11,7 +11,7 @@ const Locked = () => {
   }, [dispatch]);
 
   return (
-    <section className="flex items-center justify-center sm:flex-row flex-col sm:h-[calc(100vh-222px)] lg:px-[242px] pt-8 md:pt-0">
+    <section className="flex items-center justify-center sm:flex-row flex-col min-h-screen lg:px-[242px] pt-8 md:pt-0">
       <figure className="flex-1 px-[96px] sm:px-[0]">
         <img src="/images/rectangle-16.png" alt="" className="mx-auto"/>
       </figure>

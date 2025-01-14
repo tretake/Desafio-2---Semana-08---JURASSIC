@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useSignUp } from "@clerk/clerk-react";
 import ManInPc from '../../public/images/bg-mobile-signup.png';
 import Button from '../components/Button';
-import OauthSignIn from '../components/OauthSignInSocialButton';
+import OauthSignUp from '../components/OauthSignUpSocialButton';
 import { useDispatch } from 'react-redux';
 import { setPage } from '../redux/pageSlice';
 
@@ -122,7 +122,7 @@ const CustomSignUp = () => {
   };
 
   return (
-    <div className="flex lg:justify-between justify-center relative">
+    <div className="flex lg:justify-between justify-center relative lg:h-[calc(100vh-234px)] ">
       <img src="/public/images/bg-mobile-signup.png" alt="" className="lg:hidden visible absolute top-0 left-0 w-full h-full object-cover opacity-30"/>
       <div className="flex-1 bg-white opacity-95 lg:my-[0] my-[87px] mx-[44px] rounded-[30px]">
         <div className="lg:pt-[58.46px] lg:pl-[100px] sm:px-[44px] sm:py-[30px] px-[20px] py-[20px]">
@@ -226,7 +226,7 @@ const CustomSignUp = () => {
           <div className="flex items-center justify-center pt-2 gap-4">
             <div className="flex items-center justify-center w-[110px] h-14 bg-white rounded-[40px] border border-[#333333]/20 overflow-hidden">
               <div className="w-8 h-8 overflow-hidden">
-                <OauthSignIn
+                <OauthSignUp
                   providerName="Facebook"
                   strategy="oauth_facebook"
                   logo="/public/images/social-media-signup-social-media-logo.face.png"
@@ -237,7 +237,7 @@ const CustomSignUp = () => {
             </div>
             <div className="flex items-center justify-center w-[110px] h-14 bg-white rounded-[40px] border border-[#333333]/20 overflow-hidden pt-2 pl-1">
               <div className="w-8 h-8 overflow-hidden">
-                <OauthSignIn
+                <OauthSignUp
                   providerName="Google"
                   strategy="oauth_google"
                   logo="/public/images/social-media-signup-social-media-logo.jpg"
