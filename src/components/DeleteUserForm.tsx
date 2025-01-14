@@ -38,7 +38,12 @@ const UserList: React.FC = () => {
             <li key={user.id}>
 
               <div className='flex gap-5 px-10  py-7 bg-white rounded-3xl  ' >
-                  <img className='w-28 md:size-[174px] rounded-[14.47px] shadow-md ' src="./src/assets/profile_picture.jpg" alt="profile image" />
+                  <img className='w-28 md:size-[174px] rounded-[14.47px] shadow-md ' 
+                  src={
+                    user.hasImage
+                    ? user.photo
+                    : "./src/assets/profile_picture.jpg"
+                      } alt="profile image" />
                   <div className='ml-2 flex flex-col justify-center '>
                     <h1 className='  text-3xl font-bold' >{` ${user.firstName} ${user.lastName}`} </h1>
                     <p className=' opacity-70 text-xs md:text-xl' >{user.email}</p>
