@@ -28,8 +28,13 @@ const Header: React.FC = () => {
     switch (currentPage) {
       case 'home':
         return (
-          <Link to="/login" >
-              <button className='text-[15px] text-white rounded-full border border-white py-[6px] px-[33.5px]'>Login</button>              
+          <Link to="/login">
+            <Button
+              label="Login"
+              kind="outline"
+              type="button"
+              size="sm-login"
+            />
           </Link>
         );
       case 'profile':
