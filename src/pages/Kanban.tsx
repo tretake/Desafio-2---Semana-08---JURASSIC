@@ -10,7 +10,6 @@ import useAddUser from '../hooks/useAddUser';
 
 import { useSession, SignIn } from '@clerk/clerk-react';
 
-
 import KanbanCard from '../components/KanbanCard';
 import KanbanCol from '../components/KanbanCol';
 import InThisProject from '../components/InThisProject';
@@ -19,31 +18,23 @@ import CreationModal from '../components/CreationModal';
 import { autoBatchEnhancer } from '@reduxjs/toolkit';
 
 
-
 const Kanban = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  
+  const { isLoaded, isSignedIn, session } = useSession();
+  const { user } = useUser();
+  const dados = useSelector((state) => state.tasks.value);
+  const { users, tasks } = dados || { users: [], tasks: [] };
+
   const [popUpVisible, setpopUpVisible] = useState<boolean>(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isActive, setIsActive] = useState<boolean>(true);
-
   const [zoom, setZoom] = useState<number>(1);
   const [isDragging, setIsDragging] = useState(false);
-  const [startX, setStartX] = useState(0);
-  const [startY, setStartY] = useState(0);
-  const [translateX, setTranslateX] = useState(0);
-  const [translateY, setTranslateY] = useState(0);
-
+  const [startCoords, setStartCoords] = useState({ x: 0, y: 0 });
+  const [translate, setTranslate] = useState({ x: 0, y: 0 });
+  const [zones, setZones] = useState({ });
   
-
-
-
-  const { isLoaded, isSignedIn, session } = useSession();
-
-  // console.log(isLoaded, isSignedIn, session);
-
-  const dispatch = useDispatch<AppDispatch>();
-  const dados = useSelector((state) => state.tasks.value);
-  const { users, tasks } = dados || { users: [], tasks: [] };
-  console.log(tasks);
   const tasksTodo: Task[] = Array.isArray(tasks)
     ? tasks.filter((task) => task.status === "todo")
     : [];
@@ -54,7 +45,7 @@ const Kanban = () => {
     ? tasks.filter((task) => task.status === "done")
     : [];
 
-  const { user } = useUser();
+
 
   useAddUser(user);
 
@@ -62,16 +53,18 @@ const Kanban = () => {
     dispatch(setPage("kanban"));
   }, [dispatch]);
 
-  const toggleActive = () => {
-    setIsActive((prev) => !prev);
-  };
 
+  useEffect(() => {
+    setZones({
+      todo: { id: 'todo', color: 'purple', title: 'Todo', percent: 10, cards: tasksTodo.map((t) => t.id) },
+      inprogress: { id: 'inprogress', color: 'orange', title: 'In Progress', percent: 60, cards: tasksInProgress.map((t) => t.id) },
+      done: { id: 'done', color: 'green', title: 'Done', percent: 100, cards: tasksDone.map((t) => t.id) },
+    });
+  }, [tasks]);
 
-  const closePopUp = () => {
-    setpopUpVisible(false);
-  }
-
-
+  const toggleActive = () => setIsActive((prev) => !prev);
+  const closePopUp = () => setpopUpVisible(false);
+  
   /*************************** Drag background logic ********************************/
   const handleWheel = (event: React.WheelEvent) => {
     if (event.deltaY < 0) {
@@ -81,109 +74,54 @@ const Kanban = () => {
     }
   };
 
-  const handleStart = (
-    event: React.MouseEvent | React.TouchEvent
-  ): void => {
-    document.body.style.cursor = "grabbing";
-    const { clientX, clientY } = normalizeEvent(event);
+  const normalizeEvent = (event: React.MouseEvent | React.TouchEvent) => {
+    const { clientX, clientY } = 'touches' in event ? event.touches[0] : event;
+    return { x: clientX, y: clientY };
+  };
+
+  const handleStart = (event: React.MouseEvent | React.TouchEvent) => {
+    document.body.style.cursor = 'grabbing';
+    const { x, y } = normalizeEvent(event);
     setIsDragging(true);
-    setStartX(clientX);
-    setStartY(clientY);
+    setStartCoords({ x, y });
   };
 
   const handleMove = (event: React.MouseEvent | React.TouchEvent): void => {
-    if (isDragging) {
-      const { clientX, clientY } = normalizeEvent(event);
-
-      const deltaX = clientX - startX;
-      setTranslateX((prev) => prev + deltaX * (1 / zoom));
-      setStartX(clientX);
-
-      const deltaY = clientY - startY;
-      setTranslateY((prev) => prev + deltaY * (1 / zoom));
-      setStartY(clientY);
-    }
+    if (!isDragging) return;
+    
+    const { x, y } = normalizeEvent(event);
+    setTranslate((prev) => ({
+      x: prev.x + (x - startCoords.x) / zoom,
+      y: prev.y + (y - startCoords.y) / zoom,
+    }));
+    setStartCoords({ x, y });
+    
   };
 
   const handleEnd = (): void => {
     document.body.style.cursor = "default";
     setIsDragging(false);
   };
-
-  const normalizeEvent = (
-    event: React.MouseEvent | React.TouchEvent
-  ): { clientX: number; clientY: number } => {
-    if ("touches" in event) {
-      return {
-        clientX: event.touches[0].clientX,
-        clientY: event.touches[0].clientY,
-      };
-    } else {
-      return {
-        clientX: event.clientX,
-        clientY: event.clientY,
-      };
-    }
-  };
   /*************************** Drag background logic ********************************/
 
  
-
   /******************************* Drag Card logic ************************************* */
-  
-  const [zones, setZones] = useState({ });
-
-
-  useEffect( () =>(setZones({
-    zone1: {
-      id: "todo",
-      color: 'purple',
-      title: "Todo",
-      percent: 10,
-      cards: tasksTodo.map((obj) => obj.id),
-    },
-    zone2: {
-      id: "inprogress",
-      color: 'orange',
-      title: "In progress",
-      percent: 60,
-      cards: tasksInProgress.map((obj) => obj.id),
-    },
-    zone3: {
-      id: "done",
-      color: 'green',
-      title: "Done",
-      percent: 100,
-      cards: tasksDone.map((obj) => obj.id),
-    }
-  })) ,[tasks] )
-
   const onDragEnd = async (result) => {
     const { source, destination, draggableId } = result;
   
-    // dropped outside a zone
-    if (!destination) return;
-    // dropped in the same zone
-    if (source.droppableId === destination.droppableId) return;
-  
+    // dropped outside a zone , or dropped in the same zone
+    if (!destination || source.droppableId === destination.droppableId) return;
 
     try {
       const taskId = parseInt(draggableId);
-  
-      
       const taskMoved = tasks.find((task) => task.id === taskId);
-      if (!taskMoved) {
-        console.error(`Task with ID ${draggableId} not found.`);
-        return;
-      }
-  
+      if (!taskMoved) throw new Error(`Task with ID ${draggableId} not found.`);
+
       const updatedTask = { ...taskMoved, status: destination.droppableId };
-  
-      // Dispatch actions
+      // update task request 
       await dispatch(deleteTask(taskId)); 
       await dispatch(postNewTask(updatedTask)); 
   
-     
       console.log(`Task ${draggableId} successfully moved to ${destination.droppableId}.`);
     } catch (error) {
       console.error("Error moving task:", error);
@@ -206,28 +144,12 @@ const Kanban = () => {
       onTouchStart={handleStart}
       onTouchMove={handleMove}
       onTouchEnd={handleEnd}
-
     >
 
-        <div style={{ 
-          backgroundImage: "url('./images/Kanban_background.jpg')",
-          backgroundPosition: 'center',
-          backgroundSize: 'contain',
-          backgroundRepeat: 'repeat',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          opacity: 0.5,
-          zIndex: -1,
-        }} />
-       
-      
-
+    <div className="absolute inset-0 bg-center bg-contain bg-repeat opacity-50 z-[-1]" style={{ backgroundImage: "url('./images/Kanban_background.jpg')" }} />
       <div className={` h-full absolute left-96 flex justify-center items-center   gap-5 `}
         style={{
-          transform: `scale(${zoom})  translateX(${translateX}px) translateY(${translateY}px)`,
+          transform: `scale(${zoom})  translateX(${translate.x}px) translateY(${translate.y}px)`,
           transition: isDragging ? "none" : "transform 0.2s",
         }}
         
@@ -238,22 +160,16 @@ const Kanban = () => {
 
       <div style={{ display: "flex", gap: "16px" }}>
         {Object.values(zones).map((zone) => (
-          
-          
-          
           <KanbanCol
             key={zone.id}
             color={zone.color } 
             label={zone.title}
             number={zone.cards.length}
             openModal={setIsModalOpen}
-
             style={{
               position: 'relative'
             }}
           >
-            
-
             <Droppable key={zone.id} droppableId={zone.id}>
               {(provided) => (
                 <div
@@ -263,7 +179,6 @@ const Kanban = () => {
                   ...provided.droppableProps.style,
                   position: 'relative',
                 }}
-                 
                 >
                   {zone.cards.map((cardId, index) => {
 
@@ -271,7 +186,6 @@ const Kanban = () => {
                       tasksTodo.find((t) => t.id === cardId) ||
                       tasksInProgress.find((t) => t.id === cardId) ||
                       tasksDone.find((t) => t.id === cardId);
-
 
                       if (!task) {
                         console.error(`Task with ID ${cardId} not found.`);
@@ -298,7 +212,6 @@ const Kanban = () => {
                               
                             }}
                           >
-                           
                             <KanbanCard
                               key={task.id}
                               priority={task.priority}
@@ -321,17 +234,10 @@ const Kanban = () => {
         ))}
       </div>
     
-
-
       </div>
 
         {popUpVisible && <AppPopUp handleAppPopUp={closePopUp} />}
       </div>
-
-      <CreationModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      />
 
       <button
         onClick={toggleActive}
@@ -352,6 +258,10 @@ const Kanban = () => {
       </button>
       <InThisProject isActive={isActive} />
     </div>
+    <CreationModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </DragDropContext>
   )
 }
