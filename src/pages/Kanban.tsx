@@ -2,7 +2,7 @@ import { useState, useEffect ,useMemo} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPage } from '../redux/pageSlice';
 import { AppDispatch } from "../redux/store";
-import { postNewTask,deleteTask,fetchTasks } from '../redux/thunks/tasksThunks';
+import { postNewTask,deleteTask,fetchTasks , updateTask } from '../redux/thunks/tasksThunks';
 import { Task } from '../interface/types';
 import { useUser } from "@clerk/clerk-react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
@@ -51,7 +51,7 @@ const Kanban = () => {
 
   useEffect(() => {
     dispatch(setPage("kanban"));
-  }, [dispatch]);
+  }, [dispatch ]);
 
 
   useEffect(() => {
@@ -118,9 +118,10 @@ const Kanban = () => {
       if (!taskMoved) throw new Error(`Task with ID ${draggableId} not found.`);
 
       const updatedTask = { ...taskMoved, status: destination.droppableId };
+      
       // update task request 
-      await dispatch(deleteTask(taskId)); 
-      await dispatch(postNewTask(updatedTask)); 
+       await dispatch(updateTask(updatedTask));  
+      dispatch(fetchTasks());
   
       console.log(`Task ${draggableId} successfully moved to ${destination.droppableId}.`);
     } catch (error) {
@@ -132,7 +133,7 @@ const Kanban = () => {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-    <div className='flex justify-between relative  h-[calc(100vh-358px)]  md:h-[calc(100vh-262px)]  lg:h-[calc(100vh-274px)] items-center  m-5 gap-9 '>
+    <div className='flex justify-between relative  h-[calc(100vh-358px)]  md:h-[calc(100vh-262px)]  lg:h-[calc(100vh-274px)] items-center  m-5 gap-9  '>
     <div className=' grow h-full relative  overflow-hidden   rounded-3xl '
 
       onWheel={handleWheel}
@@ -153,9 +154,7 @@ const Kanban = () => {
           transition: isDragging ? "none" : "transform 0.2s",
         }}
         
-        onWheel={event=>event.stopPropagation()}
-        onMouseDown={event=>event.stopPropagation()}
-        onTouchStart={event=>event.stopPropagation()}
+        
       >
 
       <div style={{ display: "flex", gap: "16px" }}>
@@ -211,6 +210,10 @@ const Kanban = () => {
                               left: 'auto',
                               
                             }}
+
+                            onWheel={event=>event.stopPropagation()}
+        onMouseDown={event=>event.stopPropagation()}
+        onTouchStart={event=>event.stopPropagation()}
                           >
                             <KanbanCard
                               key={task.id}
