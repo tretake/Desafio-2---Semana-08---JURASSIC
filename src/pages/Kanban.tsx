@@ -38,35 +38,31 @@ const Kanban = () => {
   const dispatch = useDispatch<AppDispatch>();
   const dados = useSelector((state) => state.tasks.value);
   const { users, tasks } = dados || { users: [], tasks: [] };
+  console.log(tasks);
   const tasksTodo: Task[] = Array.isArray(tasks)
-  ? tasks.filter((task) => task.status === 'todo')
-  : [];
-const tasksInProgress: Task[] = Array.isArray(tasks)
-  ? tasks.filter((task) => task.status === 'inprogress')
-  : [];
-const tasksDone: Task[] = Array.isArray(tasks)
-  ? tasks.filter((task) => task.status === 'done')
-  : [];
-  
+    ? tasks.filter((task) => task.status === "todo")
+    : [];
+  const tasksInProgress: Task[] = Array.isArray(tasks)
+    ? tasks.filter((task) => task.status === "inprogress")
+    : [];
+  const tasksDone: Task[] = Array.isArray(tasks)
+    ? tasks.filter((task) => task.status === "done")
+    : [];
 
-const { user } = useUser();
+  const { user } = useUser();
 
-
-useAddUser(user);
-
-
-
+  useAddUser(user);
 
   useEffect(() => {
-    dispatch(setPage('kanban'));
+    dispatch(setPage("kanban"));
   }, [dispatch]);
 
   const toggleActive = () => {
     setIsActive((prev) => !prev);
   };
-  const doneColor = 'green';
-  const progressColor = 'orange';
-  const toDoColor = 'purple';
+  const doneColor = "green";
+  const progressColor = "orange";
+  const toDoColor = "purple";
 
   const handleWheel = (event: React.WheelEvent) => {
     if (event.deltaY < 0) {
@@ -76,11 +72,7 @@ useAddUser(user);
     }
   };
 
-
-
-  const handleStart = (
-    event: React.MouseEvent | React.TouchEvent
-  ): void => {
+  const handleStart = (event: React.MouseEvent | React.TouchEvent): void => {
     document.body.style.cursor = "grabbing";
     const { clientX, clientY } = normalizeEvent(event);
     setIsDragging(true);
@@ -88,18 +80,16 @@ useAddUser(user);
     setStartY(clientY);
   };
 
-  const handleMove = (
-    event: React.MouseEvent | React.TouchEvent
-  ): void => {
+  const handleMove = (event: React.MouseEvent | React.TouchEvent): void => {
     if (isDragging) {
       const { clientX, clientY } = normalizeEvent(event);
 
       const deltaX = clientX - startX;
-      setTranslateX((prev) => prev + (deltaX * (1/zoom) ));
+      setTranslateX((prev) => prev + deltaX * (1 / zoom));
       setStartX(clientX);
 
-      const deltaY = clientY - startY ;
-      setTranslateY((prev) => prev + (deltaY * (1/zoom) ));
+      const deltaY = clientY - startY;
+      setTranslateY((prev) => prev + deltaY * (1 / zoom));
       setStartY(clientY);
     }
   };
@@ -125,124 +115,140 @@ useAddUser(user);
     }
   };
 
-
   const closePopUp = () => {
     setpopUpVisible(false);
-  }
-
-
-  
+  };
 
   return (
-    <div className='flex justify-between relative  h-[calc(100vh-358px)]  md:h-[calc(100vh-262px)]  lg:h-[calc(100vh-274px)] items-center  m-5 gap-9 '>
-    <div className=' grow h-full relative  overflow-hidden   rounded-3xl '
-
-      onWheel={handleWheel}
-
-      onMouseDown={handleStart}
-      onMouseMove={handleMove}
-      onMouseUp={handleEnd}
-      
-      onTouchStart={handleStart}
-      onTouchMove={handleMove}
-      onTouchEnd={handleEnd}
-
-    >
-
-        <div style={{ 
-          backgroundImage: "url('./images/Kanban_background.jpg')",
-          backgroundPosition: 'center',
-          backgroundSize: 'contain',
-          backgroundRepeat: 'repeat',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          opacity: 0.5,
-          zIndex: -1,
-        }} />
-       
-      
-
-      <div className={` h-full absolute left-96 flex justify-center items-center   gap-5 `}
-        style={{
-          transform: `scale(${zoom})  translateX(${translateX}px) translateY(${translateY}px)`,
-          transition: isDragging ? "none" : "transform 0.2s",
-        }}
-        
-        onWheel={event=>event.stopPropagation()}
-        onMouseDown={event=>event.stopPropagation()}
-        onTouchStart={event=>event.stopPropagation()}
+    <div className="flex justify-between relative  h-[calc(100vh-358px)]  md:h-[calc(100vh-262px)]  lg:h-[calc(100vh-274px)] items-center  m-5 gap-9 ">
+      <div
+        className=" grow h-full relative  overflow-hidden   rounded-3xl "
+        onWheel={handleWheel}
+        onMouseDown={handleStart}
+        onMouseMove={handleMove}
+        onMouseUp={handleEnd}
+        onTouchStart={handleStart}
+        onTouchMove={handleMove}
+        onTouchEnd={handleEnd}
       >
+        <div
+          style={{
+            backgroundImage: "url('./images/Kanban_background.jpg')",
+            backgroundPosition: "center",
+            backgroundSize: "contain",
+            backgroundRepeat: "repeat",
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            opacity: 0.5,
+            zIndex: -1,
+          }}
+        />
 
+        <div
+          className={` h-full absolute left-96 flex justify-center items-center   gap-5 `}
+          style={{
+            transform: `scale(${zoom})  translateX(${translateX}px) translateY(${translateY}px)`,
+            transition: isDragging ? "none" : "transform 0.2s",
+          }}
+          onWheel={(event) => event.stopPropagation()}
+          onMouseDown={(event) => event.stopPropagation()}
+          onTouchStart={(event) => event.stopPropagation()}
+        >
+          <KanbanCol
+            color={toDoColor}
+            label="To do"
+            number={tasksTodo.length}
+            openModal={setIsModalOpen}
+          >
+            {tasksTodo.map((task) => (
+              <KanbanCard
+                key={task.id}
+                priority={task.priority}
+                label={task.title}
+                color={toDoColor}
+                id={task.id}
+                percent={10}
+                image={task.photo}
+              />
+            ))}
+          </KanbanCol>
 
+          <KanbanCol
+            color="orange"
+            label="In progress"
+            number={tasksInProgress.length}
+            openModal={setIsModalOpen}
+          >
+            {tasksInProgress.map((task) => (
+              <KanbanCard
+                key={task.id}
+                priority={task.priority}
+                label={task.title}
+                color={progressColor}
+                id={task.id}
+                percent={60}
+                image={task.photo}
+              />
+            ))}
+          </KanbanCol>
 
-        
-        <KanbanCol color={toDoColor} label="To do" number={tasksTodo.length}  openModal={setIsModalOpen} >
-          {tasksTodo.map((task) => (
+          <KanbanCol
+            color="green"
+            label="Done"
+            number={tasksDone.length + 1}
+            openModal={setIsModalOpen}
+          >
             <KanbanCard
-              key={task.id}
-              priority={task.priority}
-              label={task.title}
-              color={toDoColor}
-              id={task.id} 
-              percent={10} 
+              priority="Low"
+              label="TASK"
+              color={doneColor}
+              percent={99}
             />
-          ))}
-        </KanbanCol>
+            {tasksDone.map((task) => (
+              <KanbanCard
+                key={task.id}
+                priority={task.priority}
+                label={task.title}
+                color={progressColor}
+                image={task.photo}
+                id={task.id}
+                percent={100}
+              />
+            ))}
+          </KanbanCol>
+        </div>
 
-        <KanbanCol color='orange' label='In progress' number={tasksInProgress.length} openModal={setIsModalOpen} >
-          {tasksInProgress.map((task) => (
-            <KanbanCard 
-              key={task.id}
-              priority={task.priority}
-              label={task.title}
-              color={progressColor}
-              id={task.id} 
-              percent={60}
-            />))}
-     
-        </KanbanCol>
-
-        <KanbanCol color='green' label='Done' number={tasksDone.length + 1} openModal={setIsModalOpen}>
-
-          <KanbanCard priority='Low' label='TASK' color={doneColor} image='./images/lens.jpg' percent={99} />
-          {tasksDone.map((task) => (
-            <KanbanCard 
-            key={task.id}
-            priority={task.priority}
-            label={task.title}
-            color={progressColor}
-            id={task.id} 
-            percent={100}
-            />
-          ))}
-        </KanbanCol>
-
-
+        {popUpVisible && <AppPopUp handleAppPopUp={closePopUp} />}
       </div>
 
-
-      { popUpVisible && ( <AppPopUp handleAppPopUp={closePopUp} /> ) }
-
-          
-    </div>
-
-    <CreationModal
+      <CreationModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
       />
 
-
-    <button onClick={toggleActive} className='bg-[#6C7D96] flex justify-center items-center rounded-full absolute top-[0px] right-0  z-50 size-9 md:size-11 lg:size- text-center '  >
-        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="20" viewBox="0 0 12 20" fill="none">
-          <path d="M10 10V2H11V0H1V2H2V10L0 12V14H5.2V20H6.8V14H12V12L10 10Z" fill="white" />
+      <button
+        onClick={toggleActive}
+        className="bg-[#6C7D96] flex justify-center items-center rounded-full absolute top-[0px] right-0  z-50 size-9 md:size-11 lg:size- text-center "
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="12"
+          height="20"
+          viewBox="0 0 12 20"
+          fill="none"
+        >
+          <path
+            d="M10 10V2H11V0H1V2H2V10L0 12V14H5.2V20H6.8V14H12V12L10 10Z"
+            fill="white"
+          />
         </svg>
-    </button>
-    <InThisProject isActive={isActive} />
+      </button>
+      <InThisProject isActive={isActive} />
     </div>
-  )
+  );
 }
 
 export default Kanban

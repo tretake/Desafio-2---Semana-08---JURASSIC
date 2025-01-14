@@ -1,12 +1,12 @@
 export interface Task {
   id: number;
   title: string;
-  description: string,
+  description: string;
   priority: "High" | "Mid" | "Low";
   people: string[];
-  startTime:  string,
-  endTime: string,
-  status: string
+  startTime: string;
+  endTime: string;
+  status: string;
   commentsCount: number;
   completedTasksCount: number;
   progress: number;
@@ -14,6 +14,7 @@ export interface Task {
   endDate: string;
   estimatedTime: string;
   createdBy: string;
+  photo?: string;
 }
 
 export interface User {
@@ -24,6 +25,8 @@ export interface User {
   createdAt: string;
   email: string;
   password: string;
+  hasImage: boolean;
+  photo?: string;
   role: string;
   projects: string[];
   tasks: string[];
@@ -32,6 +35,6 @@ export interface User {
     twitter: string;
     instagram: string;
     linkedin: string;
-  }
+  };
 }
 
