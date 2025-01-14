@@ -31,15 +31,19 @@ const Kanban = () => {
   const [isActive, setIsActive] = useState<boolean>(true);
   const [zoom, setZoom] = useState<number>(1);
   const [isDragging, setIsDragging] = useState(false);
-  const [startX, setStartX] = useState(0);
-  const [startY, setStartY] = useState(0);
-  const [translateX, setTranslateX] = useState(0);
-  const [translateY, setTranslateY] = useState(0);
+  const [startCoords, setStartCoords] = useState({ x: 0, y: 0 });
+  const [translate, setTranslate] = useState({ x: 0, y: 0 });
   const [zones, setZones] = useState({ });
   
-  const tasksTodo = tasks.filter((task) => task.status === 'todo');
-  const tasksInProgress = tasks.filter((task) => task.status === 'inprogress');
-  const tasksDone = tasks.filter((task) => task.status === 'done');
+  const tasksTodo: Task[] = Array.isArray(tasks)
+    ? tasks.filter((task) => task.status === "todo")
+    : [];
+  const tasksInProgress: Task[] = Array.isArray(tasks)
+    ? tasks.filter((task) => task.status === "inprogress")
+    : [];
+  const tasksDone: Task[] = Array.isArray(tasks)
+    ? tasks.filter((task) => task.status === "done")
+    : [];
 
 
 
@@ -79,21 +83,18 @@ const Kanban = () => {
     document.body.style.cursor = 'grabbing';
     const { x, y } = normalizeEvent(event);
     setIsDragging(true);
-    setStartX(x);
-    setStartY(y);
+    setStartCoords({ x, y });
   };
 
   const handleMove = (event: React.MouseEvent | React.TouchEvent): void => {
     if (!isDragging) return;
     
     const { x, y } = normalizeEvent(event);
-    const deltaX = x - startX;
-    setTranslateX((prev) => prev + deltaX * (1 / zoom));
-    setStartX(x);
-
-    const deltaY = y - startY;
-    setTranslateY((prev) => prev + deltaY * (1 / zoom));
-    setStartY(y);
+    setTranslate((prev) => ({
+      x: prev.x + (x - startCoords.x) / zoom,
+      y: prev.y + (y - startCoords.y) / zoom,
+    }));
+    setStartCoords({ x, y });
     
   };
 
@@ -148,7 +149,7 @@ const Kanban = () => {
     <div className="absolute inset-0 bg-center bg-contain bg-repeat opacity-50 z-[-1]" style={{ backgroundImage: "url('./images/Kanban_background.jpg')" }} />
       <div className={` h-full absolute left-96 flex justify-center items-center   gap-5 `}
         style={{
-          transform: `scale(${zoom})  translateX(${translateX}px) translateY(${translateY}px)`,
+          transform: `scale(${zoom})  translateX(${translate.x}px) translateY(${translate.y}px)`,
           transition: isDragging ? "none" : "transform 0.2s",
         }}
         

@@ -48,10 +48,8 @@ const Login = () => {
     
     if (!isLoaded) return;
 
-    // const isEmailValid = validateEmail(email);
-    // const isPasswordValid = validatePassword(password);
-    const isEmailValid = true
-    const isPasswordValid = true
+    const isEmailValid = validateEmail(email);
+    const isPasswordValid = validatePassword(password);
 
     if (isEmailValid && isPasswordValid) {
       try {
