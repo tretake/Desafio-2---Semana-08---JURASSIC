@@ -16,17 +16,24 @@ const Settings = () => {
   console.log("user", user);
 
   const [file, setFile] = useState<File | null>(null);
-  useEffect(() => {
-    if (file) {
-      uploadProfilePicture();
-    }
-  }, [file]);
+
+  const tempPhotoUrl = user?.imageUrl || "./src/assets/profile_picture.jpg";
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [countdown, setCountdown] = useState(10);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       setFile(event.target.files[0]);
       console.log("usuarioLogado", usuarioLogado);
+
+      const tempPhotoUrl = URL.createObjectURL(event.target.files[0]);
+      setUsuarioLogado((prev) => ({
+        ...prev,
+        photo: tempPhotoUrl,
+        hasImage: true,
+      }));
     }
+    event.target.value = "";
   };
 
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
@@ -42,23 +49,44 @@ const Settings = () => {
 
   const removeFile = () => {
     setFile(null);
+    setUsuarioLogado((prev) => ({
+      ...prev,
+      photo: user?.imageUrl,
+      hasImage: user?.hasImage || false,
+    }));
   };
 
-  const usuarioLogado: User = {
-    firstName: user.firstName,
-    lastName: user.lastName,
-    username: "",
+  const [usuarioLogado, setUsuarioLogado] = useState<User>({
+    id: 0,
+    firstName: user?.firstName || "",
+    lastName: user?.lastName || "",
+    userName: "",
     createdAt: "",
-    email: user.emailAddresses[0].emailAddress,
+    email: user?.emailAddresses[0]?.emailAddress || "",
     photo: user?.imageUrl || "",
     password: "",
-    hasImage: user?.hasImage,
-    role: user.unsafeMetadata.jobposition || "Usuário",
-    socials: {
-      x: "",
-      instagram: "",
-      linkedin: "",
+    hasImage: user?.hasImage || false,
+    role: user?.unsafeMetadata?.jobposition || "Usuário",
+    projects: [],
+    tasks: [],
+    notifications: [],
+    social: {
+      twitter: user?.unsafeMetadata?.twitter || "",
+      instagram: user?.unsafeMetadata?.instagram || "",
+      linkedin: user?.unsafeMetadata?.linkedin || "",
     },
+  });
+
+  console.log("usuarioLogado", usuarioLogado);
+
+  const handleInputChange = (field: keyof User["social"], value: string) => {
+    setUsuarioLogado((prev) => ({
+      ...prev,
+      social: {
+        ...prev.social,
+        [field]: value,
+      },
+    }));
   };
 
   const uploadProfilePicture = async () => {
@@ -78,6 +106,41 @@ const Settings = () => {
       reader.onerror = (error) => reject(error);
     });
 
+  const handleUpdate = async () => {
+    try {
+      await user?.update({
+        firstName: usuarioLogado.firstName,
+        lastName: usuarioLogado.lastName,
+        unsafeMetadata: {
+          twitter: usuarioLogado.social.twitter,
+          instagram: usuarioLogado.social.instagram,
+          linkedin: usuarioLogado.social.linkedin,
+        },
+      });
+      if (file) {
+        await uploadProfilePicture();
+      }
+      setModalVisible(true);
+    } catch (error) {
+      console.error("Erro ao atualizar as informações:", error);
+      alert("Erro ao atualizar as informações. Tente novamente.");
+    }
+  };
+
+  useEffect(() => {
+    if (isModalVisible) {
+      let timer = setInterval(() => {
+        setCountdown((prev) => prev - 1);
+      }, 1000);
+
+      if (countdown <= 0) {
+        setModalVisible(false);
+        setCountdown(10);
+      }
+
+      return () => clearInterval(timer);
+    }
+  });
 
   return (
     <div className="m-5 lg:mx-24 divide-y-2 flex flex-col gap-[19px]   ">
@@ -87,7 +150,7 @@ const Settings = () => {
             className="w-28 md:size-[174px] rounded-full drop-shadow-[0px_2px_2px_rgba(0,0,0,0.50)] "
             src={
               usuarioLogado.hasImage
-                ? usuarioLogado.photo
+                ? user?.imageUrl
                 : "./src/assets/profile_picture.jpg"
             }
             alt="profile image"
@@ -157,11 +220,7 @@ const Settings = () => {
         <div className="flex flex-col grow md:flex-row gap-[21px] ">
           <img
             className="w-[175px] h-[181px] rounded-full "
-            src={
-              usuarioLogado.hasImage
-                ? usuarioLogado.photo
-                : "./src/assets/profile_picture.jpg"
-            }
+            src={usuarioLogado.hasImage ? usuarioLogado.photo : tempPhotoUrl}
             alt="profile image"
           />
           <label className="font-medium text-sm grow max-w-[410px]" htmlFor="">
@@ -314,7 +373,8 @@ const Settings = () => {
               className=" grow-0 w-52 border py-2 px-4  rounded-md "
               type="text"
               placeholder="x.com/"
-              readOnly
+              value={usuarioLogado.social.twitter}
+              onChange={(e) => handleInputChange("twitter", e.target.value)}
             />
             <input
               className=" max-w-[158px] grow border p-1 rounded-md min-w-0"
@@ -328,7 +388,8 @@ const Settings = () => {
               className=" grow-0 w-52 border py-2 px-4  rounded-md "
               type="text"
               placeholder="instagram.com/"
-              readOnly
+              value={usuarioLogado.social.instagram}
+              onChange={(e) => handleInputChange("instagram", e.target.value)}
             />
             <input
               className=" max-w-[158px] grow border p-1 rounded-md min-w-0"
@@ -342,7 +403,8 @@ const Settings = () => {
               className=" grow-0 w-52 border py-2 px-4  rounded-md "
               type="text"
               placeholder="linkedin.com/in/"
-              readOnly
+              value={usuarioLogado.social.linkedin}
+              onChange={(e) => handleInputChange("linkedin", e.target.value)}
             />
             <input
               className="  max-w-[158px] grow border p-1 rounded-md min-w-0"
@@ -358,6 +420,7 @@ const Settings = () => {
           type="button"
           kind="primary"
           size="sm"
+          onClick={handleUpdate}
         />
         <p className="my-[17px]">
           Never mind, take me{" "}
@@ -366,6 +429,28 @@ const Settings = () => {
           </Link>
         </p>
       </div>
+      {/* Modal */}
+      {isModalVisible && (
+        <div className="modal fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="modal-content bg-white p-6 rounded shadow-lg text-center">
+            <h2 className="text-xl font-bold mb-4">Update Successful</h2>
+            <p className="text-sm mb-4">
+              Your information has been updated successfully!
+            </p>
+            <div className="flex justify-around items-center">
+              <span className="text-gray-500 text-sm">
+                Closing in {countdown}s
+              </span>
+              <button
+                className="btnClose mt-4 bg-blue-500 text-white px-4 py-2 rounded"
+                onClick={() => setModalVisible(false)}
+              >
+                OK
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
