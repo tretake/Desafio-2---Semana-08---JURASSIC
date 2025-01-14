@@ -33,6 +33,7 @@ const Kanban = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [startCoords, setStartCoords] = useState({ x: 0, y: 0 });
   const [translate, setTranslate] = useState({ x: 0, y: 0 });
+  const [startTouchDistance, setStartTouchDistance] = useState(0); // For pinch-to-zoom
   const [zones, setZones] = useState({ });
   
   const tasksTodo: Task[] = Array.isArray(tasks)
@@ -84,6 +85,14 @@ const Kanban = () => {
     const { x, y } = normalizeEvent(event);
     setIsDragging(true);
     setStartCoords({ x, y });
+
+    if ("touches" in event && event.touches.length === 2) {
+      const touch1 = event.touches[0] as Touch; // Explicitly cast the type
+      const touch2 = event.touches[1] as Touch; // Explicitly cast the type
+      const touchDistance = calculateDistance(touch1, touch2);
+      setStartTouchDistance(touchDistance);
+    }
+    
   };
 
   const handleMove = (event: React.MouseEvent | React.TouchEvent): void => {
@@ -96,12 +105,27 @@ const Kanban = () => {
     }));
     setStartCoords({ x, y });
     
+    if ("touches" in event && event.touches.length === 2) {
+      const touch1 = event.touches[0] as Touch; // Explicitly cast the type
+      const touch2 = event.touches[1] as Touch; // Explicitly cast the type
+      const touchDistance = calculateDistance(touch1, touch2);
+      const zoomFactor = touchDistance / startTouchDistance;
+      setZoom((prevZoom) => Math.max(0.1, Math.min(prevZoom * zoomFactor, 3)));
+    }
+
   };
 
   const handleEnd = (): void => {
     document.body.style.cursor = "default";
     setIsDragging(false);
   };
+
+  const calculateDistance = (touch1: Touch, touch2: Touch) => {
+    const dx = touch2.clientX - touch1.clientX;
+    const dy = touch2.clientY - touch1.clientY;
+    return Math.sqrt(dx * dx + dy * dy);
+  };
+
   /*************************** Drag background logic ********************************/
 
  
