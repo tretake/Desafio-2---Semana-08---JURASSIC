@@ -1,179 +1,373 @@
 import Button from '../components/Button';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { setPage } from '../redux/pageSlice';
-import { Link } from 'react-router-dom';
-import { useUser } from '@clerk/clerk-react';
-import { User } from '../interface/types';
-
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { setPage } from "../redux/pageSlice";
+import { Link } from "react-router-dom";
+import { useUser } from "@clerk/clerk-react";
+import { User } from "../interface/types";
 
 const Settings = () => {
-
   const dispatch = useDispatch();
   const { user } = useUser();
- 
 
-    useEffect(() => {
-      dispatch(setPage('settings')); 
-    }, [dispatch]);
-    console.log('user', user);
+  useEffect(() => {
+    dispatch(setPage("settings"));
+  }, [dispatch]);
+  console.log("user", user);
 
+  const [file, setFile] = useState<File | null>(null);
+  useEffect(() => {
+    if (file) {
+      uploadProfilePicture();
+    }
+  }, [file]);
 
-  const usuarioLogado: User = {    
-        firstName: user.firstName,
-        lastName: user.lastName,
-        username: '',
-        createdAt: '',
-        email: user.emailAddresses[0].emailAddress,
-        password: "", 
-        role: user.unsafeMetadata.jobposition || "Usuário", 
-        socials: {
-          x: "",
-          instagram: "",
-          linkedin: "",
-        },
-  }
-  console.log('usuarioLogado',usuarioLogado);
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      setFile(event.target.files[0]);
+      console.log("usuarioLogado", usuarioLogado);
+    }
+  };
+
+  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    if (event.dataTransfer.files && event.dataTransfer.files[0]) {
+      setFile(event.dataTransfer.files[0]);
+    }
+  };
+
+  const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+  };
+
+  const removeFile = () => {
+    setFile(null);
+  };
+
+  const usuarioLogado: User = {
+    firstName: user.firstName,
+    lastName: user.lastName,
+    username: "",
+    createdAt: "",
+    email: user.emailAddresses[0].emailAddress,
+    photo: user?.imageUrl || "",
+    password: "",
+    hasImage: user?.hasImage,
+    role: user.unsafeMetadata.jobposition || "Usuário",
+    socials: {
+      x: "",
+      instagram: "",
+      linkedin: "",
+    },
+  };
+
+  const uploadProfilePicture = async () => {
+    if (!file) {
+      alert("Please select a file to upload.");
+      return;
+    }
+    const base64 = await convertToBase64(file);
+    await user?.setProfileImage({ file: base64 });
+  };
+
+  const convertToBase64 = (file: File): Promise<string> =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = (error) => reject(error);
+    });
 
 
   return (
-    <div className='m-5 lg:mx-24 divide-y-2 flex flex-col gap-[19px]   '>
-      <section >
-        <div className='flex py-[65px]' >
-          <img className='w-28 md:size-[174px] rounded-full drop-shadow-[0px_2px_2px_rgba(0,0,0,0.50)] ' src="./src/assets/profile_picture.jpg" alt="profile image" />
-          <div className='ml-2 flex flex-col justify-center '>
-          <h1 className='  text-3xl font-bold' >{` ${usuarioLogado.firstName} ${usuarioLogado.lastName}`} </h1>
-          <p className=' opacity-70 text-xs md:text-xl' >{usuarioLogado.email}</p>
-          <p className=' opacity-70 ' >{usuarioLogado.role}</p>
+    <div className="m-5 lg:mx-24 divide-y-2 flex flex-col gap-[19px]   ">
+      <section>
+        <div className="flex py-[65px]">
+          <img
+            className="w-28 md:size-[174px] rounded-full drop-shadow-[0px_2px_2px_rgba(0,0,0,0.50)] "
+            src={
+              usuarioLogado.hasImage
+                ? usuarioLogado.photo
+                : "./src/assets/profile_picture.jpg"
+            }
+            alt="profile image"
+          />
+          <div className="ml-2 flex flex-col justify-center ">
+            <h1 className="  text-3xl font-bold">
+              {` ${usuarioLogado.firstName} ${usuarioLogado.lastName}`}{" "}
+            </h1>
+            <p className=" opacity-70 text-xs md:text-xl">
+              {usuarioLogado.email}
+            </p>
+            <p className=" opacity-70 ">{usuarioLogado.role}</p>
           </div>
         </div>
         <div>
-          <h1 className='text-3xl font-medium'>Project profile</h1>
-          <p className='opacity-70 text-sm'>Update your profile information in the sections below.</p>
+          <h1 className="text-3xl font-medium">Project profile</h1>
+          <p className="opacity-70 text-sm">
+            Update your profile information in the sections below.
+          </p>
         </div>
-      </section >
+      </section>
 
-      <section className='flex flex-col lg:flex-row lg:gap-[224px] py-[19px]' >
+      <section className="flex flex-col lg:flex-row lg:gap-[224px] py-[19px]">
         <div className="max-w-[401px]">
-          <h2 className='text-xl font-semibold '>Basic information</h2>
-          <p className=' mb-[19px]  opacity-70 leading-10 text-sm '>Update your name and e-mail in this section. Note: this information will be public to all your project colleagues and can be changed anytime.</p>
+          <h2 className="text-xl font-semibold ">Basic information</h2>
+          <p className=" mb-[19px]  opacity-70 leading-10 text-sm ">
+            Update your name and e-mail in this section. Note: this information
+            will be public to all your project colleagues and can be changed
+            anytime.
+          </p>
         </div>
         <div className="flex flex-wrap gap-[13px]  max-w-[800px]">
-        <label className='font-semibold   mr-[10px] ' htmlFor="">First name <br />
-        <input className='border px-3 py-2  rounded-md w-[297px] font-normal ' type="text" placeholder='New first name' />
-        </label>
-        <label className='font-semibold ' htmlFor="">Last name <br />
-        <input className='border px-3 py-2 rounded-md w-[297px] font-normal ' type="text" placeholder='New last name' />
-        </label>
-        <label className='font-semibold  grow ' htmlFor="">E-mail <br />
-        <input className='border px-3 pt-2 rounded-md font-normal w-[297px] md:w-[617px]  ' type="text" placeholder='New e-mail' />
-        </label>
-        </div> 
-        </section>
-      <section className=' flex flex-col lg:flex-row lg:gap-[224px]  py-[19px]' >
-        <div className="max-w-[401px] ">
-          <h2 className='text-xl font-bold'>Profile picture</h2>
-          <p className='  opacity-70 leading-10 text-sm'>Update your profile picture. Supported files are JPG, PNG, WebP and JPEG.</p>
-        </div>
-        <div className="flex flex-col grow md:flex-row gap-[21px] ">
-          <img className='w-[175px] h-[181px] rounded-full ' src="./src/assets/profile_picture.jpg" alt="profile image" />
-          <label className='font-medium text-sm grow max-w-[410px]' htmlFor="">Add new profile picture
-          
-            <div className='bg-blue-100   border-[1px] border-blue-400 rounded-md p-3  flex justify-between items-center' >
-              <div className=' flex items-center gap-1'>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-[18px]">
-                <path strokeLinecap="round" strokeLinejoin="round" d="m18.375 12.739-7.693 7.693a4.5 4.5 0 0 1-6.364-6.364l10.94-10.94A3 3 0 1 1 19.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 0 0 2.112 2.13" />
-              </svg>
-                <p>imageattachment.jpg</p> 
-              </div>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-[18px]">
-                <path strokeLinecap="round" strokeLinejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-              </svg>
-
-            </div>
-              <div className=' flex flex-col items-center justify-center h-[152px] my-[10px] border-dashed border-blue-400 rounded-md border-[2px]  text-center' >
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-[24px]">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
-              </svg>
-
-              <h1 className='my-3'>Drop here to attach or <a className="text-[#5570F1]" href=""> upload </a> </h1>
-              <p  >Max size: 5GB</p>
-            </div>
+          <label className="font-semibold   mr-[10px] " htmlFor="">
+            First name <br />
+            <input
+              className="border px-3 py-2  rounded-md w-[297px] font-normal "
+              type="text"
+              placeholder="New first name"
+            />
+          </label>
+          <label className="font-semibold " htmlFor="">
+            Last name <br />
+            <input
+              className="border px-3 py-2 rounded-md w-[297px] font-normal "
+              type="text"
+              placeholder="New last name"
+            />
+          </label>
+          <label className="font-semibold  grow " htmlFor="">
+            E-mail <br />
+            <input
+              className="border px-3 pt-2 rounded-md font-normal w-[297px] md:w-[617px]  "
+              type="text"
+              placeholder="New e-mail"
+            />
           </label>
         </div>
       </section>
-      <section className="flex flex-col lg:flex-row lg:gap-[224px]  py-[19px]" >
-        <div  className="max-w-[401px]">
-        <h2 className='text-xl font-bold  py-[19px]' >Communication</h2>
-        <p className='opacity-70 leading-10 py-[19px] '>Update your e-mail communication preferences anytime. Choose to receive project notifications or disable them completely.</p>
+      <section className=" flex flex-col lg:flex-row lg:gap-[224px]  py-[19px]">
+        <div className="max-w-[401px] ">
+          <h2 className="text-xl font-bold">Profile picture</h2>
+          <p className="  opacity-70 leading-10 text-sm">
+            Update your profile picture. Supported files are JPG, PNG, WebP and
+            JPEG.
+          </p>
+        </div>
+        <div className="flex flex-col grow md:flex-row gap-[21px] ">
+          <img
+            className="w-[175px] h-[181px] rounded-full "
+            src={
+              usuarioLogado.hasImage
+                ? usuarioLogado.photo
+                : "./src/assets/profile_picture.jpg"
+            }
+            alt="profile image"
+          />
+          <label className="font-medium text-sm grow max-w-[410px]" htmlFor="">
+            Add new profile picture
+            <div className="bg-blue-100   border-[1px] border-blue-400 rounded-md p-3  flex justify-between items-center ">
+              <div className=" flex items-center gap-1 ">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="size-[18px]"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="m18.375 12.739-7.693 7.693a4.5 4.5 0 0 1-6.364-6.364l10.94-10.94A3 3 0 1 1 19.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 0 0 2.112 2.13"
+                  />
+                </svg>
+                <p>{file ? file.name : "imageattachment.jpg"}</p>
+              </div>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="size-[18px] cursor-pointer"
+                onClick={removeFile}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
+                />
+              </svg>
+            </div>
+            <div
+              className=" flex flex-col items-center justify-center h-[152px] my-[10px] border-dashed border-blue-400 rounded-md border-[2px]  text-center cursor-pointer"
+              onDrop={handleDrop}
+              onDragOver={handleDragOver}
+              onClick={() => document.getElementById("taskCoverInput")?.click()}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="size-[24px]"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5"
+                />
+              </svg>
+
+              <h1 className="my-3">
+                Drop here to attach or{" "}
+                <span className="text-[#5570F1]"> upload </span>{" "}
+              </h1>
+              <p>Max size: 5GB</p>
+            </div>
+            <input
+              type="file"
+              className="hidden"
+              id="taskCoverInput"
+              onChange={handleFileChange}
+            />
+          </label>
+        </div>
+      </section>
+      <section className="flex flex-col lg:flex-row lg:gap-[224px]  py-[19px]">
+        <div className="max-w-[401px]">
+          <h2 className="text-xl font-bold  py-[19px]">Communication</h2>
+          <p className="opacity-70 leading-10 py-[19px] ">
+            Update your e-mail communication preferences anytime. Choose to
+            receive project notifications or disable them completely.
+          </p>
         </div>
         <ul>
           <li>
-          <label  className='flex gap-2 items-center ' htmlFor="">
-            <input className='peer relative appearance-none 
+            <label className="flex gap-2 items-center " htmlFor="">
+              <input
+                className="peer relative appearance-none 
                           w-5 h-5   outline outline-1 outline-offset-1
                           rounded-[6px] outline-gray-400
                           cursor-pointer  
-                          checked:bg-[#5570F1] ' type="checkbox" /> 
-            New tasks</label>
-            <p className='py-2 text-sm'>Receive an e-mail alert each time a new task is assigned to me in a project.</p>
+                          checked:bg-[#5570F1] "
+                type="checkbox"
+              />
+              New tasks
+            </label>
+            <p className="py-2 text-sm">
+              Receive an e-mail alert each time a new task is assigned to me in
+              a project.
+            </p>
           </li>
           <li>
-          <label  className='flex gap-2 items-center ' htmlFor="">
-            <input className='peer relative appearance-none 
+            <label className="flex gap-2 items-center " htmlFor="">
+              <input
+                className="peer relative appearance-none 
                           w-5 h-5   outline outline-1 outline-offset-1
                           rounded-[6px] outline-gray-400
                           cursor-pointer  
-                          checked:bg-[#5570F1] ' type="checkbox" /> 
-            New team members</label>
-            <p className='py-2 text-sm'>Receive an e-mail alert each time a team members enters in a project I’m assigned to.</p>
+                          checked:bg-[#5570F1] "
+                type="checkbox"
+              />
+              New team members
+            </label>
+            <p className="py-2 text-sm">
+              Receive an e-mail alert each time a team members enters in a
+              project I’m assigned to.
+            </p>
           </li>
           <li>
-          <label  className='flex gap-2 items-center ' htmlFor="">
-            <input className='peer relative appearance-none 
+            <label className="flex gap-2 items-center " htmlFor="">
+              <input
+                className="peer relative appearance-none 
                           w-5 h-5   outline outline-1 outline-offset-1
                           rounded-[6px] outline-gray-400
                           cursor-pointer  
-                          checked:bg-[#5570F1] ' type="checkbox" /> 
-            Weekly reports</label>
-            <p className='py-2 text-sm'>Receive a weekly e-mail with a basic report, including estimated time and most active members.</p>
+                          checked:bg-[#5570F1] "
+                type="checkbox"
+              />
+              Weekly reports
+            </label>
+            <p className="py-2 text-sm">
+              Receive a weekly e-mail with a basic report, including estimated
+              time and most active members.
+            </p>
           </li>
         </ul>
       </section>
-      <section className="flex flex-col lg:flex-row lg:gap-[224px]  py-[19px]" >
+      <section className="flex flex-col lg:flex-row lg:gap-[224px]  py-[19px]">
         <div className="max-w-[401px]">
-        <h2 className='text-xl font-bold py-[19px]'>Social information</h2>
-        <p className=' opacity-70 leading-10 '>Update your e-mail communication preferences anytime. Choose to receive project notifications or disable them completely.</p>
+          <h2 className="text-xl font-bold py-[19px]">Social information</h2>
+          <p className=" opacity-70 leading-10 ">
+            Update your e-mail communication preferences anytime. Choose to
+            receive project notifications or disable them completely.
+          </p>
         </div>
 
         <div>
-        <h1 className='w-full text-xs text-[#5E6366] mb-[9px] '>Twitter/X</h1>
-        <label className='flex flex-row gap-2 ' htmlFor="">
-          <input className=' grow-0 w-52 border py-2 px-4  rounded-md ' type="text" placeholder='x.com/' readOnly />
-          <input className=' max-w-[158px] grow border p-1 rounded-md min-w-0' type="text" placeholder='TheJohnDoe'/>
-        </label>
-        <h1 className='w-full text-xs text-[#5E6366] mb-[9px]'>Instagram</h1>
-        <label className='flex flex-row gap-2 ' htmlFor="">
-          <input className=' grow-0 w-52 border py-2 px-4  rounded-md ' type="text" placeholder='instagram.com/' readOnly />
-          <input className=' max-w-[158px] grow border p-1 rounded-md min-w-0' type="text" placeholder='TheJohnDoe'/>
-        </label>
-        <h1 className='w-full text-xs text-[#5E6366] mb-[9px]'>Linkedin</h1>
-        <label className='flex flex-row gap-2 ' htmlFor="">
-          <input className=' grow-0 w-52 border py-2 px-4  rounded-md ' type="text" placeholder='linkedin.com/in/' readOnly />
-          <input className='  max-w-[158px] grow border p-1 rounded-md min-w-0' type="text" placeholder='TheJohnDoe'/>
-        </label>
+          <h1 className="w-full text-xs text-[#5E6366] mb-[9px] ">Twitter/X</h1>
+          <label className="flex flex-row gap-2 " htmlFor="">
+            <input
+              className=" grow-0 w-52 border py-2 px-4  rounded-md "
+              type="text"
+              placeholder="x.com/"
+              readOnly
+            />
+            <input
+              className=" max-w-[158px] grow border p-1 rounded-md min-w-0"
+              type="text"
+              placeholder="TheJohnDoe"
+            />
+          </label>
+          <h1 className="w-full text-xs text-[#5E6366] mb-[9px]">Instagram</h1>
+          <label className="flex flex-row gap-2 " htmlFor="">
+            <input
+              className=" grow-0 w-52 border py-2 px-4  rounded-md "
+              type="text"
+              placeholder="instagram.com/"
+              readOnly
+            />
+            <input
+              className=" max-w-[158px] grow border p-1 rounded-md min-w-0"
+              type="text"
+              placeholder="TheJohnDoe"
+            />
+          </label>
+          <h1 className="w-full text-xs text-[#5E6366] mb-[9px]">Linkedin</h1>
+          <label className="flex flex-row gap-2 " htmlFor="">
+            <input
+              className=" grow-0 w-52 border py-2 px-4  rounded-md "
+              type="text"
+              placeholder="linkedin.com/in/"
+              readOnly
+            />
+            <input
+              className="  max-w-[158px] grow border p-1 rounded-md min-w-0"
+              type="text"
+              placeholder="TheJohnDoe"
+            />
+          </label>
         </div>
-
-        
       </section>
       <div className=" my-12 flex flex-col items-center  border-none">
-        <Button  label='Update information' type='button' kind='primary' size='sm' />
-        <p className="my-[17px]" >Never mind, take me <Link className="text-[#5570F1] underline" to='/kanban' >back to my project.
-        </Link></p>
-        </div>
-
-
-    </div> )
-}
+        <Button
+          label="Update information"
+          type="button"
+          kind="primary"
+          size="sm"
+        />
+        <p className="my-[17px]">
+          Never mind, take me{" "}
+          <Link className="text-[#5570F1] underline" to="/kanban">
+            back to my project.
+          </Link>
+        </p>
+      </div>
+    </div>
+  );
+};
 
 export default Settings
