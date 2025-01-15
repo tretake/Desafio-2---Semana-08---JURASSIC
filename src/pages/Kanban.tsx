@@ -5,7 +5,7 @@ import { AppDispatch } from "../redux/store";
 import { fetchTasks , updateTask } from '../redux/thunks/tasksThunks';
 import { Task } from '../interface/types';
 import { useUser } from "@clerk/clerk-react";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable, Draggable, DropResult } from "react-beautiful-dnd";
 import useAddUser from '../hooks/useAddUser';
 
 import { useSession } from '@clerk/clerk-react';
@@ -142,7 +142,7 @@ const Kanban = () => {
 
  
   /******************************* Drag Card logic ************************************* */
-  const onDragEnd = async (result:any) => {
+  const onDragEnd = async (result:DropResult) => {
     const { source, destination, draggableId } = result;
   
     // dropped outside a zone , or dropped in the same zone
@@ -189,8 +189,6 @@ const Kanban = () => {
           transform: `scale(${zoom})  translateX(${translate.x}px) translateY(${translate.y}px)`,
           transition: isDragging ? "none" : "transform 0.2s",
         }}
-        
-        
       >
 
       <div style={{ display: "flex", gap: "16px" }}>
@@ -203,13 +201,12 @@ const Kanban = () => {
             openModal={setIsModalOpen}
           >
             <Droppable key={zone.id} droppableId={zone.id}>
-              {(provided:any) => (
+              {(provided) => (
                 <div
                 ref={provided.innerRef}
                 {...provided.droppableProps}
                 style={{
-                  ...provided.droppableProps.style,
-                  position: 'relative',
+                  position: 'relative'
                 }}
                 >
                   {zone.cards.map((cardId:number, index:number) => {
@@ -230,7 +227,7 @@ const Kanban = () => {
                         draggableId={String(cardId)}
                         index={index}
                       >
-                        {(provided:any) => (
+                        {(provided) => (
                           <div
                           ref={provided.innerRef}
                             {...provided.draggableProps}
