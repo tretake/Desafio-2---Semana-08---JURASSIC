@@ -147,7 +147,7 @@ const Settings = () => {
       <section>
         <div className="flex py-[65px]">
           <img
-            className="w-28 md:size-[174px] rounded-full drop-shadow-[0px_2px_2px_rgba(0,0,0,0.50)] "
+            className="size-28 md:size-[174px] rounded-full drop-shadow-[0px_2px_2px_rgba(0,0,0,0.50)] "
             src={
               usuarioLogado.hasImage
                 ? user?.imageUrl
@@ -155,7 +155,7 @@ const Settings = () => {
             }
             alt="profile image"
           />
-          <div className="ml-2 flex flex-col justify-center ">
+          <div className="ml-4 flex flex-col justify-center ">
             <h1 className="  text-3xl font-bold">
               {` ${usuarioLogado.firstName} ${usuarioLogado.lastName}`}{" "}
             </h1>

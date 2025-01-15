@@ -32,10 +32,10 @@ const SubscribeHomePage = () => {
   };
 
   return (
-    <div className="w-full flex flex-col md:flex-row justify-center items-center px-[170px]  gap-16 bg-[#FFFCFC] py-[49px]  ">
+    <div className="w-full flex flex-col lg:flex-row justify-center items-center px-[170px]  gap-16 bg-[#FFFCFC] py-[49px]  ">
       {/* Left Side */}
-      <div className="flex flex-col gap-6 ">
-        <h2 className="text-[#160A60] text-2xl md:text-[40px] font-bold">
+      <div className="flex flex-col gap-6 min-w-[241px] ">
+        <h2 className="text-[#160A60] text-2xl/[48px] md:text-[40px] font-bold">
           Subscribe to Updates
         </h2>
         <p className="text-[#160A60] text-sm md:text-base text-left">
@@ -44,7 +44,7 @@ const SubscribeHomePage = () => {
       </div>
 
       {/* Right Side */}
-      <div className="flex flex-col items-center gap-10 w-[520px]">
+      <div className="flex flex-col items-center gap-10 w-[353px] md:w-[520px]">
         {/* Email Row */}
         <div className="max-w-[404px] w-full">
           <label className="text-[#160A60] text-sm font-medium">Email</label>
@@ -78,7 +78,7 @@ const SubscribeHomePage = () => {
           )}
         </div>
 
-        <div className="md:w-full md:flex md:justify-start">
+        <div className="w-full flex justify-center lg:justify-start  max-w-[404px] ">
           <Button
             label="Subscribe"
             kind="primary"

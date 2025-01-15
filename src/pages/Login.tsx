@@ -66,7 +66,7 @@ const Login = () => {
   };
 
   return (
-    <div className="flex lg:justify-between justify-center relative lg:h-[calc(100vh-234px)]">
+    <div className="flex lg:justify-between justify-center relative ">
       <img
         src="/public/images/rectangle-2.png"
         alt=""
@@ -81,7 +81,7 @@ const Login = () => {
           />
         </div>
         <div className="flex-1 bg-white opacity-95 lg:my-[0] my-[87px] rounded-[30px] lg:pr-24">
-          <div className="lg:pt-[58.46px] lg:pl-[100px] sm:px-[44px] sm:py-[30px] px-[20px] py-[20px]">
+          <div className=" flex flex-col lg:pt-[58.46px] lg:pl-[100px] sm:px-[44px] sm:py-[30px] px-[20px] py-[20px]">
             <h2 className="text-[#331436] text-2xl lg:text-4xl font-bold font-['Roboto'] mb-4 sm:text-left text-center">
               Login Information
             </h2>
@@ -105,7 +105,7 @@ const Login = () => {
             >
               {/* Email  */}
               <div className="">
-                <label className="block text-sm font-medium text-[#331436] mb-1">
+                <label className=" text-sm font-medium text-[#331436] mb-1">
                   Email
                 </label>
                 <input
@@ -123,7 +123,7 @@ const Login = () => {
 
               {/* Password Field */}
               <div className="">
-                <label className="block text-sm font-medium text-[#331436] mb-1">
+                <label className="text-sm font-medium text-[#331436] mb-1">
                   Password
                 </label>
                 <input
