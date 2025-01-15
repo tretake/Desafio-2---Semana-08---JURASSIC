@@ -1,22 +1,31 @@
-import { useState, useEffect ,useMemo} from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPage } from '../redux/pageSlice';
 import { AppDispatch } from "../redux/store";
-import { postNewTask,deleteTask,fetchTasks , updateTask } from '../redux/thunks/tasksThunks';
+import { fetchTasks , updateTask } from '../redux/thunks/tasksThunks';
 import { Task } from '../interface/types';
 import { useUser } from "@clerk/clerk-react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import useAddUser from '../hooks/useAddUser';
 
-import { useSession, SignIn } from '@clerk/clerk-react';
+import { useSession } from '@clerk/clerk-react';
 
 import KanbanCard from '../components/KanbanCard';
 import KanbanCol from '../components/KanbanCol';
 import InThisProject from '../components/InThisProject';
 import AppPopUp from '../components/AppPopUp';
 import CreationModal from '../components/CreationModal';
-import { autoBatchEnhancer } from '@reduxjs/toolkit';
 
+
+
+
+interface DropabelZone {
+  id: string;
+  color: "purple" | "orange" | "green";
+  title: string;
+  percent: number;
+  cards: number[]
+}
 
 const Kanban = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -33,8 +42,8 @@ const Kanban = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [startCoords, setStartCoords] = useState({ x: 0, y: 0 });
   const [translate, setTranslate] = useState({ x: 0, y: 0 });
-  const [startTouchDistance, setStartTouchDistance] = useState(0); // For pinch-to-zoom
-  const [zones, setZones] = useState({ });
+  const [startTouchDistance, setStartTouchDistance] = useState(0); 
+  const [zones, setZones] = useState<DropabelZone[]>([]);
   
   const tasksTodo: Task[] = Array.isArray(tasks)
     ? tasks.filter((task) => task.status === "todo")
@@ -54,13 +63,16 @@ const Kanban = () => {
     dispatch(setPage("kanban"));
   }, [dispatch ]);
 
+  
 
   useEffect(() => {
-    setZones({
-      todo: { id: 'todo', color: 'purple', title: 'Todo', percent: 10, cards: tasksTodo.map((t) => t.id) },
-      inprogress: { id: 'inprogress', color: 'orange', title: 'In Progress', percent: 60, cards: tasksInProgress.map((t) => t.id) },
-      done: { id: 'done', color: 'green', title: 'Done', percent: 100, cards: tasksDone.map((t) => t.id) },
-    });
+    setZones(
+      [
+        { id: 'todo', color: 'purple', title: 'Todo', percent: 10, cards: tasksTodo.map((t) => t.id) },
+        { id: 'inprogress', color: 'orange', title: 'In Progress', percent: 60, cards: tasksInProgress.map((t) => t.id) },
+        { id: 'done', color: 'green', title: 'Done', percent: 100, cards: tasksDone.map((t) => t.id) },
+      ]
+  );
   }, [tasks]);
 
   const toggleActive = () => setIsActive((prev) => !prev);
@@ -87,8 +99,8 @@ const Kanban = () => {
     setStartCoords({ x, y });
 
     if ("touches" in event && event.touches.length === 2) {
-      const touch1 = event.touches[0] as Touch; // Explicitly cast the type
-      const touch2 = event.touches[1] as Touch; // Explicitly cast the type
+      const touch1 = event.touches[0] as Touch; 
+      const touch2 = event.touches[1] as Touch; 
       const touchDistance = calculateDistance(touch1, touch2);
       setStartTouchDistance(touchDistance);
     }
@@ -106,8 +118,8 @@ const Kanban = () => {
     setStartCoords({ x, y });
     
     if ("touches" in event && event.touches.length === 2) {
-      const touch1 = event.touches[0] as Touch; // Explicitly cast the type
-      const touch2 = event.touches[1] as Touch; // Explicitly cast the type
+      const touch1 = event.touches[0] as Touch; 
+      const touch2 = event.touches[1] as Touch; 
       const touchDistance = calculateDistance(touch1, touch2);
       const zoomFactor = touchDistance / startTouchDistance;
       setZoom((prevZoom) => Math.max(0.1, Math.min(prevZoom * zoomFactor, 3)));
@@ -130,7 +142,7 @@ const Kanban = () => {
 
  
   /******************************* Drag Card logic ************************************* */
-  const onDragEnd = async (result) => {
+  const onDragEnd = async (result:any) => {
     const { source, destination, draggableId } = result;
   
     // dropped outside a zone , or dropped in the same zone
@@ -138,7 +150,7 @@ const Kanban = () => {
 
     try {
       const taskId = parseInt(draggableId);
-      const taskMoved = tasks.find((task) => task.id === taskId);
+      const taskMoved = tasks.find((task: Task) => task.id === taskId);
       if (!taskMoved) throw new Error(`Task with ID ${draggableId} not found.`);
 
       const updatedTask = { ...taskMoved, status: destination.droppableId };
@@ -182,19 +194,16 @@ const Kanban = () => {
       >
 
       <div style={{ display: "flex", gap: "16px" }}>
-        {Object.values(zones).map((zone) => (
+        {zones.map((zone) => (
           <KanbanCol
             key={zone.id}
             color={zone.color } 
             label={zone.title}
             number={zone.cards.length}
             openModal={setIsModalOpen}
-            style={{
-              position: 'relative'
-            }}
           >
             <Droppable key={zone.id} droppableId={zone.id}>
-              {(provided) => (
+              {(provided:any) => (
                 <div
                 ref={provided.innerRef}
                 {...provided.droppableProps}
@@ -203,7 +212,7 @@ const Kanban = () => {
                   position: 'relative',
                 }}
                 >
-                  {zone.cards.map((cardId, index) => {
+                  {zone.cards.map((cardId:number, index:number) => {
 
                     const task =
                       tasksTodo.find((t) => t.id === cardId) ||
@@ -221,7 +230,7 @@ const Kanban = () => {
                         draggableId={String(cardId)}
                         index={index}
                       >
-                        {(provided) => (
+                        {(provided:any) => (
                           <div
                           ref={provided.innerRef}
                             {...provided.draggableProps}
@@ -236,8 +245,8 @@ const Kanban = () => {
                             }}
 
                             onWheel={event=>event.stopPropagation()}
-        onMouseDown={event=>event.stopPropagation()}
-        onTouchStart={event=>event.stopPropagation()}
+                            onMouseDown={event=>event.stopPropagation()}
+                            onTouchStart={event=>event.stopPropagation()}
                           >
                             <KanbanCard
                               key={task.id}
