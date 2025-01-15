@@ -28,16 +28,16 @@ const UserList: React.FC = () => {
       <Link className="text-[#5570F1] underline" to='/kanban'> Back</Link>
 
       {users.length > 0 ? (
-        <ul  className=" flex w-1/2  flex-col gap-5 px-48 py-20  "   >
+        <ul  className=" flex items-start  flex-col gap-5 px-14 md:px-48 py-20  "   >
         
 
-        <h1 className="text-2xl  font-bold" >Lista de Usuarios</h1>
+        <h1 className="text-2xl   font-bold " >Lista de Usuarios</h1>
 
 
           {users.map((user: any) => (
-            <li key={user.id}>
+            <li key={user.id} >
 
-              <div className='flex gap-5 px-10  py-7 bg-white rounded-3xl  ' >
+              <div className='flex   flex-col lg:flex-row gap-5 px-10  py-7 bg-white rounded-3xl  ' >
                   <img className='w-28 md:size-[174px] rounded-[14.47px] shadow-md ' 
                   src={
                     user.hasImage

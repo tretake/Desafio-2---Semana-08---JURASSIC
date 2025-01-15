@@ -188,7 +188,7 @@ const Modal = ({
 
   return (
     <div className="absolute  inset-0 z-50 flex  items-center  bg-black bg-opacity-50">
-      <div className="overflow-y-auto max-h-full self-center mt-8  pt-4 pl-11 md:pr-5 lg:pr-11 pr-10 pb-6 w-[343px] sm:w-[491px] md:w-[691px]  lg:w-[1001px]  h-min-[584px] mx-auto bg-white rounded-lg shadow-md lg:absolute  lg:left-11">
+      <div className="overflow-y-auto max-h-full self-center mt-8  pt-4 pl-11 md:pr-5 lg:pr-11 pr-10 pb-6 w-[343px] sm:w-[491px] md:w-[691px]  lg:w-[1001px]  h-min-[584px] mx-auto bg-white rounded-lg shadow-md">
         {" "}
         <div className="flex items-center justify-between md:pr-0 lg:pr-5">
           {loading && (
