@@ -72,7 +72,7 @@ const Login = () => {
         alt=""
         className="lg:hidden visible absolute top-0 left-0 w-full h-full object-cover opacity-30"
       />
-      <div className="flex">
+      <div className=" sm:w-full sm:p-[44px] lg:p-0 flex">
         <div className="flex-1 hidden lg:block">
           <img
             src="/public/images/bg-login.png"
