@@ -34,8 +34,8 @@ const SubscribeHomePage = () => {
   return (
     <div className="w-full flex flex-col md:flex-row justify-center items-center px-[170px]  gap-16 bg-[#FFFCFC] py-[49px]  ">
       {/* Left Side */}
-      <div className="flex flex-col gap-6 ">
-        <h2 className="text-[#160A60] text-2xl md:text-[40px] font-bold">
+      <div className="flex flex-col gap-6 min-w-[241px] ">
+        <h2 className="text-[#160A60] text-2xl/[48px] md:text-[40px] font-bold">
           Subscribe to Updates
         </h2>
         <p className="text-[#160A60] text-sm md:text-base text-left">
@@ -78,7 +78,7 @@ const SubscribeHomePage = () => {
           )}
         </div>
 
-        <div className="md:w-full md:flex md:justify-start">
+        <div className="md:w-full md:flex md:justify-start  max-w-[404px] ">
           <Button
             label="Subscribe"
             kind="primary"
@@ -87,6 +87,7 @@ const SubscribeHomePage = () => {
             onClick={handleSubmit}
           />
         </div>
+        
       </div>
       {/* Subscribe Button */}
 

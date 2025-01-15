@@ -27,7 +27,7 @@ const TheManager = () => {
     <div className="relative z-[10]">
       {/* Primeira sessão =================================================*/}
       <div className="flex flex-col bg-[#1E293B] gap-12 px-5 md:px-11 py-[60px]  ">
-        <div className=" flex flex-col  items-start w-full gap-6  ">
+        <div className=" flex flex-col  items-start w-full gap-6 max-w-[996px] lg:self-center ">
           {/* Título */}
           <div className="text-[#FCF4B6] font-[700] text-2xl/[48px] md:text-[40px]/[48px]   text-left  ">
             The Manager
