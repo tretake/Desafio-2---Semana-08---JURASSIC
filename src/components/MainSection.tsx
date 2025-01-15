@@ -25,15 +25,16 @@ const MainSection = () => {
             teamwork
           </p>
           {/* Botão Get Started */}
-          <div className="w-[118px] sm:w-[240px] ">
-            <Button
-              label="Get Started"
-              type="button"
-              kind="outline"
-              size="full"
-              onClick={() => (window.location.href = "/signup")}
-            />
-          </div>
+          <Link to='/signup'>
+            <div className="w-[118px] sm:w-[240px] ">
+              <Button
+                label="Get Started"
+                type="button"
+                kind="outline"
+                size="full"
+              />
+            </div>
+          </Link>
         </div>
 
         {/* Imagem da menina no meio */}
