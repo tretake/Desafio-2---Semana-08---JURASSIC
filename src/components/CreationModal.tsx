@@ -188,25 +188,22 @@ const Modal = ({
 
   return (
     <div className="absolute  inset-0 z-50 flex  items-center  bg-black bg-opacity-50">
-      <div className="overflow-y-auto max-h-full self-center  pt-4 pl-11 pr-10 pb-6 w-[343px] sm:w-[491px] md:w-[1001px]  h-min-[584px] mx-auto bg-white rounded-lg shadow-md  ">        <div className="flex items-center justify-between md:pr-5">
-
-
-
-      {loading && (
-          <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-80 z-50">
-            <Vortex
-              visible={true}
-              height="80"
-              width="80"
-              ariaLabel="vortex-loading"
-              wrapperStyle={{}}
-              wrapperClass="vortex-wrapper"
-              colors={['red', 'green', 'blue', 'yellow', 'orange', 'purple']}
-            />
-          </div>
-        )}
-        
-
+      <div className="overflow-y-auto max-h-full self-center  pt-4 pl-11 md:pr-5 lg:pr-11 pr-10 pb-6 w-[343px] sm:w-[491px] md:w-[1001px]  h-min-[584px] mx-auto bg-white rounded-lg shadow-md  ">
+        {" "}
+        <div className="flex items-center justify-between md:pr-0 lg:pr-5">
+          {loading && (
+            <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-80 z-50">
+              <Vortex
+                visible={true}
+                height="80"
+                width="80"
+                ariaLabel="vortex-loading"
+                wrapperStyle={{}}
+                wrapperClass="vortex-wrapper"
+                colors={["red", "green", "blue", "yellow", "orange", "purple"]}
+              />
+            </div>
+          )}
 
           <h2 className="text-2xl font-semibold text-[#160A60]">
             Create new task
@@ -369,18 +366,18 @@ const Modal = ({
             </div>
           </div>
 
-          <div className="flex flex-col flex-1">
+          <div className="flex flex-col flex-1 md:w-[350px]">
             <div className="mt-6">
               <div>
                 <label htmlFor="taskCover">Task cover</label>
               </div>
-              <div className="flex justify-end pt-0 pb-2 h-3 md:w-[410px]">
+              <div className="flex justify-end pt-0 pb-2 h-3 md:w-max-[350px] lg:w-[410px]">
                 <small className="text-[#4F46E5]">optional</small>
               </div>
 
               {file && (
                 <div className="mt-2">
-                  <div className="flex items-center md:w-[410px] h-[50px] justify-between p-2 bg-[#EFF6FF] rounded-md mb-2 border border-[#60A5FA]">
+                  <div className="flex items-center md:w-[350px] lg:w-[410px] h-[50px] justify-between p-2 bg-[#EFF6FF] rounded-md mb-2 border border-[#60A5FA]">
                     <div className="flex gap-2 items-center">
                       <img
                         className="w-[18px]"
@@ -405,7 +402,7 @@ const Modal = ({
               )}
 
               <div
-                className="mt-[10px] p-4 md:w-[410px] h-[152px] text-[#4B5563] flex flex-col justify-center gap-3 border border-dashed border-[#60A5FA] rounded-md text-center cursor-pointer"
+                className="mt-[10px] p-4 md:w-[350px] lg:w-[410px] h-[152px] text-[#4B5563] flex flex-col justify-center gap-3 border border-dashed border-[#60A5FA] rounded-md text-center cursor-pointer"
                 onDrop={handleDrop}
                 onDragOver={handleDragOver}
                 onClick={() =>
@@ -433,7 +430,7 @@ const Modal = ({
             </div>
 
             <div>
-              <div className="mt-[25px] ">
+              <div className="mt-[25px] md:w-[350px] lg:w-[410px]">
                 <label htmlFor="people">Add people</label>
                 <div className="relative w-full max-w-md">
                   <input
@@ -450,13 +447,15 @@ const Modal = ({
                   />
                 </div>
 
-
-                <form >
+                <form>
                   {searchTerm && (
                     <div className="max-h-28 overflow-y-auto border border-gray-300 rounded-md p-2 mb-4">
                       {filteredUsers.length > 0 ? (
                         filteredUsers.map((user) => (
-                          <div key={user.id} className="flex items-center mb-2 last:mb-0">
+                          <div
+                            key={user.id}
+                            className="flex items-center mb-2 last:mb-0"
+                          >
                             <input
                               type="checkbox"
                               id={`user-${user.id}`}
@@ -465,19 +464,22 @@ const Modal = ({
                               onChange={(e) => handleCheckboxChange(e, user)}
                             />
 
-                            <label htmlFor={`user-${user.id}`} className="text-gray-700">
+                            <label
+                              htmlFor={`user-${user.id}`}
+                              className="text-gray-700"
+                            >
                               {user.firstName}
                             </label>
-
                           </div>
                         ))
                       ) : (
-                        <p className="text-gray-500">Nenhum usuário encontrado.</p>
+                        <p className="text-gray-500">
+                          Nenhum usuário encontrado.
+                        </p>
                       )}
                     </div>
                   )}
                 </form>
-
               </div>
               <div className="mt-6">
                 <label>Priority</label>
@@ -523,14 +525,14 @@ const Modal = ({
                   <p className="text-red-600 text-sm">{errors.priority}</p>
                 )}
               </div>
-              <div className="mt-8 flex justify-center md:w-full md:justify-start">
+              <div className="mt-8 flex justify-center md:w-[350px] lg:w-[410px] md:justify-start ">
                 <Button label="Create!" size="md" kind="create" type="submit" />
               </div>
             </div>
           </div>
         </form>
-      </div >
-    </div >
+      </div>
+    </div>
   );
 };
 
