@@ -122,7 +122,7 @@ const CustomSignUp = () => {
   };
 
   return (
-    <div className="flex lg:justify-between justify-center relative ">
+    <div className="flex lg:justify-between justify-center relative lg:min-h-[calc(100vh-234px)]">
       <img
         src="/public/images/bg-mobile-signup.png"
         alt=""

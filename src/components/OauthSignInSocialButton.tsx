@@ -39,7 +39,6 @@ const OauthSignIn: React.FC<OauthSignInProps> = ({
         alt={`Sign in with ${providerName}`}
         className=""
       />
-      oioioio
     </button>
   );
 };
