@@ -31,6 +31,7 @@ const MainSection = () => {
               type="button"
               kind="outline"
               size="full"
+              onClick={() => (window.location.href = "/signup")}
             />
           </div>
         </div>

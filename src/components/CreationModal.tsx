@@ -188,7 +188,7 @@ const Modal = ({
 
   return (
     <div className="absolute  inset-0 z-50 flex  items-center  bg-black bg-opacity-50">
-      <div className="overflow-y-auto max-h-full self-center  pt-4 pl-11 md:pr-5 lg:pr-11 pr-10 pb-6 w-[343px] sm:w-[491px] md:w-[1001px]  h-min-[584px] mx-auto bg-white rounded-lg shadow-md  ">
+      <div className="overflow-y-auto max-h-full self-center mt-8  pt-4 pl-11 md:pr-5 lg:pr-11 pr-10 pb-6 w-[343px] sm:w-[491px] md:w-[691px]  lg:w-[1001px]  h-min-[584px] mx-auto bg-white rounded-lg shadow-md lg:absolute  lg:left-11">
         {" "}
         <div className="flex items-center justify-between md:pr-0 lg:pr-5">
           {loading && (
@@ -213,7 +213,7 @@ const Modal = ({
           </button>
         </div>
         <form
-          className="flex flex-col gap-16 text-sm font-medium text-[#331436] md:flex-row"
+          className="flex flex-col gap-16 text-sm font-medium text-[#331436] lg:flex-row"
           onSubmit={handleSubmit}
         >
           <div className="flex flex-col flex-1">
@@ -366,7 +366,7 @@ const Modal = ({
             </div>
           </div>
 
-          <div className="flex flex-col flex-1 md:w-[350px]">
+          <div className="flex flex-col flex-1 md:w-full lg:w-[350px] ">
             <div className="mt-6">
               <div>
                 <label htmlFor="taskCover">Task cover</label>
@@ -377,7 +377,7 @@ const Modal = ({
 
               {file && (
                 <div className="mt-2">
-                  <div className="flex items-center md:w-[350px] lg:w-[410px] h-[50px] justify-between p-2 bg-[#EFF6FF] rounded-md mb-2 border border-[#60A5FA]">
+                  <div className="flex items-center lg:w-[410px] h-[50px] justify-between p-2 bg-[#EFF6FF] rounded-md mb-2 border border-[#60A5FA]">
                     <div className="flex gap-2 items-center">
                       <img
                         className="w-[18px]"
@@ -402,7 +402,7 @@ const Modal = ({
               )}
 
               <div
-                className="mt-[10px] p-4 md:w-[350px] lg:w-[410px] h-[152px] text-[#4B5563] flex flex-col justify-center gap-3 border border-dashed border-[#60A5FA] rounded-md text-center cursor-pointer"
+                className="mt-[10px] p-4  lg:w-[410px] h-[152px] text-[#4B5563] flex flex-col justify-center gap-3 border border-dashed border-[#60A5FA] rounded-md text-center cursor-pointer"
                 onDrop={handleDrop}
                 onDragOver={handleDragOver}
                 onClick={() =>
@@ -430,9 +430,9 @@ const Modal = ({
             </div>
 
             <div>
-              <div className="mt-[25px] md:w-[350px] lg:w-[410px]">
+              <div className="mt-[25px] lg:w-[410px]">
                 <label htmlFor="people">Add people</label>
-                <div className="relative w-full max-w-md">
+                <div className="relative w-full ">
                   <input
                     type="text"
                     placeholder="Buscar usuário..."
@@ -525,8 +525,13 @@ const Modal = ({
                   <p className="text-red-600 text-sm">{errors.priority}</p>
                 )}
               </div>
-              <div className="mt-8 flex justify-center md:w-[350px] lg:w-[410px] md:justify-start ">
-                <Button label="Create!" size="md" kind="create" type="submit" />
+              <div className="mt-8 flex justify-center w-full  lg:w-[410px] md:justify-start ">
+                <Button
+                  label="Create!"
+                  size="full"
+                  kind="create"
+                  type="submit"
+                />
               </div>
             </div>
           </div>
