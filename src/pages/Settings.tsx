@@ -419,7 +419,7 @@ const Settings = () => {
           label="Update information"
           type="button"
           kind="primary"
-          size="sm"
+          size="lg"
           onClick={handleUpdate}
         />
         <p className="my-[17px]">
