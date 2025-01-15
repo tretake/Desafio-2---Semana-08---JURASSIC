@@ -66,7 +66,7 @@ const Login = () => {
   };
 
   return (
-    <div className="flex lg:justify-between justify-center relative lg:h-[calc(100vh-234px)]">
+    <div className="flex lg:justify-between justify-center relative ">
       <img
         src="/public/images/rectangle-2.png"
         alt=""
