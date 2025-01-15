@@ -46,7 +46,7 @@ const Profile = () => {
           <div className="flex-2 basis-1/3 lg:pl-16">
             <div className="flex p items-center space-x-4">
               <figure className="flex-shrink-0 sm:w-[174.16px] sm:h-[181px] w-[126px] h-[130.95px]">
-                <img src={ProfileImg} alt="Profile" className="rounded-[14.47px] shadow-md" />
+                <img src={user?.imageUrl} alt="Profile" className="rounded-[14.47px] shadow-md w-[126px] h-[130.95px]" />
               </figure>
               <div>
                 <h2 className="sm:text-[48px] text-[38px] font-medium leading-[36px]">{`${usuarioLogado.firstName} ${usuarioLogado.lastName}`}</h2>
@@ -97,32 +97,32 @@ const Profile = () => {
             <p className="text-gray-500 pb-10">John Doe’s last interactions</p>
             <div className="flex flex-col gap-6 pb-12 lg:pl-3">
               <div className="flex flex-row items-center gap-2">
-                <figure className="w-[28px] h-[50px] sm:w-[50px] sm:h-[50px] rounded-full overflow-hidden" >
-                  <img src={ProfileImg} alt="Profile" className="w-full h-full object-cover" />
+                <figure className="w-[28px] h-[50px] sm:w-[50px] sm:h-[50px] rounded-full overflow-hidden">
+                  <img src={user?.imageUrl} alt="Profile" className="w-full h-full object-contain" />
                 </figure>
                 <p className="text-[14px] sm:text-[16px]"><span className="font-medium">John Doe</span> marked a task as done <span className="font-medium">on Set 25, 2024</span></p>
               </div>
               <div className="flex flex-row items-center gap-2">
-                <figure className="w-[28px] h-[50px] sm:w-[50px] sm:h-[50px] rounded-full overflow-hidden" >
-                  <img src={ProfileImg} alt="Profile" className="w-full h-full object-cover" />
+                <figure className="w-[28px] h-[50px] sm:w-[50px] sm:h-[50px] rounded-full overflow-hidden">
+                  <img src={user?.imageUrl} alt="Profile" className="w-full h-full object-contain" />
                 </figure>
                 <p className="text-[14px] sm:text-[16px]"><span className="font-medium">John Doe</span> marked a task as done <span className="font-medium">on Set 25, 2024</span></p>
               </div>
               <div className="flex flex-row items-center gap-2">
-                <figure className="w-[50px] h-[50px] rounded-full overflow-hidden" >
-                  <img src={ProfileImg} alt="Profile" className="w-full h-full object-cover" />
+                <figure className="w-[28px] h-[50px] sm:w-[50px] sm:h-[50px] rounded-full overflow-hidden">
+                  <img src={user?.imageUrl} alt="Profile" className="w-full h-full object-contain" />
                 </figure>
                 <p className="text-[14px] sm:text-[16px]"><span className="font-medium">John Doe</span> marked a task as done <span className="font-medium">on Set 25, 2024</span></p>
               </div>
               <div className="flex flex-row items-center gap-2">
-                <figure className="w-[50px] h-[50px] rounded-full overflow-hidden" >
-                  <img src={ProfileImg} alt="Profile" className="w-full h-full object-cover" />
+                <figure className="w-[28px] h-[50px] sm:w-[50px] sm:h-[50px] rounded-full overflow-hidden">
+                  <img src={user?.imageUrl} alt="Profile" className="w-full h-full object-contain" />
                 </figure>
                 <p className="text-[14px] sm:text-[16px]"><span className="font-medium">John Doe</span> marked a task as done <span className="font-medium">on Set 25, 2024</span></p>
               </div>
               <div className="flex flex-row items-center gap-2">
-                <figure className="w-[50px] h-[50px] rounded-full overflow-hidden" >
-                  <img src={ProfileImg} alt="Profile" className="w-full h-full object-cover" />
+                <figure className="w-[28px] h-[50px] sm:w-[50px] sm:h-[50px] rounded-full overflow-hidden">
+                  <img src={user?.imageUrl} alt="Profile" className="w-full h-full object-contain" />
                 </figure>
                 <p className="text-[14px] sm:text-[16px]"><span className="font-medium">John Doe</span> marked a task as done <span className="font-medium">on Set 25, 2024</span></p>
               </div>
